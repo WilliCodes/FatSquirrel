@@ -6,13 +6,13 @@ import de.hsa.games.fatsquirrel.core.State;
 
 public class GameImpl extends Game {
 	
-	private ConsoleUI ui = new ConsoleUI();
+	private ConsoleUI ui;
 
 	
 	public GameImpl(State state) {
 		super(state);
 		ui = new ConsoleUI();
-		super.run();
+		super.run(); //TODO
 	}
 
 	@Override

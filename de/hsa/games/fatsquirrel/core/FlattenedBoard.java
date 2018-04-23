@@ -29,6 +29,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	@Override
 	public EntityType getEntityType(int x, int y) {
+		//TODO 
 		return null;
 	}
 
@@ -254,9 +255,9 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		PlayerEntity nearestTmp = null;
 		double distanceTmp = 0;
 		
-		for (int i = 0; i < cells.length; i++) {
-			for (int j = 0; j < cells[0].length; j++) {
-				if (cells[i][j] != null && cells[i][j] instanceof PlayerEntity && cells[i][j].getPosition() != pos) {
+		for (int i = pos.x - 3; i <= pos.x + 3; i++) {
+			for (int j = pos.y - 3; j <= pos.y + 3; j++) {
+				if (i >= 0 && j >= 0 && i < cells.length && j < cells[0].length && cells[i][j] != null && cells[i][j] instanceof PlayerEntity && cells[i][j].getPosition() != pos) {
 					if (nearestTmp == null) {
 						distanceTmp = distanceToEntity(pos, i, j);
 						if (distanceTmp <= 6)
@@ -276,19 +277,32 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		return nearestTmp;
 	}
 	
-	private double distanceToEntity(XY from, int xTo, int yTo) {
-		return Math.sqrt(Math.pow((xTo - from.x),2) + Math.pow((yTo - from.y),2));
+	private int distanceToEntity(XY from, int xTo, int yTo) {
+		
+		int xDist = xTo - from.x;
+		int yDist = yTo - from.y;
+		
+		int diagMoves = Math.min(xDist, yDist);
+		
+		xDist -= diagMoves;
+		yDist -= diagMoves;
+		
+		int horizMoves = Math.max(xDist, yDist);
+		
+		return diagMoves + horizMoves;
 	}
 
 	@Override
 	public void kill(Entity entity) {
-		// TODO Auto-generated method stub
-		
+		entity.deactivate();
+		XY pos = entity.getPosition();
+		cells[pos.x][pos.y] = null; 
 	}
 
 	@Override
 	public void killAndReplace(Entity entity) {
-		// TODO Auto-generated method stub
+		kill(entity);
+		toRespawn.add(getEntityType(entity.getPosition()));
 		
 	}
 

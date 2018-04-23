@@ -14,7 +14,7 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 		
 		if (paralyzed) {
 			lastMove++;
-			if (lastMove > 3) {
+			if (lastMove >= 3) {
 				if (Launcher.printDebugInfo) {
 					System.out.println("MasterSquirrel ist nicht mehr gelähmt!");
 				}

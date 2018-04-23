@@ -26,7 +26,7 @@ public class ConsoleUI implements UI {
 					continue;
 				}
 			
-			if (direction > 0 && direction < 10 && direction != 5) 
+			if (direction > 0 && direction < 10 && direction != 5) // TODO 5 = stay
 				return new MoveCommand(direction);
 			else
 				System.err.println("Input a number on your numpad indicating a direction!");	

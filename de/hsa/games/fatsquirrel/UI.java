@@ -5,7 +5,7 @@ import de.hsa.games.fatsquirrel.core.MoveCommand;
 
 public interface UI {
 	
-	public MoveCommand getCommand(); // TODO: not void, but MoveCommand
+	public MoveCommand getCommand();
 	
 	public void render(BoardView view);
 

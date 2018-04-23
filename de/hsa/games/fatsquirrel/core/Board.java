@@ -124,10 +124,10 @@ public class Board {
 		ArrayList<PlayerEntity> movablePlayerEntities = new ArrayList<>();
 		
 		for (Entity e : entitySet.getEntities()) {
-			if (e instanceof PlayerEntity) {
-				PlayerEntity pe = (PlayerEntity) e;
-				if (!pe.isParalyzed())
-					movablePlayerEntities.add(pe);
+			if (e instanceof HandOperatedMasterSquirrel) {
+				HandOperatedMasterSquirrel ms = (HandOperatedMasterSquirrel) e;
+				if (ms.isActive() && !ms.isParalyzed())
+					movablePlayerEntities.add(ms);
 			}
 		}
 		
