@@ -10,6 +10,8 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 		super(id, initEnergy, position);
 	}
 	
+
+	
 	public void nextStep(EntityContext context) {
 		
 		if (paralyzed) {

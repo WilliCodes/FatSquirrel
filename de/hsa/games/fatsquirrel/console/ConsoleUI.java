@@ -26,7 +26,7 @@ public class ConsoleUI implements UI {
 					continue;
 				}
 			
-			if (direction > 0 && direction < 10 && direction != 5) // TODO 5 = stay
+			if (direction > 0 && direction < 10)
 				return new MoveCommand(direction);
 			else
 				System.err.println("Input a number on your numpad indicating a direction!");	
@@ -36,6 +36,8 @@ public class ConsoleUI implements UI {
 	@Override
 	public void render(BoardView view) {
 		System.out.println(view.toString());
+		
+		// Alternativ hätte hier toString() mit getSize() und getEntityType(int x, int y) implementiert werden können
 	}
 	
 	

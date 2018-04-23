@@ -13,6 +13,7 @@ public class MiniSquirrel extends MasterSquirrel{
 		return masterID;
 	}
 	
+	
 	@Override
 	public void nextStep(EntityContext context) {
 		updateEnergy(-1);

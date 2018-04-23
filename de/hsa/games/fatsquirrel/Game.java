@@ -5,6 +5,7 @@ import de.hsa.games.fatsquirrel.core.State;
 public abstract class Game {
 	
 	protected State state;
+	protected UI ui;
 	
 	public Game(State state) {
 		this.state = state;
@@ -26,9 +27,8 @@ public abstract class Game {
 	        update();
 	        
 	        try {
-				Thread.sleep(500);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	    }

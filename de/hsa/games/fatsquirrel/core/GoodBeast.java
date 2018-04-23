@@ -1,6 +1,6 @@
 package de.hsa.games.fatsquirrel.core;
 
-public class GoodBeast extends Character {
+public class GoodBeast extends Beast {
 	
 	private static final int initEnergy = 200;
 
@@ -10,33 +10,14 @@ public class GoodBeast extends Character {
 	
 	@Override
 	public void nextStep(EntityContext context) {
-		if (++lastMove < 4)
+		
+		XY vectorToPlayer = beastMove(context);
+		
+		if (vectorToPlayer == null)
 			return;
 		
-		lastMove = 0;
-		
-		PlayerEntity nearestPE = context.nearestPlayerEntity(getPosition());
-		
-		if (nearestPE == null) {
-			context.tryMove(this, XY.randomVector());
-			return;
-		}
-		
-		
-		XY nearestPEpos = nearestPE.getPosition();
-		double xDiff = nearestPEpos.x - getPosition().x;
-		double yDiff = nearestPEpos.y - getPosition().y;
-		
-		double maxDiff = Math.max(Math.abs(xDiff), (Math.abs(yDiff)));
-		
-		xDiff /= -maxDiff;
-		yDiff /= -maxDiff;
-		
-		XY moveVector = new XY((int) Math.round(xDiff), (int) Math.round(yDiff));
-		
+		XY moveVector = new XY(-vectorToPlayer.x, -vectorToPlayer.y);
 		context.tryMove(this, moveVector);
-			
-		
 	}
 
 }

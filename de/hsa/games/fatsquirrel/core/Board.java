@@ -21,7 +21,7 @@ public class Board {
 		width = bC.width;
 		height = bC.height;
 		
-		// load surrounding walls, if set
+		// load surrounding walls
 		if (bC.surroundWithWalls) {
 			for (int i = 0; i < width; i++) {
 				tmpXY = new XY(i,0);
@@ -92,7 +92,6 @@ public class Board {
 			blockedXY.add(tmpXY);
 		}
 		
-		
 	}
 	
 	private XY randomPosition(ArrayList<XY> blockedXY) {	
@@ -114,25 +113,28 @@ public class Board {
 		List<Entity> entities = entitySet.getEntities();
 		
 		for (Entity e : entities) {
-			flatBoard[e.getPosition().x][e.getPosition().y] = e;
+			XY pos = e.getPosition();
+			flatBoard[pos.x][pos.y] = e;
 		}	
 		
 		return flatBoard;
 	}
 	
-	public ArrayList<PlayerEntity> getMovablePlayerEntities() {
-		ArrayList<PlayerEntity> movablePlayerEntities = new ArrayList<>();
+	
+	public ArrayList<HandOperatedMasterSquirrel> getHandOperatedMasterSquirrels() {
+		ArrayList<HandOperatedMasterSquirrel> handOperatedMasterSquirrels = new ArrayList<>();
 		
 		for (Entity e : entitySet.getEntities()) {
 			if (e instanceof HandOperatedMasterSquirrel) {
 				HandOperatedMasterSquirrel ms = (HandOperatedMasterSquirrel) e;
 				if (ms.isActive() && !ms.isParalyzed())
-					movablePlayerEntities.add(ms);
+					handOperatedMasterSquirrels.add(ms);
 			}
 		}
 		
-		return movablePlayerEntities;
+		return handOperatedMasterSquirrels;
 	}
+	
 	
 	public void respawn(ArrayList<EntityType> toRespawn) {
 		ArrayList<XY> blockedXY = new ArrayList<>();
@@ -162,11 +164,12 @@ public class Board {
 				break;
 			}
 		}
+		
+		toRespawn.clear();
 	}
 
 	public void updateCharacters(EntityContext context) {
 		entitySet.entitiesNextStep(context);
-		entitySet.removeDeaktivated();
 	}
 	
 	

@@ -15,8 +15,6 @@ public class BoardConfig {
 	public final boolean surroundWithWalls = true;
 	
 	
-	// TODO: Other Initial Values
-	
 	public BoardConfig() {
 	}
 	

@@ -10,10 +10,10 @@ public class MoveCommand {
 	
 	private XY convertInputToVector(int direction) {
 		int x = 0, y = 0;
-		if (direction == 7 || direction == 8 || direction == 9)
-			y = 1;
-		else if (direction == 1 || direction == 2 || direction == 3)
+		if (direction >= 7)
 			y = -1;
+		else if (direction <= 3)
+			y = 1;
 		
 		if (direction == 1 || direction == 4 || direction == 7)
 			x = -1;

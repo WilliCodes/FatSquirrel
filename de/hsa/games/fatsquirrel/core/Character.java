@@ -8,10 +8,8 @@ public abstract class Character extends Entity {
 		super(id, energy, position);
 	}
 	
-	public void move(XY vector) {
-		setPosition(getPosition().move(vector));
-	}
 	
 	public void nextStep(EntityContext context) {};
+	
 
 }

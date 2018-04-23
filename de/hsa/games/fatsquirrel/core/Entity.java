@@ -37,9 +37,11 @@ public abstract class Entity {
 		this.position = position;
 	}
 	
-	
 	public void updateEnergy(int deltaEnergy) {
-		energy += deltaEnergy;
+		if (this instanceof MasterSquirrel && energy + deltaEnergy < 0) 
+			energy = 0;
+		else
+			energy += deltaEnergy;
 	}
 	
 	
@@ -55,7 +57,7 @@ public abstract class Entity {
 	
 	@Override
 	public String toString() {
-		return "ID: " + id + "  |  Role: " + this.getClass().getName() + "  |  Energy: " + energy + "  |  Position: " + position.toString();
+		return "ID: " + id + "  |  Role: " + this.getClass().getName() + "  |  Energy: " + energy + "  |  Position: " + position.toString() + "  |  " + (isActive ? "(active)" : "(INactive)");
 	}
 
 }

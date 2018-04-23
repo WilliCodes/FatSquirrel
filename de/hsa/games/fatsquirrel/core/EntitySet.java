@@ -1,5 +1,6 @@
 package de.hsa.games.fatsquirrel.core;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -78,11 +79,13 @@ public class EntitySet {
 	}
 	
 	public void entitiesNextStep(EntityContext context) {
+		Collections.shuffle(activeEntities);
 		for (Entity entity : activeEntities)
 			if (entity instanceof Character && entity.isActive()) {
 				Character c = (Character) entity;
 				c.nextStep(context);
 			}
+		removeDeaktivated();
 				
 	}
 	

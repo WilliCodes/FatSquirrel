@@ -12,6 +12,6 @@ public class Launcher {
 		State state = new State(board);
 		GameImpl game = new GameImpl(state);
 		
-		game.run(); // TODO
+		game.run();
 	}
 }

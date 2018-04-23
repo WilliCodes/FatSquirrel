@@ -12,6 +12,7 @@ public class MasterSquirrel extends PlayerEntity {
 	public MasterSquirrel(int _id, XY _position) {
 		super(_id, initEnergy, _position);
 	}
+	
 
 	
 	public boolean isMyMini(MiniSquirrel mini) {

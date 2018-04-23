@@ -2,12 +2,11 @@ package de.hsa.games.fatsquirrel.core;
 
 import java.util.ArrayList;
 
-import de.hsa.games.fatsquirrel.Launcher;
 
 public class FlattenedBoard implements BoardView, EntityContext {
 	
 	private Entity[][] cells;
-	private ArrayList<EntityType> toRespawn;
+	private ArrayList<EntityType> toRespawn = new ArrayList<>();
 	private Board board;
 	
 	public FlattenedBoard(Board board) {
@@ -19,24 +18,24 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		cells = board.flatten();
 	}
 	
-	public void resetRespawnList() {
-		toRespawn = new ArrayList<>();
-	}
-	
 	public ArrayList<EntityType> getRespawnList() {
 		return toRespawn;
 	}
 
 	@Override
 	public EntityType getEntityType(int x, int y) {
-		//TODO 
-		return null;
+		return getEntityType(new XY(x, y));
 	}
 
 	@Override
 	public XY getSize() {
-		// TODO Auto-generated method stub
-		return null;
+		return new XY(cells.length, cells[0].length);
+	}
+	
+	private void move(Entity e, XY from, XY to) {
+		e.setPosition(to);
+		cells[from.x][from.y] = null;
+		cells[to.x][to.y] = e;
 	}
 
 	@Override
@@ -45,46 +44,25 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		XY to = new XY(from.x + moveDirection.x, from.y + moveDirection.y);
 		
 		Entity target = cells[to.x][to.y]; 
+		EntityType eT = getEntityType(to);
 		
-		switch (getEntityType(to)) {
+		switch (eT) {
 		case Empty:
-			masterSquirrel.setPosition(to);
-			cells[from.x][from.y] = null;
-			cells[to.x][to.y] = masterSquirrel;
+			move(masterSquirrel, from, to);
 			break;
 		case BadBeast:
 			masterSquirrel.updateEnergy(target.getEnergy());
 			if (((BadBeast) target).nextBite()) {
-				masterSquirrel.setPosition(to);
-				cells[from.x][from.y] = null;
-				cells[to.x][to.y] = masterSquirrel;
-				toRespawn.add(EntityType.BadBeast);
-				target.deactivate();
+				killAndReplace(target);
+				move(masterSquirrel, from, to);
 			}
 			break;
 		case BadPlant:
-			toRespawn.add(EntityType.BadPlant);
-			masterSquirrel.setPosition(to);
-			masterSquirrel.updateEnergy(target.getEnergy());
-			cells[from.x][from.y] = null;
-			cells[to.x][to.y] = masterSquirrel;
-			target.deactivate();
-			break;
 		case GoodBeast:
-			toRespawn.add(EntityType.GoodBeast);
-			masterSquirrel.setPosition(to);
-			masterSquirrel.updateEnergy(target.getEnergy());
-			cells[from.x][from.y] = null;
-			cells[to.x][to.y] = masterSquirrel;
-			target.deactivate();
-			break;
 		case GoodPlant:
-			toRespawn.add(EntityType.GoodPlant);
-			masterSquirrel.setPosition(to);
 			masterSquirrel.updateEnergy(target.getEnergy());
-			cells[from.x][from.y] = null;
-			cells[to.x][to.y] = masterSquirrel;
-			target.deactivate();
+			killAndReplace(target);
+			move(masterSquirrel, from, to);
 			break;
 		case HandOperatedMasterSquirrel:
 		case MasterSquirrel:
@@ -94,19 +72,14 @@ public class FlattenedBoard implements BoardView, EntityContext {
 				masterSquirrel.updateEnergy(target.getEnergy());
 			else 
 				masterSquirrel.updateEnergy(150);
-				
-			masterSquirrel.setPosition(to);
-			cells[from.x][from.y] = null;
-			cells[to.x][to.y] = masterSquirrel;
-			target.deactivate();
+			kill(target);
+			move(masterSquirrel, from, to);
 			break;
 		case Wall:
 			masterSquirrel.updateEnergy(target.getEnergy());
 			masterSquirrel.setParalyzed();
 			break;
-			
 		}
-		
 	}
 
 	@Override
@@ -116,46 +89,25 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		XY to = new XY(from.x + moveDirection.x, from.y + moveDirection.y);
 		
 		Entity target = cells[to.x][to.y]; 
+		EntityType eT = getEntityType(to);
 		
-		switch (getEntityType(to)) {
+		switch (eT) {
 		case Empty:
-			miniSquirrel.setPosition(to);
-			cells[from.x][from.y] = null;
-			cells[to.x][to.y] = miniSquirrel;
+			move(miniSquirrel, from, to);
 			break;
 		case BadBeast:
 			miniSquirrel.updateEnergy(target.getEnergy());
 			if (((BadBeast) target).nextBite()) {
-				miniSquirrel.setPosition(to);
-				cells[from.x][from.y] = null;
-				cells[to.x][to.y] = miniSquirrel;
-				toRespawn.add(EntityType.BadBeast);
-				target.deactivate();
+				killAndReplace(target);
+				move(miniSquirrel, from, to);
 			}
 			break;
 		case BadPlant:
-			toRespawn.add(EntityType.BadPlant);
-			miniSquirrel.setPosition(to);
-			miniSquirrel.updateEnergy(target.getEnergy());
-			cells[from.x][from.y] = null;
-			cells[to.x][to.y] = miniSquirrel;
-			target.deactivate();
-			break;
 		case GoodBeast:
-			toRespawn.add(EntityType.GoodBeast);
-			miniSquirrel.setPosition(to);
-			miniSquirrel.updateEnergy(target.getEnergy());
-			cells[from.x][from.y] = null;
-			cells[to.x][to.y] = miniSquirrel;
-			target.deactivate();
-			break;
 		case GoodPlant:
-			toRespawn.add(EntityType.GoodPlant);
-			miniSquirrel.setPosition(to);
 			miniSquirrel.updateEnergy(target.getEnergy());
-			cells[from.x][from.y] = null;
-			cells[to.x][to.y] = miniSquirrel;
-			target.deactivate();
+			killAndReplace(target);
+			move(miniSquirrel, from, to);
 			break;
 		case HandOperatedMasterSquirrel:
 		case MasterSquirrel:
@@ -164,12 +116,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			} else {
 				target.updateEnergy(150);
 			}
-			miniSquirrel.deactivate();
+			kill(miniSquirrel);
 			break;
 		case MiniSquirrel:
 			if (miniSquirrel.getMasterID() != ((MiniSquirrel) target).getMasterID()) {
-				miniSquirrel.deactivate();
-				target.deactivate();
+				kill(miniSquirrel);
+				kill(target);
 			}
 			break;
 		case Wall:
@@ -186,19 +138,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		XY from = goodBeast.getPosition();
 		XY to = new XY(from.x + moveDirection.x, from.y + moveDirection.y);
 		
-		
-		if (Launcher.printDebugInfo) {
-			System.out.println("Moving GoodBeast from " + from + " to " + to + " with the vector " + moveDirection + ".");
-			System.out.println("Destination Cell is: " + getEntityType(to).toString() + ".");
-		}
-		
 		Entity target = cells[to.x][to.y]; 
 		
 		switch (getEntityType(to)) {
 		case Empty:
-			goodBeast.setPosition(to);
-			cells[from.x][from.y] = null;
-			cells[to.x][to.y] = goodBeast;
+			move(goodBeast, from, to);
 			break;
 		case BadBeast:
 		case BadPlant:
@@ -210,11 +154,9 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		case MasterSquirrel:
 		case MiniSquirrel:
 			target.updateEnergy(goodBeast.getEnergy());
-			goodBeast.deactivate();
-			toRespawn.add(EntityType.GoodBeast);
+			killAndReplace(goodBeast);
 			break;
 		}
-		
 	}
 
 	@Override
@@ -226,9 +168,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		
 		switch (getEntityType(to)) {
 		case Empty:
-			badBeast.setPosition(to);
-			cells[from.x][from.y] = null;
-			cells[to.x][to.y] = badBeast;
+			move(badBeast, from, to);
 			break;
 		case BadBeast:
 		case BadPlant:
@@ -241,9 +181,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		case MiniSquirrel:
 			target.updateEnergy(badBeast.getEnergy());
 			if (badBeast.nextBite()) {
-				cells[from.x][from.y] = null;
-				toRespawn.add(EntityType.BadBeast);
-				badBeast.deactivate();
+				killAndReplace(badBeast);
 			}
 		}
 		
@@ -252,29 +190,22 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	@Override
 	public PlayerEntity nearestPlayerEntity(XY pos) {
 		
-		PlayerEntity nearestTmp = null;
-		double distanceTmp = 0;
+		PlayerEntity nearest = null;
+		double distance = 7;
 		
-		for (int i = pos.x - 3; i <= pos.x + 3; i++) {
-			for (int j = pos.y - 3; j <= pos.y + 3; j++) {
+		for (int i = pos.x - 6; i <= pos.x + 6; i++) {
+			for (int j = pos.y - 6; j <= pos.y + 6; j++) {
 				if (i >= 0 && j >= 0 && i < cells.length && j < cells[0].length && cells[i][j] != null && cells[i][j] instanceof PlayerEntity && cells[i][j].getPosition() != pos) {
-					if (nearestTmp == null) {
-						distanceTmp = distanceToEntity(pos, i, j);
-						if (distanceTmp <= 6)
-							nearestTmp = (PlayerEntity) cells[i][j];
-					}
-					else
-					{
-						double n = distanceToEntity(pos, i, j);
-						if (n < distanceTmp) {
-							distanceTmp = n;
-							nearestTmp = (PlayerEntity) cells[i][j];
-						}
-					}
+					
+					int tmp = distanceToEntity(pos, i, j);
+					if (tmp < distance) {
+						distance = tmp;
+						nearest = (PlayerEntity) cells[i][j];
+					}	
 				}
 			}
 		}
-		return nearestTmp;
+		return nearest;
 	}
 	
 	private int distanceToEntity(XY from, int xTo, int yTo) {
@@ -301,9 +232,8 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	@Override
 	public void killAndReplace(Entity entity) {
-		kill(entity);
 		toRespawn.add(getEntityType(entity.getPosition()));
-		
+		kill(entity);	
 	}
 
 	@Override
@@ -313,8 +243,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			return EntityType.Empty;
 		
 		String name = cells[pos.x][pos.y].getClass().getSimpleName();
-		
-		
 		
 		switch (name) {
 		case "BadBeast":
@@ -341,10 +269,10 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	@Override
 	public String toString() {
 		String view = "";
-		for (int j = cells[0].length - 1; j >= 0; j--) {
+		for (int y = 0; y < cells[0].length; y++) {
 			String line = "";
-			for (int i = 0; i < cells.length; i++) {
-				EntityType t = getEntityType(new XY(i, j));
+			for (int x = 0; x < cells.length; x++) {
+				EntityType t = getEntityType(x, y);
 				switch (t) {
 				case BadBeast:
 					line += " b ";
