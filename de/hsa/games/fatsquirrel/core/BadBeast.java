@@ -10,8 +10,34 @@ public class BadBeast extends Character{
 		super(id, initEnergy, position);
 	}
 	
-	public void nextStep() {
-		move(XY.randomVector());
+	@Override
+	public void nextStep(EntityContext context) {
+		if (++lastMove < 4)
+			return;
+		
+		lastMove = 0;
+		
+		PlayerEntity nearestPE = context.nearestPlayerEntity(getPosition());
+		
+		if (nearestPE == null) {
+			context.tryMove(this, XY.randomVector());
+			return;
+		}
+		
+		
+		XY nearestPEpos = nearestPE.getPosition();
+		double xDiff = nearestPEpos.x - getPosition().x;
+		double yDiff = nearestPEpos.y - getPosition().y;
+		
+		double maxDiff = Math.max(Math.abs(xDiff), (Math.abs(yDiff)));
+		
+		xDiff /= maxDiff;
+		yDiff /= maxDiff;
+		
+		
+		XY moveVector = new XY((int) Math.round(xDiff), (int) Math.round(yDiff));
+		
+		context.tryMove(this, moveVector);
 	}
 
 	public boolean nextBite() {

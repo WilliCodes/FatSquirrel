@@ -18,6 +18,7 @@ public class MiniSquirrel extends MasterSquirrel{
 		updateEnergy(-1);
 		if (getEnergy() <= 0) {
 			deactivate();
+			return;
 		}
 		
 		if (paralyzed) {

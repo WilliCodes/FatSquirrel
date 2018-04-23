@@ -2,6 +2,8 @@ package de.hsa.games.fatsquirrel.core;
 
 import java.util.ArrayList;
 
+import de.hsa.games.fatsquirrel.Launcher;
+
 public class FlattenedBoard implements BoardView, EntityContext {
 	
 	private Entity[][] cells;
@@ -108,9 +110,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	@Override
 	public void tryMove(MiniSquirrel miniSquirrel, XY moveDirection) {
-		
-		miniSquirrel.updateEnergy(-1);
-		
+			
 		XY from = miniSquirrel.getPosition();
 		XY to = new XY(from.x + moveDirection.x, from.y + moveDirection.y);
 		
@@ -158,23 +158,23 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			break;
 		case HandOperatedMasterSquirrel:
 		case MasterSquirrel:
+			if (miniSquirrel.getMasterID() == target.getId()) {
+				target.updateEnergy(miniSquirrel.getEnergy());
+			} else {
+				target.updateEnergy(150);
+			}
+			miniSquirrel.deactivate();
 			break;
 		case MiniSquirrel:
-			if (miniSquirrel.isMyMini((MiniSquirrel) target))
-				miniSquirrel.updateEnergy(target.getEnergy());
-			else 
-				miniSquirrel.updateEnergy(150);
-				
-			miniSquirrel.setPosition(to);
-			cells[from.x][from.y] = null;
-			cells[to.x][to.y] = miniSquirrel;
-			target.deactivate();
+			if (miniSquirrel.getMasterID() != ((MiniSquirrel) target).getMasterID()) {
+				miniSquirrel.deactivate();
+				target.deactivate();
+			}
 			break;
 		case Wall:
 			miniSquirrel.updateEnergy(target.getEnergy());
 			miniSquirrel.setParalyzed();
 			break;
-			
 		}
 		
 		
@@ -182,13 +182,69 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	@Override
 	public void tryMove(GoodBeast goodBeast, XY moveDirection) {
-		// TODO Auto-generated method stub
+		XY from = goodBeast.getPosition();
+		XY to = new XY(from.x + moveDirection.x, from.y + moveDirection.y);
+		
+		
+		if (Launcher.printDebugInfo) {
+			System.out.println("Moving GoodBeast from " + from + " to " + to + " with the vector " + moveDirection + ".");
+			System.out.println("Destination Cell is: " + getEntityType(to).toString() + ".");
+		}
+		
+		Entity target = cells[to.x][to.y]; 
+		
+		switch (getEntityType(to)) {
+		case Empty:
+			goodBeast.setPosition(to);
+			cells[from.x][from.y] = null;
+			cells[to.x][to.y] = goodBeast;
+			break;
+		case BadBeast:
+		case BadPlant:
+		case GoodBeast:
+		case GoodPlant:
+		case Wall:
+			break;
+		case HandOperatedMasterSquirrel:
+		case MasterSquirrel:
+		case MiniSquirrel:
+			target.updateEnergy(goodBeast.getEnergy());
+			goodBeast.deactivate();
+			toRespawn.add(EntityType.GoodBeast);
+			break;
+		}
 		
 	}
 
 	@Override
 	public void tryMove(BadBeast badBeast, XY moveDirection) {
-		// TODO Auto-generated method stub
+		XY from = badBeast.getPosition();
+		XY to = new XY(from.x + moveDirection.x, from.y + moveDirection.y);
+		
+		Entity target = cells[to.x][to.y]; 
+		
+		switch (getEntityType(to)) {
+		case Empty:
+			badBeast.setPosition(to);
+			cells[from.x][from.y] = null;
+			cells[to.x][to.y] = badBeast;
+			break;
+		case BadBeast:
+		case BadPlant:
+		case GoodBeast:
+		case GoodPlant:
+		case Wall:
+			break;
+		case HandOperatedMasterSquirrel:
+		case MasterSquirrel:
+		case MiniSquirrel:
+			target.updateEnergy(badBeast.getEnergy());
+			if (badBeast.nextBite()) {
+				cells[from.x][from.y] = null;
+				toRespawn.add(EntityType.BadBeast);
+				badBeast.deactivate();
+			}
+		}
 		
 	}
 
@@ -202,12 +258,13 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			for (int j = 0; j < cells[0].length; j++) {
 				if (cells[i][j] != null && cells[i][j] instanceof PlayerEntity && cells[i][j].getPosition() != pos) {
 					if (nearestTmp == null) {
-						nearestTmp = (PlayerEntity) cells[i][j];
-						distanceTmp = distanceToEntity(pos, nearestTmp.getPosition());
+						distanceTmp = distanceToEntity(pos, i, j);
+						if (distanceTmp <= 6)
+							nearestTmp = (PlayerEntity) cells[i][j];
 					}
 					else
 					{
-						double n = distanceToEntity(pos, nearestTmp.getPosition());
+						double n = distanceToEntity(pos, i, j);
 						if (n < distanceTmp) {
 							distanceTmp = n;
 							nearestTmp = (PlayerEntity) cells[i][j];
@@ -219,8 +276,8 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		return nearestTmp;
 	}
 	
-	private double distanceToEntity(XY from, XY to) {
-		return Math.sqrt(Math.pow((to.x - from.x),2) + Math.pow((to.y - from.y),2));
+	private double distanceToEntity(XY from, int xTo, int yTo) {
+		return Math.sqrt(Math.pow((xTo - from.x),2) + Math.pow((yTo - from.y),2));
 	}
 
 	@Override
@@ -238,10 +295,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	@Override
 	public EntityType getEntityType(XY pos) {
 		
-		if (cells[pos.x][pos.y] == null)
+		if (cells[pos.x][pos.y] == null || !cells[pos.x][pos.y].isActive())
 			return EntityType.Empty;
 		
 		String name = cells[pos.x][pos.y].getClass().getSimpleName();
+		
+		
 		
 		switch (name) {
 		case "BadBeast":
