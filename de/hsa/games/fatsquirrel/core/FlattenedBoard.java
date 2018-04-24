@@ -24,7 +24,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	@Override
 	public EntityType getEntityType(int x, int y) {
-		return getEntityType(new XY(x, y));
+		return getEntityType(new XY(x, y), cells);
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		XY to = new XY(from.x + moveDirection.x, from.y + moveDirection.y);
 		
 		Entity target = cells[to.x][to.y]; 
-		EntityType eT = getEntityType(to);
+		EntityType eT = getEntityType(to, cells);
 		
 		switch (eT) {
 		case Empty:
@@ -89,7 +89,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		XY to = new XY(from.x + moveDirection.x, from.y + moveDirection.y);
 		
 		Entity target = cells[to.x][to.y]; 
-		EntityType eT = getEntityType(to);
+		EntityType eT = getEntityType(to, cells);
 		
 		switch (eT) {
 		case Empty:
@@ -140,7 +140,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		
 		Entity target = cells[to.x][to.y]; 
 		
-		switch (getEntityType(to)) {
+		switch (getEntityType(to, cells)) {
 		case Empty:
 			move(goodBeast, from, to);
 			break;
@@ -166,7 +166,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		
 		Entity target = cells[to.x][to.y]; 
 		
-		switch (getEntityType(to)) {
+		switch (getEntityType(to, cells)) {
 		case Empty:
 			move(badBeast, from, to);
 			break;
@@ -232,38 +232,15 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	@Override
 	public void killAndReplace(Entity entity) {
-		toRespawn.add(getEntityType(entity.getPosition()));
+		toRespawn.add(getEntityType(entity.getPosition(), cells));
 		kill(entity);	
 	}
 
 	@Override
-	public EntityType getEntityType(XY pos) {
+	public EntityType getEntityType(XY pos, Entity[][] cells) {
 		
-		if (cells[pos.x][pos.y] == null || !cells[pos.x][pos.y].isActive())
-			return EntityType.Empty;
-		
-		String name = cells[pos.x][pos.y].getClass().getSimpleName();
-		
-		switch (name) {
-		case "BadBeast":
-			return EntityType.BadBeast;
-		case "GoodBeast":
-			return EntityType.GoodBeast;
-		case "BadPlant":
-			return EntityType.BadPlant;
-		case "GoodPlant":
-			return EntityType.GoodPlant;
-		case "Wall":
-			return EntityType.Wall;
-		case "MasterSquirrel":
-			return EntityType.MasterSquirrel;
-		case "HandOperatedMasterSquirrel":
-			return EntityType.HandOperatedMasterSquirrel;
-		case "MiniSquirrel":
-			return EntityType.MiniSquirrel;
-		default:
-			return null;
-		}
+		return EntityType.getEntityType(pos, cells);
+
 	}
 	
 	@Override

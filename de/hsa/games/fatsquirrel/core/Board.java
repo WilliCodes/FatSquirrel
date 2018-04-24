@@ -3,7 +3,7 @@ package de.hsa.games.fatsquirrel.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hsa.games.fatsquirrel.core.EntityContext.EntityType;
+import de.hsa.games.fatsquirrel.core.EntityType;
 
 public class Board {
 	
