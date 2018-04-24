@@ -40,7 +40,7 @@ public class Beast extends Character{
 		
 		XY moveVector = new XY((int) Math.round(xDiff), (int) Math.round(yDiff));
 		
-		if (Launcher.printDebugInfo) {System.out.println(this.getClass().getSimpleName() + "(" + this.getId() + ") at " + this.getPosition() + " tries moving with " + moveVector); }
+		if (Launcher.printDebugInfo) {System.out.println(this.getClass().getSimpleName() + "(" + this.getId() + ") at " + this.getPosition() + " sees PlayerEntity in direction " + moveVector); }
 		return moveVector;
 	}
 	

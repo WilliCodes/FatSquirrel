@@ -2,8 +2,8 @@ package de.hsa.games.fatsquirrel.core;
 
 public class BoardConfig {
 	
-	public final int width = 10;
-	public final int height = 10;
+	public final int width = 30;
+	public final int height = 20;
 	
 	public final int startGoodBeasts = 3;
 	public final int startBadBeasts = 3;
