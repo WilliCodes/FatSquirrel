@@ -1,6 +1,6 @@
 package de.hsa.games.fatsquirrel.core;
 
-import de.hsa.games.fatsquirrel.core.EntityContext.EntityType;
+import de.hsa.games.fatsquirrel.core.EntityType;
 
 public interface BoardView {
 	
