@@ -6,12 +6,12 @@ public enum EntityType {
 	Wall, BadBeast, GoodBeast, BadPlant, GoodPlant, MiniSquirrel, MasterSquirrel, HandOperatedMasterSquirrel, Empty;
 
 	
-     public static EntityType getEntityType(XY pos, Entity[][] cells) {
+     public static EntityType getEntityType(Entity e) {
 		
-		if (cells[pos.x][pos.y] == null || !cells[pos.x][pos.y].isActive())
+		if (e == null || !e.isActive())
 			return EntityType.Empty;
 		
-		String name = cells[pos.x][pos.y].getClass().getSimpleName();
+		String name = e.getClass().getSimpleName();
 		
 		switch (name) {
 		case "BadBeast":
