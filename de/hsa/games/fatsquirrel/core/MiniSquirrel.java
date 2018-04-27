@@ -16,22 +16,19 @@ public class MiniSquirrel extends MasterSquirrel{
 	
 	@Override
 	public void nextStep(EntityContext context) {
+		
+		if (nextMove > 0) {
+			nextMove--;
+			return;
+		}
+		
 		updateEnergy(-1);
 		if (getEnergy() <= 0) {
 			deactivate();
 			return;
 		}
 		
-		if (paralyzed) {
-			lastMove++;
-			if (lastMove > 3) {
-				paralyzed = false;
-				lastMove = 0;
-			}
-		} else {
-			context.tryMove(this, nextMoveCommand.xy);
-		}
+		context.tryMove(this, nextMoveCommand.xy);
+		
 	}
-	
-
 }

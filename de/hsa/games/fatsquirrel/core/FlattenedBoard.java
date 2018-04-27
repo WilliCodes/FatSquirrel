@@ -197,7 +197,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			for (int j = pos.y - 6; j <= pos.y + 6; j++) {
 				if (i >= 0 && j >= 0 && i < cells.length && j < cells[0].length && cells[i][j] != null && cells[i][j] instanceof PlayerEntity && cells[i][j].getPosition() != pos) {
 					
-					int tmp = distanceToEntity(pos, i, j);
+					int tmp = XY.distanceToEntity(pos, new XY(i,j));
 					if (tmp < distance) {
 						distance = tmp;
 						nearest = (PlayerEntity) cells[i][j];
@@ -208,20 +208,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		return nearest;
 	}
 	
-	private int distanceToEntity(XY from, int xTo, int yTo) {
-		
-		int xDist = xTo - from.x;
-		int yDist = yTo - from.y;
-		
-		int diagMoves = Math.min(xDist, yDist);
-		
-		xDist -= diagMoves;
-		yDist -= diagMoves;
-		
-		int horizMoves = Math.max(xDist, yDist);
-		
-		return diagMoves + horizMoves;
-	}
+	
 
 	@Override
 	public void kill(Entity entity) {
