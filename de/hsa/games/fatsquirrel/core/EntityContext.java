@@ -2,7 +2,6 @@ package de.hsa.games.fatsquirrel.core;
 
 public interface EntityContext {
 	
-	public enum EntityType {Wall, BadBeast, GoodBeast, BadPlant, GoodPlant, MiniSquirrel, MasterSquirrel, HandOperatedMasterSquirrel, Empty};
 	
 	public XY getSize();
 	
