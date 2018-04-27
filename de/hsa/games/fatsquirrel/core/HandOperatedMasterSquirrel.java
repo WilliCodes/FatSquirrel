@@ -8,20 +8,21 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 
 	public HandOperatedMasterSquirrel(int id, XY position) {
 		super(id, initEnergy, position);
+		lastMove = 3;
 	}
 	
 
 	
 	public void nextStep(EntityContext context) {
 		
-		if (paralyzed) {
+		if (lastMove < 3) {
 			lastMove++;
 			if (lastMove >= 3) {
 				if (Launcher.printDebugInfo) {
 					System.out.println("MasterSquirrel ist nicht mehr gelähmt!");
 				}
-				paralyzed = false;
-				lastMove = 0;
+				
+				
 			}
 			else {
 				if (Launcher.printDebugInfo) {

@@ -22,12 +22,9 @@ public class MiniSquirrel extends MasterSquirrel{
 			return;
 		}
 		
-		if (paralyzed) {
+		if (lastMove < 3) {
 			lastMove++;
-			if (lastMove > 3) {
-				paralyzed = false;
-				lastMove = 0;
-			}
+			
 		} else {
 			context.tryMove(this, nextMoveCommand.xy);
 		}

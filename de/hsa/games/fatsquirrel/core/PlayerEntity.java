@@ -2,7 +2,6 @@ package de.hsa.games.fatsquirrel.core;
 
 public abstract class PlayerEntity extends Character {
 	
-	protected boolean paralyzed = false;
 	
 	protected MoveCommand nextMoveCommand;
 
@@ -11,11 +10,11 @@ public abstract class PlayerEntity extends Character {
 	}
 
 	public boolean isParalyzed() {
-		return paralyzed;
+		 return (lastMove < 3);
 	}
 	
 	public void setParalyzed() {
-		paralyzed = true;
+		lastMove = 0;
 	}
 	
 	public void setNextCommand(MoveCommand mc) {
