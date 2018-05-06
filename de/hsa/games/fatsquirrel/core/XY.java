@@ -51,6 +51,39 @@ public class XY {
 		return new XY(x,y);
 	}
 	
+	public static int distanceToEntity(XY from, XY to) {
+		
+		int xDist = to.x - from.x;
+		int yDist = to.y - from.y;
+		
+		int diagMoves = Math.min(xDist, yDist);
+		
+		xDist -= diagMoves;
+		yDist -= diagMoves;
+		
+		int horizMoves = Math.max(xDist, yDist);
+		
+		return diagMoves + horizMoves;
+	}
+	
+	public static XY vectorToEntity(Entity fromEntity, Entity toEntity) {
+		XY fromPos = fromEntity.getPosition();
+		XY toPos = toEntity.getPosition();
+		
+		double xDiff = toPos.x - fromPos.x;
+		double yDiff = toPos.y - fromPos.y;
+		
+		double maxDiff = Math.max(Math.abs(xDiff), (Math.abs(yDiff)));
+		
+		xDiff /= maxDiff;
+		yDiff /= maxDiff;
+		
+		
+		XY vector = new XY((int) Math.round(xDiff), (int) Math.round(yDiff));
+		
+		return vector;
+	}
+	
 	@Override
 	public String toString() {
 		return "(" + x + "," + y + ")";

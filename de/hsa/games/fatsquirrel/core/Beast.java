@@ -8,17 +8,19 @@ public class Beast extends Character{
 
 	public Beast(int id, int energy, XY position) {
 		super(id, energy, position);
+		nextMove = movePeriod - 1;
 	}
 	
 	
 	protected XY beastMove(EntityContext context) {
 		
-		if (++lastMove < movePeriod) {
-			if (Launcher.printDebugInfo) {System.out.println(this.getClass().getSimpleName() + "(" + this.getId() + ") at " + this.getPosition() + " cant move"); }
+		if (nextMove > 0) {
+			if (Launcher.printDebugInfo) {System.out.println(this.getClass().getSimpleName() + "(" + this.getId() + ") at " + this.getPosition() + " can move in " + nextMove + " steps"); }
+			nextMove--;
 			return null;
 		}
 			
-		lastMove = 0;
+		nextMove = movePeriod - 1;
 		
 		PlayerEntity nearestPE = context.nearestPlayerEntity(this.getPosition());
 		
@@ -27,18 +29,7 @@ public class Beast extends Character{
 			return XY.randomVector();
 		}
 		
-		
-		XY nearestPEpos = nearestPE.getPosition();
-		double xDiff = nearestPEpos.x - getPosition().x;
-		double yDiff = nearestPEpos.y - getPosition().y;
-		
-		double maxDiff = Math.max(Math.abs(xDiff), (Math.abs(yDiff)));
-		
-		xDiff /= maxDiff;
-		yDiff /= maxDiff;
-		
-		
-		XY moveVector = new XY((int) Math.round(xDiff), (int) Math.round(yDiff));
+		XY moveVector = XY.vectorToEntity(this, nearestPE);
 		
 		if (Launcher.printDebugInfo) {System.out.println(this.getClass().getSimpleName() + "(" + this.getId() + ") at " + this.getPosition() + " sees PlayerEntity in direction " + moveVector); }
 		return moveVector;

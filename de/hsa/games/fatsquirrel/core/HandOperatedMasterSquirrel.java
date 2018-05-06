@@ -14,31 +14,17 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 	
 	public void nextStep(EntityContext context) {
 		
-		if (paralyzed) {
-			lastMove++;
-			if (lastMove >= 3) {
-				if (Launcher.printDebugInfo) {
-					System.out.println("MasterSquirrel ist nicht mehr gelähmt!");
-				}
-				paralyzed = false;
-				lastMove = 0;
-			}
-			else {
-				if (Launcher.printDebugInfo) {
-					System.out.println("MasterSquirrel ist gelähmt!");
-				}
-			}
-		} else {
+		if (nextMove > 0) {
+			nextMove--;
+			if (Launcher.printDebugInfo) System.out.println("MasterSquirrel ist gelähmt!");
+			return;
+		}
+		
 			context.tryMove(this, nextMoveCommand.xy);
 			if (Launcher.printDebugInfo) {
 				System.out.println("MasterSquirrel-Energy: " + getEnergy() + ".");
 			}
-		}
+		
 		
 	}
-	
-	
-
-
-	
 }
