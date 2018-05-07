@@ -1,36 +1,39 @@
 package de.hsa.games.fatsquirrel.console;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import de.hsa.games.fatsquirrel.*;
+import de.hsa.games.fatsquirrel.console.commands.Command;
+import de.hsa.games.fatsquirrel.console.commands.CommandScanner;
+import de.hsa.games.fatsquirrel.console.commands.GameCommandType;
 import de.hsa.games.fatsquirrel.core.BoardView;
 import de.hsa.games.fatsquirrel.core.MoveCommand;
 
 public class ConsoleUI implements UI {
 	
+	private PrintStream outputStream = System.out;
+	private BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+	
+	private CommandScanner commandScanner = new CommandScanner(GameCommandType.values(), inputReader, outputStream);
+	
 	public ConsoleUI() {};
 
 	@Override
-	public MoveCommand getCommand() {
-		@SuppressWarnings("resource")
-		Scanner input = new Scanner(System.in);
-		do {
-			int direction;
-			System.out.print("MasterSquirrel: ");
-			try {
-				direction = input.nextInt(); 
-				} catch (InputMismatchException e) {
-					input.next();
-					System.err.println("Input a number on your numpad indicating a direction!");
-					continue;
-				}
-			
-			if (direction > 0 && direction < 10)
-				return new MoveCommand(direction);
-			else
-				System.err.println("Input a number on your numpad indicating a direction!");	
-		} while (true);
+	public Command getCommand() {
+		try {
+			return commandScanner.next();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
