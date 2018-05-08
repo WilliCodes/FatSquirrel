@@ -5,7 +5,7 @@ import de.hsa.games.fatsquirrel.core.*;
 
 public class Launcher {
 	
-	public static boolean printDebugInfo = true;
+	public static boolean printDebugInfo = false;
 
 	public static void main(String[] args) {
 		Board board = new Board(new BoardConfig());

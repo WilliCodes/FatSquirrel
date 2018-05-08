@@ -26,9 +26,6 @@ public class ConsoleUI implements UI {
 	public Command getCommand() {
 		try {
 			return commandScanner.next();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
