@@ -270,5 +270,16 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		
 	}
 
+	public XY getNextFreeCell(XY pos) {
+		for (int x = pos.x - 1; x < pos.x + 1; x++) {
+			for (int y = pos.y - 1; y < pos.x + 1; y++) {
+				if ((x == pos.x && y == pos.y) || x < 0 || y < 0 || x > cells.length || y > cells[0].length || cells[x][y] != null)
+					continue;
+				return new XY(x,y);
+			}
+		}
+		return null;
+	}
+
 
 }

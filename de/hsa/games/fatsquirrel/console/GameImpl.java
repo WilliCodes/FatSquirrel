@@ -28,13 +28,14 @@ public class GameImpl extends Game {
 				Command cmd;
 				try {
 					cmd = ui.getCommand();
+					if (cmd.commandTypeInfo.execute(e, cmd.params))
+						break;
 				} catch (Exception ex) {
 					ex.printStackTrace();
 					continue;
 				}
 				
-				if (cmd.commandTypeInfo.execute(e, cmd.params))
-					break;
+				
 			}
 			
 			

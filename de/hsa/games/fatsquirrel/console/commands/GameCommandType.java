@@ -72,8 +72,9 @@ public enum GameCommandType implements CommandTypeInfo{
 			ms.setNextCommand(new MoveCommand(6));
 			return true;
 		case SPAWN_MINI:
-			ms.setSpawnMini((int) params[0]);
-			return true;
+			if (ms.setSpawnMini((int) params[0]))
+				return true;
+			throw new ScanException("Shared Enregy is higher than available Energy");
 		case UP:
 			ms.setNextCommand(new MoveCommand(8));
 			return true;

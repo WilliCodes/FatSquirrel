@@ -177,6 +177,12 @@ public class Board {
 	public void updateCharacters(EntityContext context) {
 		entitySet.entitiesNextStep(context);
 	}
+
+
+	public void spawnMini(XY pos, HandOperatedMasterSquirrel ms) {
+		entitySet.placeMiniSquirrel(pos, ms.getId(), ms.getSpawmMini());
+		ms.setSpawnMini(0);
+	}
 	
 	
 

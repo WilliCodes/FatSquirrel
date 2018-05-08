@@ -28,7 +28,7 @@ public class MiniSquirrel extends MasterSquirrel{
 			return;
 		}
 		
-		context.tryMove(this, nextMoveCommand.xy);
+		context.tryMove(this, XY.randomVector());
 		
 	}
 }

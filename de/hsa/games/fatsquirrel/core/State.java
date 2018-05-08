@@ -22,10 +22,16 @@ public class State {
 		board.updateCharacters((EntityContext) flattenedBoard); 
 		board.respawn(flattenedBoard.getRespawnList());
 		
-		flattenedBoard.update();
+		for (HandOperatedMasterSquirrel ms : handOperatedMasterSquirrels) {
+			if (ms.getSpawmMini() > 0) {
+				XY pos = flattenedBoard.getNextFreeCell(ms.getPosition());
+				if (pos == null)
+					continue;
+				board.spawnMini(pos, ms);
+			}
+		}
 		
-		handOperatedMasterSquirrels.clear();
-		handOperatedMasterSquirrels.addAll(board.getHandOperatedMasterSquirrels());
+		flattenedBoard.update();
 	}
 	
 	public FlattenedBoard getFlattenedBoard() {

@@ -23,14 +23,9 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 		}
 		
 			
-			if (spawnMini > 0) {
-				if (getEnergy() > spawnMini) {
-					// SPAWN
-				}
-					
-			} else {
+			if (spawnMini == 0)
 				context.tryMove(this, nextMoveCommand.xy);
-			}
+			
 			if (Launcher.printDebugInfo) {
 				System.out.println("MasterSquirrel-Energy: " + getEnergy() + ".");
 			}
@@ -40,7 +35,17 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 
 
 
-	public void setSpawnMini(int sharedEnergy) {
+	public boolean setSpawnMini(int sharedEnergy) {
+		if (this.getEnergy() < sharedEnergy) 
+			return false;
+			
 		this.spawnMini = sharedEnergy;
+		return true;
+	}
+
+
+
+	public int getSpawmMini() {
+		return spawnMini;
 	}
 }
