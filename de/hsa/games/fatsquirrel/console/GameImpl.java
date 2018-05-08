@@ -22,13 +22,13 @@ public class GameImpl extends Game {
 
 	@Override
 	protected void processInput() {
-		for (HandOperatedMasterSquirrel e : state.getHandOperatedMasterSquirrels()) {
+		for (HandOperatedMasterSquirrel masterSquirrel : state.getHandOperatedMasterSquirrels()) {
 			
 			while(true) {
 				Command cmd;
 				try {
 					cmd = ui.getCommand();
-					if (cmd.commandTypeInfo.execute(e, cmd.params))
+					if (cmd.commandTypeInfo.execute(masterSquirrel, cmd.params))
 						break;
 				} catch (Exception ex) {
 					ex.printStackTrace();

@@ -6,7 +6,7 @@ import de.hsa.games.fatsquirrel.core.MoveCommand;
 
 public enum GameCommandType implements CommandTypeInfo{
 	
-	HELP("help", "  * list all commands"),
+	HELP("help", "  * list all commands"), // TODO + method (invoke later)
 	EXIT("exit", "  * exit program"),
 	ALL("all", " * no idea"),
 	LEFT("left", " * move left"),
@@ -56,7 +56,7 @@ public enum GameCommandType implements CommandTypeInfo{
 		else
 			throw new ScanException("Not operating on a MasterSquirrel");
 		
-		switch (this ) {
+		switch (this) { 
 		case ALL:
 			return false;
 		case DOWN:
@@ -74,7 +74,7 @@ public enum GameCommandType implements CommandTypeInfo{
 		case SPAWN_MINI:
 			if (ms.setSpawnMini((int) params[0]))
 				return true;
-			throw new ScanException("Shared Enregy is higher than available Energy");
+			throw new ScanException("Shared Enregy is higher than available Energy"); // TODO notEnoughEnergyException
 		case UP:
 			ms.setNextCommand(new MoveCommand(8));
 			return true;
