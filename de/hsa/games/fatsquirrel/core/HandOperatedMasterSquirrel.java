@@ -5,6 +5,8 @@ import de.hsa.games.fatsquirrel.Launcher;
 public class HandOperatedMasterSquirrel extends MasterSquirrel {
 	
 	private static final int initEnergy = 1000;
+	
+	private int spawnMini = 0;
 
 	public HandOperatedMasterSquirrel(int id, XY position) {
 		super(id, initEnergy, position);
@@ -20,11 +22,25 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 			return;
 		}
 		
-			context.tryMove(this, nextMoveCommand.xy);
+			
+			if (spawnMini > 0) {
+				if (getEnergy() > spawnMini) {
+					// SPAWN
+				}
+					
+			} else {
+				context.tryMove(this, nextMoveCommand.xy);
+			}
 			if (Launcher.printDebugInfo) {
 				System.out.println("MasterSquirrel-Energy: " + getEnergy() + ".");
 			}
 		
 		
+	}
+
+
+
+	public void setSpawnMini(int sharedEnergy) {
+		this.spawnMini = sharedEnergy;
 	}
 }

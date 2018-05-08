@@ -94,6 +94,10 @@ public class Board {
 		
 	}
 	
+	public EntitySet getEntitySet() {
+		return entitySet;
+	}
+	
 	private XY randomPosition(ArrayList<XY> blockedXY) {	
 		XY pos;
 		
@@ -167,6 +171,8 @@ public class Board {
 		
 		toRespawn.clear();
 	}
+	
+	
 
 	public void updateCharacters(EntityContext context) {
 		entitySet.entitiesNextStep(context);

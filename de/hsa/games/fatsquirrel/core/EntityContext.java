@@ -15,4 +15,5 @@ public interface EntityContext {
 	public void kill(Entity entity);
 	public void killAndReplace(Entity entity);
 	public EntityType getEntityType(XY pos);
+
 }

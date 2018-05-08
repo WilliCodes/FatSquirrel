@@ -23,32 +23,23 @@ public class GameImpl extends Game {
 	@Override
 	protected void processInput() {
 		for (HandOperatedMasterSquirrel e : state.getHandOperatedMasterSquirrels()) {
-			Command cmd = ui.getCommand();
 			
-			switch((GameCommandType) cmd.commandTypeInfo) {
-			case ALL:
-				break;
-			case DOWN:
-				e.setNextCommand(new MoveCommand(2));
-				break;
-			case EXIT:
-				break;
-			case HELP:
-				break;
-			case LEFT:
-				break;
-			case MASTER_ENERGY:
-				break;
-			case RIGHT:
-				break;
-			case SPAWN_MINI:
-				break;
-			case UP:
-				break;
-			default:
-				break;
-			
+			while(true) {
+				Command cmd;
+				try {
+					cmd = ui.getCommand();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					continue;
+				}
+				
+				if (cmd.commandTypeInfo.execute(e, cmd.params))
+					break;
 			}
+			
+			
+			
+			
 			
 			
 		}

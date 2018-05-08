@@ -45,9 +45,11 @@ public class EntitySet {
 		activeEntities.add(masterSquirrel);
 	}
 	
-	public void placeMiniSquirrel(XY position, int masterID, int initialEnergy) {
+	public MiniSquirrel placeMiniSquirrel(XY position, int masterID, int initialEnergy) {
 		MiniSquirrel miniSquirrel = new MiniSquirrel(idCounter++, initialEnergy,  position, masterID);
 		activeEntities.add(miniSquirrel);
+		
+		return miniSquirrel;
 	}
 	
 	public void placeHandOperatedMasterSquirrel(XY position) {

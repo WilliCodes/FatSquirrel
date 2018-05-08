@@ -1,5 +1,8 @@
 package de.hsa.games.fatsquirrel.console.commands;
 
+import de.hsa.games.fatsquirrel.core.HandOperatedMasterSquirrel;
+import de.hsa.games.fatsquirrel.core.MasterSquirrel;
+import de.hsa.games.fatsquirrel.core.MoveCommand;
 
 public enum GameCommandType implements CommandTypeInfo{
 	
@@ -44,8 +47,45 @@ public enum GameCommandType implements CommandTypeInfo{
 	}
 
 	@Override
-	public void execute(Object obj, Object[] params) {
+	public boolean execute(Object obj, Object[] params) {
+		
+		HandOperatedMasterSquirrel ms;
+		
+		if (obj != null && obj instanceof HandOperatedMasterSquirrel)
+			ms = (HandOperatedMasterSquirrel) obj;
+		else
+			throw new ScanException("Not operating on a MasterSquirrel");
+		
+		switch (this ) {
+		case ALL:
+			return false;
+		case DOWN:
+			ms.setNextCommand(new MoveCommand(2));
+			return true;
+		case LEFT:
+			ms.setNextCommand(new MoveCommand(4));
+			return true;
+		case MASTER_ENERGY:
+			System.out.println("Master's Energy: " + ms.getEnergy());
+			return false;
+		case RIGHT:
+			ms.setNextCommand(new MoveCommand(6));
+			return true;
+		case SPAWN_MINI:
+			ms.setSpawnMini((int) params[0]);
+			return true;
+		case UP:
+			ms.setNextCommand(new MoveCommand(8));
+			return true;
+		case HELP:
+			return false;
+		case EXIT:
+			System.exit(0);
+		default:
+			throw new ScanException("Unknown Command");
+		}
 		
 	}
+
 
 }
