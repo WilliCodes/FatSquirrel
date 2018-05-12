@@ -47,7 +47,7 @@ public enum GameCommandType implements CommandTypeInfo{
 	}
 
 	@Override
-	public boolean execute(Object obj, Object[] params) {
+	public void execute(Object obj, Object[] params) {
 		
 		HandOperatedMasterSquirrel ms;
 		
@@ -56,30 +56,32 @@ public enum GameCommandType implements CommandTypeInfo{
 		else
 			throw new ScanException("Not operating on a MasterSquirrel");
 		
+		
 		switch (this) { 
 		case ALL:
-			return false;
+			break;
 		case DOWN:
 			ms.setNextCommand(new MoveCommand(2));
-			return true;
+			break;
 		case LEFT:
 			ms.setNextCommand(new MoveCommand(4));
-			return true;
+			break;
 		case MASTER_ENERGY:
 			System.out.println("Master's Energy: " + ms.getEnergy());
-			return false;
+			ms.setNextCommand(new MoveCommand(5));
+			break;
 		case RIGHT:
 			ms.setNextCommand(new MoveCommand(6));
-			return true;
+			break;
 		case SPAWN_MINI:
 			if (ms.setSpawnMini((int) params[0]))
-				return true;
-			throw new notEnoughEnergyException("Shared Enregy is higher than available Energy"); // TODO notEnoughEnergyException
+				break;
+			throw new notEnoughEnergyException("Shared Enregy is higher than available Energy");
 		case UP:
 			ms.setNextCommand(new MoveCommand(8));
-			return true;
-		case HELP:
-			return false;
+			break;
+		case HELP: ms.setNextCommand(new MoveCommand(5));
+			break;
 		case EXIT:
 			System.exit(0);
 		default:
