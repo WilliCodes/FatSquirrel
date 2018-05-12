@@ -26,16 +26,16 @@ public class GameImpl extends Game {
 			
 			
 				Command cmd;
+				while(true) {
 				try {
 					cmd = ui.getCommand();
 					cmd.commandTypeInfo.execute(masterSquirrel, cmd.params);
+					break;
 				} catch (Exception ex) {
 					ex.printStackTrace();
 					continue;
-				}finally{
-				processInput();				//rekursiver aufruf bei exception damit programm nicht stoppt
 				}
-				
+				}
 			
 			
 			
