@@ -7,5 +7,5 @@ public interface CommandTypeInfo {
 	public String getHelpText();
 	public Class<?>[] getParamTypes();
 
-	public boolean execute(Object obj, Object[] params);
+	public void execute(Object obj, Object[] params);
 }

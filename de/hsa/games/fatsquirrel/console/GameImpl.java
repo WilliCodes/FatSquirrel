@@ -24,19 +24,18 @@ public class GameImpl extends Game {
 	protected void processInput() {
 		for (HandOperatedMasterSquirrel masterSquirrel : state.getHandOperatedMasterSquirrels()) {
 			
-			while(true) {
+			
 				Command cmd;
 				try {
 					cmd = ui.getCommand();
-					if (cmd.commandTypeInfo.execute(masterSquirrel, cmd.params))
-						break;
+					cmd.commandTypeInfo.execute(masterSquirrel, cmd.params);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 					continue;
+				}finally{
+				processInput();				//rekursiver aufruf bei exception damit programm nicht stoppt
 				}
 				
-				
-			}
 			
 			
 			
