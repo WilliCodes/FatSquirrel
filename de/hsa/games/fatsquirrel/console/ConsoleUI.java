@@ -22,15 +22,24 @@ public class ConsoleUI implements UI {
 	
 	public ConsoleUI() {};
 
+	private Command nextCommand = new Command(GameCommandType.HELP, null);
+	
 	@Override
 	public Command getCommand() {
+		return nextCommand;
+	}
+	
+	
+	public void commandLoop() {
+		while(true) {
 		try {
-			return commandScanner.next();
+			nextCommand = commandScanner.next();
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		continue;
+		}
 	}
 
 	@Override

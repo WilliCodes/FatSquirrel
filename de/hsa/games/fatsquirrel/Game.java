@@ -6,6 +6,7 @@ public abstract class Game {
 	
 	protected State state;
 	protected UI ui;
+	public final int FPS = 1;
 	
 	public Game(State state) {
 		this.state = state;
@@ -19,6 +20,10 @@ public abstract class Game {
 		state.update();
 	}
 	
+	protected void startCommandLoop() {
+		ui.commandLoop();
+	}
+	
 
 	public void run() {
 	    while (true) {
@@ -27,7 +32,7 @@ public abstract class Game {
 	        update();
 	        
 	        try {
-				Thread.sleep(100);
+				Thread.sleep(1000/FPS);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
