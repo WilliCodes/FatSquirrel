@@ -39,8 +39,9 @@ public class CommandScanner {
 				cmd = cti;
 		}
 		
-		if (cmd == null)
+		if (cmd == null) 
 			throw new ScanException("Command not found");
+		
 		
 		Class<?>[] paramShapes = cmd.getParamTypes();
 		

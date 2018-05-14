@@ -22,9 +22,11 @@ public class ConsoleUI implements UI {
 	
 	public ConsoleUI() {};
 
-	private Command nextCommand = new Command(GameCommandType.HELP, null);
+	
+	private Command nextCommand = new Command(GameCommandType.HELP,null);
 	
 	@Override
+	
 	public Command getCommand() {
 		return nextCommand;
 	}
@@ -37,8 +39,7 @@ public class ConsoleUI implements UI {
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		continue;
+			}
 		}
 	}
 

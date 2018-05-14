@@ -6,7 +6,7 @@ public abstract class Game {
 	
 	protected State state;
 	protected UI ui;
-	public final int FPS = 1;
+	public final int FPS = 5;
 	
 	public Game(State state) {
 		this.state = state;
