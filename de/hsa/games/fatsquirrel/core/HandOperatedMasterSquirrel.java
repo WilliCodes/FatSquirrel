@@ -20,7 +20,7 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 			nextMove--;
 			if (Launcher.printDebugInfo) System.out.println("MasterSquirrel ist gelähmt!");
 			return;
-		}
+		}else {
 		
 			
 			if (spawnMini == 0)
@@ -30,7 +30,7 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 				System.out.println("MasterSquirrel-Energy: " + getEnergy() + ".");
 			}
 		
-		
+		}
 	}
 
 
