@@ -36,7 +36,7 @@ public class ConsoleUI implements UI {
 		while(true) {
 		try {
 			nextCommand = commandScanner.next();
-		} catch (SecurityException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			}
