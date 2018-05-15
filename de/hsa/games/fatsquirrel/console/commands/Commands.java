@@ -19,4 +19,8 @@ public class Commands {
 	public void EXIT() {
 		System.exit(0);
 	}
+	
+	public void help() {
+		
+	}
 }
