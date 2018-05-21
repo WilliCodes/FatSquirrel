@@ -1,26 +1,32 @@
 package de.hsa.games.fatsquirrel;
 
 
-import de.hsa.games.fatsquirrel.console.FxUI;
 import de.hsa.games.fatsquirrel.console.GameImpl;
 import de.hsa.games.fatsquirrel.core.*;
+import de.hsa.games.fatsquirrel.gui.FxUI;
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class Launcher extends Application {
 	
 	public static boolean printDebugInfo = false;
-	
+	static BoardConfig boardConfig = new BoardConfig();
+	static GameImpl game;
 
-	public static void main(String[] args) {
-		Board board = new Board(new BoardConfig());
+	public static void main(String[] args) throws Exception {
+		Board board = new Board(boardConfig);
 		State state = new State(board);
-		GameImpl game = new GameImpl(state);
+		game = new GameImpl(state);
+		boolean gui = true;
 		
-		InputReader inputReader = new InputReader(game.getUi());
 		
-		inputReader.start();
-		game.run();
+		if(!gui) {
+			startGame(game);
+		}
+		start2(new Stage());
 		
 	}
 	
@@ -30,32 +36,39 @@ public class Launcher extends Application {
 	}
 
 
-	@Override
-	public void start(Stage primaryStage) throws Exception {
+	
+	public static void start2(Stage primaryStage) throws Exception {
 		FxUI fxUI = FxUI.createInstance(boardConfig.getSize());
-        final Game game = ...
+        final Game game2 = game;
          
         primaryStage.setScene(fxUI);
         primaryStage.setTitle("Diligent Squirrel");
         fxUI.getWindow().setOnCloseRequest(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(WindowEvent evt) {
-                System.exit(-1);     
-            }
+			
+        	@Override
+			public void handle(KeyEvent arg0) {
+				
+			}
         });
         primaryStage.show();   
         
-        startGame(game);    
+        startGame(game2);    
 		
 	}
 
 
-	private void startGame(Game game) {
+	private static void startGame(Game game) {
 		
 		InputReader inputReader = new InputReader(((GameImpl) game).getUi());
-		
 		inputReader.start();
 		game.run();
+		
+	}
+
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		start2(primaryStage);
 		
 	}
 }
