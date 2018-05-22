@@ -26,7 +26,7 @@ public class Launcher extends Application {
 		if(!gui) {
 			startGame(game);
 		}
-		start2(new Stage());
+		launch(args);
 		
 	}
 	
@@ -37,22 +37,22 @@ public class Launcher extends Application {
 
 
 	
-	public static void start2(Stage primaryStage) throws Exception {
+	public void start(Stage primaryStage) throws Exception {
 		FxUI fxUI = FxUI.createInstance(boardConfig.getSize());
-        final Game game2 = game;
+        final Game game = this.game;
          
         primaryStage.setScene(fxUI);
         primaryStage.setTitle("Diligent Squirrel");
-        fxUI.getWindow().setOnCloseRequest(new EventHandler<KeyEvent>() {
+        fxUI.getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
 			
         	@Override
-			public void handle(KeyEvent arg0) {
-				
+			public void handle(WindowEvent arg0) {
+				System.exit(0);
 			}
         });
         primaryStage.show();   
         
-        startGame(game2);    
+        startGame(game);    
 		
 	}
 
@@ -65,10 +65,4 @@ public class Launcher extends Application {
 		
 	}
 
-
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		start2(primaryStage);
-		
-	}
 }
