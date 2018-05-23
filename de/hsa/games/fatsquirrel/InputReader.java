@@ -1,5 +1,6 @@
 package de.hsa.games.fatsquirrel;
 
+import de.hsa.games.fatsquirrel.console.ConsoleUI;
 
 public class InputReader extends Thread {
 
@@ -11,7 +12,7 @@ public class InputReader extends Thread {
 	
 	public void run() {
 		while(true) {
-			ui.commandLoop();
+			((ConsoleUI)ui).commandLoop();
 		}
 	}
 	

@@ -20,9 +20,6 @@ public abstract class Game {
 		state.update();
 	}
 	
-	protected void startCommandLoop() {
-		ui.commandLoop();
-	}
 	
 
 	public void run() {

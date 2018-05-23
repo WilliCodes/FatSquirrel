@@ -2,14 +2,11 @@ package de.hsa.games.fatsquirrel.gui;
 
 import de.hsa.games.fatsquirrel.UI;
 import de.hsa.games.fatsquirrel.console.commands.Command;
-import de.hsa.games.fatsquirrel.console.commands.CommandScanner;
 import de.hsa.games.fatsquirrel.console.commands.GameCommandType;
 import de.hsa.games.fatsquirrel.core.BoardView;
 import de.hsa.games.fatsquirrel.core.XY;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -21,7 +18,7 @@ import javafx.scene.paint.Color;
 
 public class FxUI extends Scene implements UI {
 
-	public final static int CELL_SIZE = 5;
+	public final static int CELL_SIZE = 40;
 	private Canvas boardCanvas;
 	private Label msgLabel;
 	
@@ -41,9 +38,10 @@ public class FxUI extends Scene implements UI {
         statusLabel.setText("Hallo Welt");
         final FxUI fxUI = new FxUI(top, boardCanvas, statusLabel); 
         fxUI.setOnKeyPressed(
-                new EventHandler() {
-                   public void handle(Event keyEvent) {
-                      System.out.println("Es wurde folgende Taste gedrückt: " + ((KeyEvent) keyEvent).getCode() + " bitte behandeln!");
+                new EventHandler<KeyEvent>() {
+                	@Override
+                   public void handle(KeyEvent keyEvent) {
+                      System.out.println("Es wurde folgende Taste gedrückt: " + keyEvent.getCode() + " bitte behandeln!");
                       // TODO handle event 
                    }
                 }
@@ -68,10 +66,49 @@ public class FxUI extends Scene implements UI {
         gc.clearRect(0, 0, boardCanvas.getWidth(), boardCanvas.getHeight());
         XY viewSize = view.getSize();
 
-        // dummy for rendering a board snapshot, TODO: change it!
-        gc.fillText("Where are the beasts?", 100, 100);
-        gc.setFill(Color.RED);
-        gc.fillOval(150, 150, 50, 50);
+       for(int a = 0; a < viewSize.x; a++) {
+    	   for(int b = 0; b < viewSize.y; b++) {
+    		   switch(view.getEntityType(a, b)) {
+			case BadBeast:
+				gc.setFill(Color.RED);
+				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
+				break;
+			case BadPlant:
+				gc.setFill(Color.RED);
+				gc.fillRect(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
+				break;
+			case Empty:
+				break;
+			case GoodBeast:
+				gc.setFill(Color.GREEN);
+				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
+				break;
+			case GoodPlant:
+				gc.setFill(Color.GREEN);
+				gc.fillRect(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
+				break;
+			case HandOperatedMasterSquirrel:
+				gc.setFill(Color.BLUE);
+				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
+				break;
+			case MasterSquirrel:
+				gc.setFill(Color.GREY);
+				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
+				break;
+			case MiniSquirrel:
+				gc.setFill(Color.PURPLE);
+				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
+				break;
+			case Wall:
+				gc.setFill(Color.YELLOW);
+				gc.fillRect(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
+				break;
+			default:
+				break;
+    		   
+    		   }
+    	   }
+       }
         
     }
     
@@ -87,14 +124,8 @@ public class FxUI extends Scene implements UI {
 
 	@Override
 	public Command getCommand() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void commandLoop() {
-		// TODO Auto-generated method stub
 		
+		return null;
 	}
 
     
