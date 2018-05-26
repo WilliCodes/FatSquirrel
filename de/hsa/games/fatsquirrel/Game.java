@@ -7,6 +7,7 @@ public abstract class Game {
 	protected State state;
 	protected UI ui;
 	public final int FPS = 5;
+	public boolean paused = true;
 	
 	public Game(State state) {
 		this.state = state;
@@ -26,7 +27,10 @@ public abstract class Game {
 	    while (true) {
 	        render();
 	        processInput();
-	        update();
+	        
+	        if(!paused) {
+	        	update();
+	        }
 	        
 	        try {
 				Thread.sleep(1000/FPS);

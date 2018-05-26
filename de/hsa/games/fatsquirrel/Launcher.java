@@ -22,7 +22,7 @@ public class Launcher extends Application {
 	
 	public static void main(String[] args) throws Exception {
 		
-		boolean gui = false;
+		boolean gui = true;
 		
 		
 		if(!gui) {
@@ -40,9 +40,10 @@ public class Launcher extends Application {
 		
 		FxUI fxUI = FxUI.createInstance(boardConfig.getSize());
         final Game game = new GameUi(state, fxUI);
+       
          
         primaryStage.setScene(fxUI);
-        primaryStage.setTitle("Diligent Squirrel");
+        primaryStage.setTitle("Overweight Squirrel");
         fxUI.getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent evt) {

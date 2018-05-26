@@ -49,6 +49,8 @@ public class ConsoleUI implements UI {
 		
 		// Alternativ hätte hier toString() mit getSize() und getEntityType(int x, int y) implementiert werden können
 	}
+
+
 	
 	
 

@@ -8,6 +8,7 @@ public class MoveCommand {
 		xy = convertInputToVector(numBlockInput);
 	}
 	
+	
 	private XY convertInputToVector(int direction) {
 		int x = 0, y = 0;
 		if (direction >= 7)
