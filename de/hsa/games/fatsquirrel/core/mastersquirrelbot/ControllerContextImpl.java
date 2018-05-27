@@ -7,7 +7,7 @@ import de.hsa.games.fatsquirrel.core.XY;
 public class ControllerContextImpl implements ControllerContext {
 
 	@Override
-	public XY getViewLOwerLeft() {
+	public XY getViewLowerLeft() {
 		// TODO Auto-generated method stub
 		return null;
 	}

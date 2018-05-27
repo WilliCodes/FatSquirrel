@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import de.hsa.games.fatsquirrel.botapi.BotController;
+import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
+
 
 
 public class EntitySet {
@@ -55,6 +58,19 @@ public class EntitySet {
 	public void placeHandOperatedMasterSquirrel(XY position) {
 		HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(idCounter++, position);
 		activeEntities.add(handOperatedMasterSquirrel);
+	}
+	
+	public MiniSquirrelBot placeMiniBot(XY position, int masterID, int initialEnergy, BotController botcon, BotControllerFactory botconfac) {
+		MiniSquirrelBot miniBot = new MiniSquirrelBot(idCounter++, initialEnergy, position, masterID, botcon, botconfac);
+		activeEntities.add(miniBot);
+		
+		return miniBot;
+	}
+	
+	public void placMasterSquirrelBot(XY position, BotController botcon, BotControllerFactory botconfac) {
+		MasterSquirrelBot masterBot = new MasterSquirrelBot(idCounter++, position, botcon, botconfac);
+		activeEntities.add(masterBot);
+		
 	}
 	
 	

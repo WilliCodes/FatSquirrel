@@ -5,7 +5,7 @@ import de.hsa.games.fatsquirrel.core.XY;
 
 public interface ControllerContext {
 
-	XY getViewLOwerLeft();
+	XY getViewLowerLeft();
 	XY getViewUpperRight();
 	EntityType getEntityAt(XY xy);
 	void move(XY direction);
