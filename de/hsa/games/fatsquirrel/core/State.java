@@ -9,12 +9,12 @@ public class State {
 	private int highscore = 9001; // TODO: replace Dummy
 	private Board board;
 	private FlattenedBoard flattenedBoard;
-	private ArrayList<HandOperatedMasterSquirrel> handOperatedMasterSquirrels = new ArrayList<>();
+	private HandOperatedMasterSquirrel handOperatedMasterSquirrel;
 	
 	public State(Board board) {
 		this.board = board;
 		flattenedBoard = new FlattenedBoard(board);
-		handOperatedMasterSquirrels.addAll(board.getHandOperatedMasterSquirrels());
+		handOperatedMasterSquirrel = (board.getHandOperatedMasterSquirrel());
 	}
 	
 	public void update() {
@@ -22,14 +22,11 @@ public class State {
 		board.updateCharacters((EntityContext) flattenedBoard); 
 		board.respawn(flattenedBoard.getRespawnList());
 		
-		for (HandOperatedMasterSquirrel ms : handOperatedMasterSquirrels) {
+		HandOperatedMasterSquirrel ms = handOperatedMasterSquirrel;
 			if (ms.getSpawmMini() > 0) {
 				XY pos = flattenedBoard.getNextFreeCell(ms.getPosition());
-				if (pos == null)
-					continue;
 				board.spawnMini(pos, ms);
 			}
-		}
 		
 		flattenedBoard.update();
 	}
@@ -39,8 +36,8 @@ public class State {
 	}
 	
 	
-	public ArrayList<HandOperatedMasterSquirrel> getHandOperatedMasterSquirrels() {
-		return handOperatedMasterSquirrels;
+	public HandOperatedMasterSquirrel getHandOperatedMasterSquirrels() {
+		return handOperatedMasterSquirrel;
 	}
 	
 

@@ -125,18 +125,16 @@ public class Board {
 	}
 	
 	
-	public ArrayList<HandOperatedMasterSquirrel> getHandOperatedMasterSquirrels() {
-		ArrayList<HandOperatedMasterSquirrel> handOperatedMasterSquirrels = new ArrayList<>();
+	public HandOperatedMasterSquirrel getHandOperatedMasterSquirrel() {
+		
 		
 		for (Entity e : entitySet.getEntities()) {
 			if (e instanceof HandOperatedMasterSquirrel) {
-				HandOperatedMasterSquirrel ms = (HandOperatedMasterSquirrel) e;
-				if (ms.isActive() && !ms.isParalyzed())
-					handOperatedMasterSquirrels.add(ms);
+				return (HandOperatedMasterSquirrel) e;
 			}
 		}
 		
-		return handOperatedMasterSquirrels;
+		return null;
 	}
 	
 	
