@@ -30,17 +30,19 @@ public class GameImpl extends Game {
 			
 			
 				Command cmd;
-				do {
-				try {
-					cmd = ui.getCommand();
-					cmd.commandTypeInfo.execute(masterSquirrel, cmd.params);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					continue;
+
+				while(true) {
+
+          try {
+            cmd = ui.getCommand();
+            cmd.commandTypeInfo.execute(masterSquirrel, cmd.params);
+            break;
+          } catch (Exception ex) {
+            ex.printStackTrace();
+            continue;
+          }
 				}
-				break;
-				}while(true);
-				
+
 			
 			
 			
