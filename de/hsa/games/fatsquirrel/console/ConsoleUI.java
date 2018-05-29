@@ -22,15 +22,25 @@ public class ConsoleUI implements UI {
 	
 	public ConsoleUI() {};
 
+	
+	private Command nextCommand = new Command(GameCommandType.HELP,null);
+	
 	@Override
+	
 	public Command getCommand() {
+		return nextCommand;
+	}
+	
+	
+	public void commandLoop() {
+		while(true) {
 		try {
-			return commandScanner.next();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+			nextCommand = commandScanner.next();
+		} catch (Exception e) {
+		
 			e.printStackTrace();
+			}
 		}
-		return null;
 	}
 
 	@Override
@@ -39,6 +49,8 @@ public class ConsoleUI implements UI {
 		
 		// Alternativ hätte hier toString() mit getSize() und getEntityType(int x, int y) implementiert werden können
 	}
+
+
 	
 	
 

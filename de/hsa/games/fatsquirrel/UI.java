@@ -9,5 +9,7 @@ public interface UI {
 	public Command getCommand();
 	
 	public void render(BoardView view);
+	
+	
 
 }

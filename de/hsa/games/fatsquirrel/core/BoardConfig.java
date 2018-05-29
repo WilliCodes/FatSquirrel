@@ -18,6 +18,8 @@ public class BoardConfig {
 	public BoardConfig() {
 	}
 	
-	
+	public XY getSize() {
+		return new XY(width, height);
+	}
 
 }

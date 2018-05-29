@@ -1,5 +1,8 @@
 package de.hsa.games.fatsquirrel.console.commands;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import de.hsa.games.fatsquirrel.core.HandOperatedMasterSquirrel;
 import de.hsa.games.fatsquirrel.core.MasterSquirrel;
 import de.hsa.games.fatsquirrel.core.MoveCommand;
@@ -55,6 +58,13 @@ public enum GameCommandType implements CommandTypeInfo{
 			ms = (HandOperatedMasterSquirrel) obj;
 		else
 			throw new ScanException("Not operating on a MasterSquirrel");
+		
+//		try {
+//			Method methode = Commands.class.getMethod(name, (Class<?>[]) params);
+//			methode.invoke(name, params);
+//		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+//			e.printStackTrace();
+//		}
 		
 		
 		switch (this) { 

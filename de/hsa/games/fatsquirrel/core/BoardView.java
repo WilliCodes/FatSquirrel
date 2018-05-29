@@ -6,6 +6,7 @@ public interface BoardView {
 	
 	public EntityType getEntityType(int x, int y);
 	public XY getSize();
+	public int getMasterSquirrelEnergy();
 	
 	@Override
 	public String toString();
