@@ -26,7 +26,7 @@ public class GameImpl extends Game {
 
 	@Override
 	protected void processInput() {
-		for (HandOperatedMasterSquirrel masterSquirrel : state.getHandOperatedMasterSquirrels()) {
+		HandOperatedMasterSquirrel masterSquirrel = state.getHandOperatedMasterSquirrels();
 			
 			
 				Command cmd;
@@ -41,7 +41,7 @@ public class GameImpl extends Game {
             ex.printStackTrace();
             continue;
           }
-				}
+				
 
 			
 			

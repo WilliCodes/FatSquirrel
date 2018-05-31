@@ -26,7 +26,7 @@ public class GameUi extends Game {
 	protected void processInput() {
 		
 		// get first and currently only Player
-		HandOperatedMasterSquirrel ms = state.getHandOperatedMasterSquirrels().get(0);
+		HandOperatedMasterSquirrel ms = state.getHandOperatedMasterSquirrels();
 		
 		try {
 			Command cmd = ui.getCommand();
