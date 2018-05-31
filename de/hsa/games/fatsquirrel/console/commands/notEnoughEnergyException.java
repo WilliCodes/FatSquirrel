@@ -1,8 +1,12 @@
 package de.hsa.games.fatsquirrel.console.commands;
 
-public class notEnoughEnergyException extends RuntimeException {
+import java.util.logging.Logger;
 
-public notEnoughEnergyException() {super();}
+public class notEnoughEnergyException extends RuntimeException {
+	
+	Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	
+	public notEnoughEnergyException() {super();}
 	
 	public notEnoughEnergyException(String arg0) {super(arg0);}
 	

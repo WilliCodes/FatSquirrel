@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import de.hsa.games.fatsquirrel.*;
 import de.hsa.games.fatsquirrel.console.commands.Command;
@@ -20,6 +21,8 @@ public class ConsoleUI implements UI {
 	
 	private CommandScanner commandScanner = new CommandScanner(GameCommandType.values(), inputReader, outputStream);
 	
+	private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	
 	public ConsoleUI() {};
 
 	
@@ -33,11 +36,13 @@ public class ConsoleUI implements UI {
 	
 	
 	public void commandLoop() {
+		logger.info("commandloop started");
 		while(true) {
 		try {
 			nextCommand = commandScanner.next();
 		} catch (Exception e) {
 		
+			logger.warning(e.toString());
 			e.printStackTrace();
 			}
 		}

@@ -3,11 +3,14 @@ package de.hsa.games.fatsquirrel;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.hsa.games.fatsquirrel.console.GameImpl;
 import de.hsa.games.fatsquirrel.core.*;
 import de.hsa.games.fatsquirrel.gui.FxUI;
 import de.hsa.games.fatsquirrel.gui.GameUi;
+import de.hsa.games.fatsquirrel.logger.MyLogger;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
@@ -19,13 +22,15 @@ public class Launcher extends Application {
 	private static BoardConfig boardConfig = new BoardConfig();
 	private static Board board = new Board(boardConfig);
 	private static State state = new State(board);
+	private static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
 	public static void main(String[] args) throws Exception {
-		
+		MyLogger.setup();
 		boolean gui = true;
 		
 		
 		if(!gui) {
+			logger.info("consolemode started");
 			GameImpl game = new GameImpl(state);
 			InputReader inputReader = new InputReader(game.getUi());
 			inputReader.start();
@@ -38,6 +43,7 @@ public class Launcher extends Application {
 	
 	public void start(Stage primaryStage) throws Exception {
 		
+		logger.info("guimode started");
 		FxUI fxUI = FxUI.createInstance(boardConfig.getSize());
         final Game game = new GameUi(state, fxUI);
        
@@ -64,6 +70,7 @@ public class Launcher extends Application {
 
 			@Override
 			public void run() {
+				logger.info("game started");
 				game.run();
 				
 			}
