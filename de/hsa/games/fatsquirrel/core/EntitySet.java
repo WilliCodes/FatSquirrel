@@ -14,6 +14,7 @@ public class EntitySet {
 	
 
 	private List<Entity> activeEntities = new LinkedList<Entity>();
+	// ConcurrentLinkedQueue
 	
 	private int idCounter = 0;
 	

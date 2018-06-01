@@ -45,13 +45,6 @@ public class GameImpl extends Game {
             ex.printStackTrace();
             continue;
           }
-				
-
-			
-			
-			
-			
-			
 			
 		}
 	}
