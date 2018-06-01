@@ -3,7 +3,6 @@ package de.hsa.games.fatsquirrel.core;
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
-import de.hsa.games.fatsquirrel.core.minisquirrelbot.ControllerContextImpl;
 
 public class MiniSquirrelBot extends MiniSquirrel {
 
