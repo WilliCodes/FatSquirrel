@@ -61,15 +61,15 @@ public class EntitySet {
 		activeEntities.add(handOperatedMasterSquirrel);
 	}
 	
-	public MiniSquirrelBot placeMiniBot(XY position, int masterID, int initialEnergy, BotController botcon, BotControllerFactory botconfac) {
-		MiniSquirrelBot miniBot = new MiniSquirrelBot(idCounter++, initialEnergy, position, masterID, botcon, botconfac);
+	public MiniSquirrelBot placeMiniBot(XY position, int masterID, int initialEnergy, BotController botcon) {
+		MiniSquirrelBot miniBot = new MiniSquirrelBot(idCounter++, initialEnergy, position, masterID, botcon);
 		activeEntities.add(miniBot);
 		
 		return miniBot;
 	}
 	
-	public void placMasterSquirrelBot(XY position, BotController botcon, BotControllerFactory botconfac) {
-		MasterSquirrelBot masterBot = new MasterSquirrelBot(idCounter++, position, botcon, botconfac);
+	public void placMasterSquirrelBot(XY position, BotController botcon) {
+		MasterSquirrelBot masterBot = new MasterSquirrelBot(idCounter++, position, botcon);
 		activeEntities.add(masterBot);
 		
 	}

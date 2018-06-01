@@ -1,20 +1,16 @@
 package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.botapi.BotController;
-import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.core.EntityContext;
 
 public class MasterSquirrelBot extends MasterSquirrel {
 
 	private BotController botcon;
-	private BotControllerFactory botconfac;
 	
-	public MasterSquirrelBot(int id, XY position, BotController botcon, BotControllerFactory botconfac) {
-		//BotControllerFactory nicht übergeben
+	public MasterSquirrelBot(int id, XY position, BotController botcon) {
 		super(id, position);
 		this.botcon = botcon;
-		this.botconfac = botconfac;
 	}
 	
 	@Override
@@ -33,20 +29,17 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
 		@Override
 		public XY getViewLowerLeft() {
-			// TODO Auto-generated method stub
-			return null;
+			return new XY(getPosition().x - 15, getPosition().y - 15);
 		}
 
 		@Override
 		public XY getViewUpperRight() {
-			// TODO Auto-generated method stub
-			return null;
+			return new XY(getPosition().x + 15, getPosition().y + 15);
 		}
 
 		@Override
 		public EntityType getEntityAt(XY xy) {
-			// TODO Auto-generated method stub
-			return null;
+			return context.getEntityType(xy);
 		}
 
 		@Override
@@ -63,8 +56,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
 		@Override
 		public int getEnergy() {
-			// TODO Auto-generated method stub
-			return 0;
+			return getEnergy();
 		}
 
 	}
