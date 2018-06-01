@@ -21,7 +21,6 @@ public class MasterSquirrel extends PlayerEntity {
 		else
 			return false;
 	}
-	
 
 
 }
