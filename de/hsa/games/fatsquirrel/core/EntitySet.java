@@ -13,43 +13,43 @@ import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
 public class EntitySet {
 	
 
-	private List<Entity> activeEntities = new LinkedList<Entity>();
+	private List<Entity> activeEntities = Collections.synchronizedList(new LinkedList<Entity>());
 	// ConcurrentLinkedQueue
 	
 	private int idCounter = 0;
 	
-	public void placeWall(XY position) {
+	public synchronized void placeWall(XY position) {
 		Wall wall = new Wall(idCounter++, position);
 		activeEntities.add(wall);
 	}
 	
-	public void placeGoodBeast(XY position) {
+	public synchronized void placeGoodBeast(XY position) {
 		GoodBeast goodBeast = new GoodBeast(idCounter++, position);
 		activeEntities.add(goodBeast);
 		
 	}
 	
-	public void placeBadBeast(XY position) {
+	public synchronized void placeBadBeast(XY position) {
 		BadBeast badBeast = new BadBeast(idCounter++, position);
 		activeEntities.add(badBeast);
 	}
 	
-	public void placeGoodPlant(XY position) {
+	public synchronized void placeGoodPlant(XY position) {
 		GoodPlant goodPlant = new GoodPlant(idCounter++, position);
 		activeEntities.add(goodPlant);
 	}
 	
-	public void placeBadPlant(XY position) {
+	public synchronized void placeBadPlant(XY position) {
 		BadPlant badPlant = new BadPlant(idCounter++, position);
 		activeEntities.add(badPlant);
 	}
 	
-	public void placeMasterSquirrel(XY position) {
+	public synchronized void placeMasterSquirrel(XY position) {
 		MasterSquirrel masterSquirrel = new MasterSquirrel(idCounter++, position);
 		activeEntities.add(masterSquirrel);
 	}
 	
-	public MiniSquirrel placeMiniSquirrel(XY position, int masterID, int initialEnergy) {
+	public synchronized MiniSquirrel placeMiniSquirrel(XY position, int masterID, int initialEnergy) {
 		MiniSquirrel miniSquirrel = new MiniSquirrel(idCounter++, initialEnergy,  position, masterID);
 		activeEntities.add(miniSquirrel);
 		
@@ -61,25 +61,25 @@ public class EntitySet {
 		activeEntities.add(handOperatedMasterSquirrel);
 	}
 	
-	public MiniSquirrelBot placeMiniBot(XY position, int masterID, int initialEnergy, BotController botcon, BotControllerFactory botconfac) {
+	public synchronized MiniSquirrelBot placeMiniBot(XY position, int masterID, int initialEnergy, BotController botcon, BotControllerFactory botconfac) {
 		MiniSquirrelBot miniBot = new MiniSquirrelBot(idCounter++, initialEnergy, position, masterID, botcon, botconfac);
 		activeEntities.add(miniBot);
 		
 		return miniBot;
 	}
 	
-	public void placMasterSquirrelBot(XY position, BotController botcon, BotControllerFactory botconfac) {
+	public synchronized void placMasterSquirrelBot(XY position, BotController botcon, BotControllerFactory botconfac) {
 		MasterSquirrelBot masterBot = new MasterSquirrelBot(idCounter++, position, botcon, botconfac);
 		activeEntities.add(masterBot);
 		
 	}
 	
 	
-	public List<Entity> getEntities() {
+	public synchronized List<Entity> getEntities() {
 		return activeEntities;
 	}
 	
-	public void removeDeaktivated() {
+	public synchronized void removeDeaktivated() {
 		ListIterator<Entity> iterator = activeEntities.listIterator();
 		while(iterator.hasNext()) {
 			if (!iterator.next().isActive()) 
@@ -97,7 +97,7 @@ public class EntitySet {
 		return toString;
 	}
 	
-	public void entitiesNextStep(EntityContext context) {
+	public synchronized void entitiesNextStep(EntityContext context) {
 		Collections.shuffle(activeEntities);
 		for (Entity entity : activeEntities)
 			if (entity instanceof Character && entity.isActive()) {
