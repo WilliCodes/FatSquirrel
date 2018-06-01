@@ -1,6 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 
 public class FlattenedBoard implements BoardView, EntityContext {
@@ -8,10 +9,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	private Entity[][] cells;
 	private ArrayList<EntityType> toRespawn = new ArrayList<>();
 	private Board board;
+	private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
 	public FlattenedBoard(Board board) {
 		this.board = board;
 		cells = this.board.flatten();
+		logger.fine("FlattenBoard created");
 	}
 	
 	public void update() {
@@ -283,7 +286,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	@Override
 	public int getMasterSquirrelEnergy() {
-		return 0; //board.getHandOperatedMasterSquirrels().get(0).getEnergy();
+		return board.getHandOperatedMasterSquirrel().getEnergy();
 	}
 
 

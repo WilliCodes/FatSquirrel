@@ -4,6 +4,8 @@ import de.hsa.games.fatsquirrel.core.HandOperatedMasterSquirrel;
 import de.hsa.games.fatsquirrel.core.MasterSquirrel;
 import de.hsa.games.fatsquirrel.core.MoveCommand;
 
+
+//				this should be the invoke class for
 public class Commands {
 
 	public void Master_Energy(MasterSquirrel ms) {

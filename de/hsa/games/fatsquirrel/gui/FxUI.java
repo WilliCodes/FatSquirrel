@@ -1,6 +1,7 @@
 package de.hsa.games.fatsquirrel.gui;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import de.hsa.games.fatsquirrel.UI;
 import de.hsa.games.fatsquirrel.console.commands.Command;
@@ -27,6 +28,7 @@ public class FxUI extends Scene implements UI {
 	public final static int CELL_SIZE = 40;
 	private Canvas boardCanvas;
 	private Label msgLabel;
+	private static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
 	private static Command command = null;
 	
@@ -34,13 +36,17 @@ public class FxUI extends Scene implements UI {
         super(parent);
         this.boardCanvas = boardCanvas;
         this.msgLabel = msgLabel;
+        logger.fine("FxUI created");
     }
     
     @SuppressWarnings("unchecked")
 	public static FxUI createInstance(XY boardSize) {
         Canvas boardCanvas = new Canvas(boardSize.x * CELL_SIZE, boardSize.y * CELL_SIZE);
+        logger.fine("FxUI: canvas created");
         Label statusLabel = new Label();
+        logger.fine("FxUI: label created");
         VBox top = new VBox();
+        logger.fine("FxUI: vbox created");
         top.getChildren().add(boardCanvas);
         top.getChildren().add(statusLabel);
         statusLabel.setText("Hallo Welt");
@@ -78,6 +84,7 @@ public class FxUI extends Scene implements UI {
                    }
 
 					private void displaySpawnMiniDialog() {
+						logger.info("opened spanwMiniDialog");
 						TextInputDialog dialog = new TextInputDialog("100");
                   		dialog.setTitle("Spawn MiniSquirrel");
                   		dialog.setHeaderText("Spawning MiniSquirrel...");
@@ -87,11 +94,12 @@ public class FxUI extends Scene implements UI {
                   		if (result.isPresent()){
                   			int energy = Integer.parseInt(result.get());
                   			command = new Command(GameCommandType.SPAWN_MINI, new Object[] {energy});
+                  			logger.info("MiniSquirrel spawned with " + energy);
                   		}
-						
 					}
                 }
           );
+        logger.info("closed spawnMiniDialog");
         return fxUI;
     }
 
@@ -161,12 +169,14 @@ public class FxUI extends Scene implements UI {
     }
     
     public static void displayHelp() {
+    	logger.info("opened help");
     	Alert alert = new Alert(AlertType.INFORMATION);
   		alert.setTitle("Help");
   		alert.setHeaderText("How To Play");
   		alert.setContentText("Movement: WASD\nYou are the blue dot, avoid Walls (Yellow Rectangles), BadBeasts and BadPlants (Red Circles and Rectangles) and eat GoodBeasts and GoodPlants (Green Circles and Rectangles");
 
   		alert.showAndWait();
+  		logger.info("closed help");
     }
     
 

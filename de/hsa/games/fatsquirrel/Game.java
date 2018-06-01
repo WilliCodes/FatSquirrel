@@ -1,8 +1,12 @@
 package de.hsa.games.fatsquirrel;
 
+import java.util.logging.Logger;
+
 import de.hsa.games.fatsquirrel.core.State;
 
 public abstract class Game {
+	
+	private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
 	protected State state;
 	protected UI ui;
@@ -24,6 +28,7 @@ public abstract class Game {
 	
 
 	public void run() {
+		logger.info("gameloop started");
 	    while (true) {
 	        render();
 	        processInput();
@@ -35,6 +40,7 @@ public abstract class Game {
 	        try {
 				Thread.sleep(1000/FPS);
 			} catch (InterruptedException e) {
+				logger.severe(e.toString());
 				e.printStackTrace();
 			}
 	    }
