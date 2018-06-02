@@ -55,7 +55,7 @@ public class FxUI extends Scene implements UI {
                 new EventHandler<KeyEvent>() {
                 	@Override
                    public void handle(KeyEvent keyEvent) {
-                      System.out.println("Es wurde folgende Taste gedrückt: " + keyEvent.getCode() + " bitte behandeln!");
+                     
                       switch (keyEvent.getCode()) {
                       	case W:
                       		command = new Command(GameCommandType.UP, null);
@@ -96,10 +96,10 @@ public class FxUI extends Scene implements UI {
                   			command = new Command(GameCommandType.SPAWN_MINI, new Object[] {energy});
                   			logger.info("MiniSquirrel spawned with " + energy);
                   		}
+                  		logger.info("closed spawnMiniDialog");
 					}
                 }
           );
-        logger.info("closed spawnMiniDialog");
         return fxUI;
     }
 
