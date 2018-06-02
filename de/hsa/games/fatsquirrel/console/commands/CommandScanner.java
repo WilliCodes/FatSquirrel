@@ -3,8 +3,11 @@ package de.hsa.games.fatsquirrel.console.commands;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.logging.Logger;
 
 public class CommandScanner {
+	
+	private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
 	private CommandTypeInfo[] commandTypeInfos;
 	private BufferedReader inputReader;
@@ -14,6 +17,7 @@ public class CommandScanner {
 		this.commandTypeInfos = commandTypes;
 		this.inputReader = inputReader;
 		this.outputStream = outputStream;
+		logger.fine("CommandScanner created");
 	}
 	
 	public Command next() {
@@ -23,12 +27,14 @@ public class CommandScanner {
 		try {
 			input = inputReader.readLine();
 		} catch (IOException e) {
+			logger.warning(e.toString());
 			throw new ScanException("Unable to read input");
 		}
 		
 		String[] inputs = input.split(" ");
 		
 		if (inputs.length < 1) {
+			logger.warning("Invalid Input");
 			throw new ScanException("Invalid Input");
 		}
 		
@@ -40,7 +46,7 @@ public class CommandScanner {
 		}
 		
 		if (cmd == null) 
-			throw new ScanException("Command not found");
+			throw new ScanException("Command not found"); logger.finer("Command not found");
 		
 		
 		Class<?>[] paramShapes = cmd.getParamTypes();
@@ -81,6 +87,7 @@ public class CommandScanner {
 				}
 			}
 		} catch (Exception e) {
+			logger.warning(e.toString());
 			throw new ScanException("Unable to interpret parameters");
 		}
 		

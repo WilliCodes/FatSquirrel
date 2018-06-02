@@ -1,6 +1,9 @@
 package de.hsa.games.fatsquirrel.botapi;
 
 public interface BotController {
+	
+	
+	
 
-	void nextStep();
+	public void nextStep(ControllerContext view);
 }

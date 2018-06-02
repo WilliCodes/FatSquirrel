@@ -5,10 +5,10 @@ import de.hsa.games.fatsquirrel.core.XY;
 
 public interface ControllerContext {
 
-	XY getViewLowerLeft();
-	XY getViewUpperRight();
-	EntityType getEntityAt(XY xy);
-	void move(XY direction);
-	void spawnMiniBot(XY direction, int energy);
-	int getEnergy();
+	public XY getViewLowerLeft();
+	public XY getViewUpperRight();
+	public EntityType getEntityAt(XY xy);
+	public void move(XY direction);
+	public void spawnMiniBot(XY direction, int energy);
+	public int getEnergy();
 }
