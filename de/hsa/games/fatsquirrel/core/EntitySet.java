@@ -14,13 +14,13 @@ public class EntitySet {
 	
 
 	private List<Entity> activeEntities = Collections.synchronizedList(new LinkedList<Entity>());
-	// ConcurrentLinkedQueue
 	
 	private int idCounter = 0;
 	
 	public synchronized void placeWall(XY position) {
 		Wall wall = new Wall(idCounter++, position);
 		activeEntities.add(wall);
+		System.out.println("TEST");
 	}
 	
 	public synchronized void placeGoodBeast(XY position) {

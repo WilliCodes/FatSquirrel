@@ -4,6 +4,9 @@ public class MasterSquirrel extends PlayerEntity {
 	
 	private static final int initEnergy = 1000;
 	
+	protected int spawnMini = 0;
+	protected XY spawnMiniPos;
+	
 	
 	public MasterSquirrel(int id, int energy, XY position) {
 		super(id, energy, position);
@@ -20,6 +23,31 @@ public class MasterSquirrel extends PlayerEntity {
 			return true;
 		else
 			return false;
+	}
+	
+	public boolean setSpawnMini(int sharedEnergy) {
+		if (this.getEnergy() < sharedEnergy) 
+			return false;
+			
+		this.spawnMini = sharedEnergy;
+		return true;
+	}
+	
+	public boolean setSpawnMini(int sharedEnergy, XY spawnMiniDirection) {
+		if (this.getEnergy() < sharedEnergy) 
+			return false;
+			
+		this.spawnMini = sharedEnergy;
+		this.spawnMiniPos = new XY(getPosition().x + spawnMiniDirection.x, getPosition().y + spawnMiniDirection.y);
+		return true;
+	}
+
+	public int getSpawmMini() {
+		return spawnMini;
+	}
+	
+	public XY getSpawnMiniPos() {
+		return spawnMiniPos;
 	}
 
 

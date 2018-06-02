@@ -6,7 +6,7 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 	
 	private static final int initEnergy = 1000;
 	
-	private int spawnMini = 0;
+	
 
 	public HandOperatedMasterSquirrel(int id, XY position) {
 		super(id, initEnergy, position);
@@ -34,18 +34,4 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 	}
 
 
-
-	public boolean setSpawnMini(int sharedEnergy) {
-		if (this.getEnergy() < sharedEnergy) 
-			return false;
-			
-		this.spawnMini = sharedEnergy;
-		return true;
-	}
-
-
-
-	public int getSpawmMini() {
-		return spawnMini;
-	}
 }

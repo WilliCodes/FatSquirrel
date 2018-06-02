@@ -24,7 +24,9 @@ public class State {
 		
 		HandOperatedMasterSquirrel ms = handOperatedMasterSquirrel;
 			if (ms.getSpawmMini() > 0) {
-				XY pos = flattenedBoard.getNextFreeCell(ms.getPosition());
+				XY pos = ms.getSpawnMiniPos();
+				if (pos == null)
+					pos = flattenedBoard.getNextFreeCell(ms.getPosition());
 				board.spawnMini(pos, ms);
 			}
 		
