@@ -2,27 +2,64 @@ package de.hsa.games.fatsquirrel.core;
 
 import java.util.Random;
 
+
 public class XY {
-	
-	public final int x;
-	public final int y;
-	
-	public XY (int x, int y) {
-		this.x = x;
+    public final int x;
+    public final int y;
+
+
+
+    public static final XY ZERO_ZERO = new XY(0, 0);
+    public static final XY RIGHT = new XY(1, 0);
+    public static final XY LEFT = new XY(-1, 0);
+    public static final XY UP = new XY(0, -1);
+    public static final XY DOWN = new XY(0, 1);
+    public static final XY RIGHT_UP = new XY(1, -1);
+    public static final XY RIGHT_DOWN = new XY(1, 1);
+    public static final XY LEFT_UP = new XY(-1, -1);
+    public static final XY LEFT_DOWN = new XY(-1, 1);
+
+    public XY(int x, int y) {
+    	this.x = x;
 		this.y = y;
-	}
-	
-	public XY (XY position) {
-		this.x = position.x;
-		this.y = position.y;
-	}
-	
-	public XY move(XY vector) {
-		int x = this.x + vector.x;
-		int y = this.y + vector.y;
+    }
+
+    public XY plus(XY xy) {
+    	int x = xy.x + this.x;
+    	int y = xy.y + this.y;
+    	return new XY(x, y);
+    }
+
+    public XY minus(XY xy) {
+    	int x = xy.x - this.x;
+    	int y = xy.y - this.y;
+    	return new XY(x, y);
+    }
+
+    public XY times(int factor) {
+    	return new XY(this.x * factor, this.y * factor);
+    }
+
+    public double length() {
+    	return Math.sqrt(this.x * this.x + this.y *this.y);
+    }
+
+    /**
+     * 
+     * @param xy a second coordinate pair
+     * @return the euklidian distance (pythagoras)
+     */
+    public double distanceFrom(XY xy) {
+    	int xDist = xy.x - this.x;
+		int yDist = xy.y - this.y;
 		
-		return new XY(x, y);
-	}
+		return Math.sqrt(xDist * xDist + yDist * yDist);
+    }
+
+    public int hashCode() {
+    	return this.hashCode();
+    }
+
 	
 	@Override
 	public boolean equals(Object o) {
