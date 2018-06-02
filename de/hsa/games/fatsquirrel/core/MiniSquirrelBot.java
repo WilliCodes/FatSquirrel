@@ -17,10 +17,10 @@ public class MiniSquirrelBot extends MiniSquirrel {
 	}
 	
 	public void implode(EntitySet netitySet) {
-		
-		for(int i = getPosition().x; i < upper right; i++) {
-			
-		}
+		//TODO: suchen nach entitys und schaden übergeben
+//		for(int i = getPosition().x; i < upper right; i++) {
+//			
+//		}
 		
 		int distance;
 		int impactRadius = 5;
