@@ -1,0 +1,46 @@
+package de.hsa.games.fatsquirrel.core;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class BoardTest {
+
+	public Board testBoard;
+	
+	@Before
+	public void setUp() {
+		testBoard = new Board(new BoardConfig());
+	}
+	
+	@Test
+	public void flattenTest() {
+		Board testBoard2 = new Board(new BoardConfig());
+		Entity[][] flatTest = testBoard.flatten();
+		Entity[][] flatTest2 = testBoard2.flatten();
+		assertNotSame(flatTest, flatTest2);
+	}
+
+	@Test
+	public void randomPositionTest() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		ArrayList<XY> blockedXy = new ArrayList<XY>();
+		Method testMethod = testBoard.getClass().getDeclaredMethod("randomPosition", ArrayList.class);
+		testMethod.setAccessible(true);
+		XY xy = (XY) testMethod.invoke(testBoard, blockedXy);
+		XY xy2 =(XY) testMethod.invoke(testBoard, blockedXy);
+		assertNotSame(xy, xy2);
+	}
+	
+	@Test
+	public void getHandOperatedMasterSquirrelTest() {
+		assertNotNull(testBoard.getHandOperatedMasterSquirrel());
+	}
+	
+	
+}
