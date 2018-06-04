@@ -2,7 +2,7 @@ package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.Launcher;
 
-public class Beast extends Character{
+public abstract class Beast extends Character{
 	
 	protected static final int movePeriod = 4;
 
@@ -15,7 +15,6 @@ public class Beast extends Character{
 	protected XY beastMove(EntityContext context) {
 		
 		if (nextMove > 0) {
-			if (Launcher.printDebugInfo) {System.out.println(this.getClass().getSimpleName() + "(" + this.getId() + ") at " + this.getPosition() + " can move in " + nextMove + " steps"); }
 			nextMove--;
 			return null;
 		}
@@ -25,15 +24,17 @@ public class Beast extends Character{
 		PlayerEntity nearestPE = context.nearestPlayerEntity(this.getPosition());
 		
 		if (nearestPE == null) {
-			if (Launcher.printDebugInfo) {System.out.println(this.getClass().getSimpleName() + "(" + this.getId() + ") at " + this.getPosition() + " moves randomly"); }
 			return XY.randomVector();
 		}
 		
 		XY moveVector = XY.vectorToEntity(this, nearestPE);
 		
-		if (Launcher.printDebugInfo) {System.out.println(this.getClass().getSimpleName() + "(" + this.getId() + ") at " + this.getPosition() + " sees PlayerEntity in direction " + moveVector); }
 		return moveVector;
 	}
+
+
+	@Override
+	public abstract void nextStep(EntityContext context);
 	
 	
 

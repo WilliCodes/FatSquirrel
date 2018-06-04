@@ -7,7 +7,6 @@ import java.util.ListIterator;
 import java.util.logging.Logger;
 
 import de.hsa.games.fatsquirrel.botapi.BotController;
-import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
 
 
 
@@ -16,7 +15,6 @@ public class EntitySet {
 
 	private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	private List<Entity> activeEntities = Collections.synchronizedList(new LinkedList<Entity>());
-	// ConcurrentLinkedQueue
 	
 	private int idCounter = 0;
 	
@@ -49,13 +47,7 @@ public class EntitySet {
 		activeEntities.add(badPlant);
 		logger.finer(badPlant.toString() + " was placed");
 	}
-	
-	public synchronized void placeMasterSquirrel(XY position) {
-		MasterSquirrel masterSquirrel = new MasterSquirrel(idCounter++, position);
-		activeEntities.add(masterSquirrel);
-		logger.finer(masterSquirrel.toString() + " was placed");
-	}
-	
+
 	public synchronized MiniSquirrel placeMiniSquirrel(XY position, int masterID, int initialEnergy) {
 		MiniSquirrel miniSquirrel = new MiniSquirrel(idCounter++, initialEnergy,  position, masterID);
 		activeEntities.add(miniSquirrel);
@@ -78,7 +70,7 @@ public class EntitySet {
 		return miniBot;
 	}
 	
-	public synchronized void placMasterSquirrelBot(XY position, BotController botcon) {
+	public synchronized void placeMasterSquirrelBot(XY position, BotController botcon) {
 		MasterSquirrelBot masterBot = new MasterSquirrelBot(idCounter++, position, botcon);
 
 		activeEntities.add(masterBot);

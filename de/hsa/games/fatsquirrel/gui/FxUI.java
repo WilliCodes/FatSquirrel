@@ -3,9 +3,10 @@ package de.hsa.games.fatsquirrel.gui;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import de.hsa.games.fatsquirrel.Launcher;
+import de.hsa.games.fatsquirrel.Launcher.GameMode;
 import de.hsa.games.fatsquirrel.UI;
 import de.hsa.games.fatsquirrel.console.commands.Command;
-import de.hsa.games.fatsquirrel.console.commands.CommandTypeInfo;
 import de.hsa.games.fatsquirrel.console.commands.GameCommandType;
 import de.hsa.games.fatsquirrel.core.BoardView;
 import de.hsa.games.fatsquirrel.core.XY;
@@ -19,6 +20,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -30,7 +32,7 @@ public class FxUI extends Scene implements UI {
 	private Label msgLabel;
 	private static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
-	private static Command command = null;
+	private static Command command = new Command(GameCommandType.STAY, null);
 	
 	public FxUI(Parent parent, Canvas boardCanvas, Label msgLabel) {
         super(parent);
@@ -39,8 +41,7 @@ public class FxUI extends Scene implements UI {
         logger.fine("FxUI created");
     }
     
-    @SuppressWarnings("unchecked")
-	public static FxUI createInstance(XY boardSize) {
+    public static FxUI createInstance(XY boardSize) {
         Canvas boardCanvas = new Canvas(boardSize.x * CELL_SIZE, boardSize.y * CELL_SIZE);
         logger.fine("FxUI: canvas created");
         Label statusLabel = new Label();
@@ -55,30 +56,34 @@ public class FxUI extends Scene implements UI {
                 new EventHandler<KeyEvent>() {
                 	@Override
                    public void handle(KeyEvent keyEvent) {
-                     
-                      switch (keyEvent.getCode()) {
-                      	case W:
-                      		command = new Command(GameCommandType.UP, null);
-                      		break;
-                      	case A:
-                      		command = new Command(GameCommandType.LEFT, null);
-                      		break;
-                      	case S:
-                      		command = new Command(GameCommandType.DOWN, null);
-                      		break;
-                      	case D:
-                      		command = new Command(GameCommandType.RIGHT, null);
-                      		break;
-                      	case H:
-                      		command = null;
-                      		displayHelp();
-                      		break;
-                      	case SPACE:
-                      		command = null;
-                      		displaySpawnMiniDialog();
-                      		break;
-                      	default:
-                      		break;
+                      if (Launcher.gameMode == GameMode.SINGLE_PLAYER)
+	                      switch (keyEvent.getCode()) {
+	                      	case W:
+	                      		command = new Command(GameCommandType.UP, null);
+	                      		break;
+	                      	case A:
+	                      		command = new Command(GameCommandType.LEFT, null);
+	                      		break;
+	                      	case S:
+	                      		command = new Command(GameCommandType.DOWN, null);
+	                      		break;
+	                      	case D:
+	                      		command = new Command(GameCommandType.RIGHT, null);
+	                      		break;
+	                      	case H:
+	                      		command = null;
+	                      		displayHelp();
+	                      		break;
+	                      	case SPACE:
+	                      		command = null;
+	                      		displaySpawnMiniDialog();
+	                      		break;
+	                      	default:
+	                      		break;
+	                      }
+                      else if (Launcher.gameMode == GameMode.AI_GAME) {
+                    	  if (keyEvent.getCode() == KeyCode.ESCAPE) 
+                    		  System.exit(0);
                       }
                       keyEvent.consume();
                    }
@@ -125,37 +130,33 @@ public class FxUI extends Scene implements UI {
        for(int a = 0; a < viewSize.x; a++) {
     	   for(int b = 0; b < viewSize.y; b++) {
     		   switch(view.getEntityType(a, b)) {
-			case BadBeast:
+			case BAD_BEAST:
 				gc.setFill(Color.RED);
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
-			case BadPlant:
+			case BAD_PLANT:
 				gc.setFill(Color.RED);
 				gc.fillRect(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
-			case Empty:
+			case NONE:
 				break;
-			case GoodBeast:
+			case GOOD_BEAST:
 				gc.setFill(Color.GREEN);
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
-			case GoodPlant:
+			case GOOD_PLANT:
 				gc.setFill(Color.GREEN);
 				gc.fillRect(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
-			case HandOperatedMasterSquirrel:
-				gc.setFill(Color.BLUE);
-				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
-				break;
-			case MasterSquirrel:
+			case MASTER_SQUIRREL:
 				gc.setFill(Color.GREY);
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
-			case MiniSquirrel:
+			case MINI_SQUIRREL:
 				gc.setFill(Color.PURPLE);
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
-			case Wall:
+			case WALL:
 				gc.setFill(Color.YELLOW);
 				gc.fillRect(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;

@@ -2,6 +2,7 @@ package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
+import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 
 public class MiniSquirrelBot extends MiniSquirrel {
 
@@ -12,59 +13,110 @@ public class MiniSquirrelBot extends MiniSquirrel {
 		this.botcon = botcon;
 	}
 	
+	
+	
+	@Override
 	public void nextStep(EntityContext context) {
-		botcon.nextStep(new ControllerContextImpl(context));
+		botcon.nextStep(new ControllerContextImpl(context, this));
 	}
 	
-	public void implode(EntitySet netitySet) {
-		//TODO: suchen nach entitys und schaden übergeben
-//		for(int i = getPosition().x; i < upper right; i++) {
-//			
-//		}
-		
-		int distance;
-		int impactRadius = 5;
-		double impactArea = impactRadius * impactRadius * Math.PI;
-		double energyLoss = 200 * (getEnergy()/impactArea) * (1 - distance/impactRadius);
-	}
 	
 	public class ControllerContextImpl implements ControllerContext {
 		
-		private EntityContext context;
+		private final int sight = 21;
 		
-		public ControllerContextImpl(EntityContext context) {
+		private EntityContext context;
+		private MiniSquirrelBot miniSquirrelBot;
+		
+		public ControllerContextImpl(EntityContext context, MiniSquirrelBot miniSquirrelBot) {
 			this.context = context;
+			this.miniSquirrelBot = miniSquirrelBot;
 		}
 
 		@Override
 		public XY getViewLowerLeft() {
-			return new XY(getPosition().x - 10, getPosition().y - 10);
+			XY size = context.getSize();
+			
+			int x = getPosition().x - sight;
+			int y = getPosition().y + sight;
+			
+			x = x < 0 ? 0 : x;
+			y = y > size.y ? size.y : y;
+			
+			return new XY(x, y);
 		}
 
 		@Override
 		public XY getViewUpperRight() {
-			return new XY(getPosition().x - 10, getPosition().y - 10);
+			XY size = context.getSize();
+			
+			int x = getPosition().x + sight;
+			int y = getPosition().y - sight;
+			
+			x = x > size.x ? size.x : x;
+			y = y < 0 ? 0 : y;
+			
+			return new XY(x, y);
 		}
 
 		@Override
-		public EntityType getEntityAt(XY xy) {
+		public EntityType getEntityAt(XY xy) throws OutOfViewException {
+			XY pos = getPosition();
+			XY viewLL = getViewLowerLeft();
+			XY viewUR = getViewUpperRight();
+			
+			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
+				throw new OutOfViewException("The MasterSquirrel cannot see this cell!");
+			}
+				
 			return context.getEntityType(xy);
 		}
 
 		@Override
 		public void move(XY direction) {
-		
+			context.tryMove(miniSquirrelBot, direction);
 		}
 
 		@Override
 		public void spawnMiniBot(XY direction, int energy) {
-			
-			
 		}
 
 		@Override
 		public int getEnergy() {
-			return getEnergy();
+			return miniSquirrelBot.getEnergy();
+		}
+
+		@Override
+		public XY locate() {
+			return miniSquirrelBot.getPosition();
+		}
+
+		@Override
+		public boolean isMine(XY pos) throws OutOfViewException {
+			
+			XY viewLL = getViewLowerLeft();
+			XY viewUR = getViewUpperRight();
+			
+			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
+				throw new OutOfViewException("The MasterSquirrel cannot see this cell!");
+			}
+			return context.isMyMaster(pos, miniSquirrelBot.getId());
+		}
+
+		@Override
+		public void implode(int impactRadius) {
+			context.implodeMini(impactRadius, miniSquirrelBot);
+		}
+
+		@Override
+		public XY directionOfMaster() {
+			return context.directionOfMaster(miniSquirrelBot, sight);
+		}
+
+		@Override
+		public long getRemainingSteps() {
+			// TODO Auto-generated method stub
+			return 0;
 		}
 
 	}

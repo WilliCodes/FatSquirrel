@@ -7,7 +7,7 @@ import de.hsa.games.fatsquirrel.UI;
 import de.hsa.games.fatsquirrel.console.commands.Command;
 import de.hsa.games.fatsquirrel.console.commands.GameCommandType;
 import de.hsa.games.fatsquirrel.core.HandOperatedMasterSquirrel;
-import de.hsa.games.fatsquirrel.core.MoveCommand;
+import de.hsa.games.fatsquirrel.core.MasterSquirrel;
 import de.hsa.games.fatsquirrel.core.State;
 
 public class GameUi extends Game {
@@ -30,7 +30,7 @@ public class GameUi extends Game {
 	protected void processInput() {
 		
 		// get first and currently only Player
-		HandOperatedMasterSquirrel ms = state.getHandOperatedMasterSquirrels();
+		MasterSquirrel ms = state.getHandOperatedMasterSquirrels();
 		
 		try {
 			Command cmd = ui.getCommand();
@@ -39,7 +39,7 @@ public class GameUi extends Game {
 				paused = true;
 			} else {
 				paused = false;
-				cmd.commandTypeInfo.execute(ms, cmd.params);
+				cmd.commandTypeInfo.execute((MasterSquirrel) ms, cmd.params);
 			}
 			
 				

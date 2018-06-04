@@ -1,7 +1,10 @@
 package de.hsa.games.fatsquirrel.core;
 
+import de.hsa.games.fatsquirrel.Launcher.GameMode;
+
 public class BoardConfig {
 	
+	public final GameMode gameMode = GameMode.AI_GAME;
 	public final int width = 30;
 	public final int height = 20;
 	
@@ -10,8 +13,7 @@ public class BoardConfig {
 	public final int startGoodPlants = 3;
 	public final int startBadPlants = 3;
 	public final int startWalls = 10;
-	public final int startMasterSquirrels = 0;
-	public final int startHandOperatedMasterSquirrels = 1;
+	public final int startMasterSquirrels = 2;
 	public final boolean surroundWithWalls = true;
 	
 	

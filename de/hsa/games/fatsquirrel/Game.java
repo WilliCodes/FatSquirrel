@@ -2,6 +2,7 @@ package de.hsa.games.fatsquirrel;
 
 import java.util.logging.Logger;
 
+import de.hsa.games.fatsquirrel.Launcher.GameMode;
 import de.hsa.games.fatsquirrel.core.State;
 
 public abstract class Game {
@@ -11,7 +12,8 @@ public abstract class Game {
 	protected State state;
 	protected UI ui;
 	public final int FPS = 5;
-	public boolean paused = true;
+	public boolean paused = false;
+
 	
 	public Game(State state) {
 		this.state = state;
@@ -31,7 +33,9 @@ public abstract class Game {
 		logger.info("gameloop started");
 	    while (true) {
 	        render();
-	        processInput();
+	        
+	        if (Launcher.gameMode != GameMode.AI_GAME)
+	        	processInput();
 	        
 	        if(!paused) {
 	        	update();

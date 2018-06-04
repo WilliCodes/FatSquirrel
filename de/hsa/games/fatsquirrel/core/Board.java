@@ -3,13 +3,19 @@ package de.hsa.games.fatsquirrel.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hsa.games.fatsquirrel.Launcher.GameMode;
+import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
+import de.hsa.games.fatsquirrel.botapi.BotControllerFactoryImpl;
 import de.hsa.games.fatsquirrel.core.EntityType;
+
 
 public class Board {
 	
 	private EntitySet entitySet = new EntitySet();
 	private int width;
 	private int height;
+	
+	BotControllerFactory botCF;
 	
 	public Board(BoardConfig bC) {
 		
@@ -79,18 +85,18 @@ public class Board {
 		}
 		
 		// load random MasterSquirrels
+		if (bC.gameMode == GameMode.AI_GAME) {
+			botCF = new BotControllerFactoryImpl();
+		}
 		for (int i = 0; i < bC.startMasterSquirrels; i++) {
 			tmpXY = randomPosition(blockedXY);
-			entitySet.placeMasterSquirrel(tmpXY);
+			if (bC.gameMode == GameMode.AI_GAME)
+				entitySet.placeMasterSquirrelBot(tmpXY, botCF.createMasterBotController());
+			else
+				entitySet.placeHandOperatedMasterSquirrel(tmpXY);
 			blockedXY.add(tmpXY);
 		}
 		
-		// load random HandOperatedMasterSquirrels
-		for (int i = 0; i < bC.startHandOperatedMasterSquirrels; i++) {
-			tmpXY = randomPosition(blockedXY);
-			entitySet.placeHandOperatedMasterSquirrel(tmpXY);
-			blockedXY.add(tmpXY);
-		}
 		
 	}
 	
@@ -118,8 +124,6 @@ public class Board {
 		
 		for (Entity e : entities) {
 			XY pos = e.getPosition();
-			//System.out.println(pos.toString());
-			//System.out.print(pos.x + " " + pos.y + " " + e.toString());
 			flatBoard[pos.x][pos.y] = e;
 		}	
 		
@@ -127,12 +131,12 @@ public class Board {
 	}
 	
 	
-	public HandOperatedMasterSquirrel getHandOperatedMasterSquirrel() {
+	public MasterSquirrel getHandOperatedMasterSquirrel() {
 		
 		
 		for (Entity e : entitySet.getEntities()) {
-			if (e instanceof HandOperatedMasterSquirrel) {
-				return (HandOperatedMasterSquirrel) e;
+			if (e instanceof MasterSquirrel) {
+				return (MasterSquirrel) e;
 			}
 		}
 		
@@ -152,16 +156,16 @@ public class Board {
 			blockedXY.add(pos);
 			
 			switch (e) {
-			case GoodBeast:
+			case GOOD_BEAST:
 				entitySet.placeGoodBeast(pos);
 				break;
-			case BadBeast:
+			case BAD_BEAST:
 				entitySet.placeBadBeast(pos);
 				break;
-			case GoodPlant:
+			case GOOD_PLANT:
 				entitySet.placeGoodPlant(pos);
 				break;
-			case BadPlant:
+			case BAD_PLANT:
 				entitySet.placeBadPlant(pos);
 				break;
 			default:
@@ -179,9 +183,20 @@ public class Board {
 	}
 
 
-	public void spawnMini(XY pos, HandOperatedMasterSquirrel ms) {
+	public void spawnMini(XY pos, MasterSquirrel ms) {
 		entitySet.placeMiniSquirrel(pos, ms.getId(), ms.getSpawmMini());
-		ms.setSpawnMini(0);
+		ms.setSpawnMini(0, null);
+	}
+
+	public List<MasterSquirrel> getMasterSquirrels() {
+		List<MasterSquirrel> masterSquirrels = new ArrayList<>();
+		
+		for (Entity e : entitySet.getEntities()) {
+			if (e instanceof HandOperatedMasterSquirrel || e instanceof MasterSquirrelBot)
+				masterSquirrels.add((MasterSquirrel) e); 
+		}
+		
+		return masterSquirrels;
 	}
 	
 	

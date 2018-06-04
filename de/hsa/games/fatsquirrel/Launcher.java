@@ -3,7 +3,6 @@ package de.hsa.games.fatsquirrel;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.hsa.games.fatsquirrel.console.GameImpl;
@@ -19,26 +18,32 @@ import javafx.stage.WindowEvent;
 public class Launcher extends Application {
 	
 	private static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	public static boolean printDebugInfo = false;
 	private static BoardConfig boardConfig = new BoardConfig();
 	private static Board board;
 	private static State state;
 	
+	public enum GameMode {
+		SINGLE_PLAYER, MULTI_PLAYER, AI_GAME;
+	}
+	public static final GameMode gameMode = boardConfig.gameMode;
+
+	
 	public static void main(String[] args) throws Exception {
+		
 		MyLogger.setup();
 		board = new Board(boardConfig);
 		state = new State(board);
+    
 		boolean gui = true;
 		
-		
-		if(!gui) {
+		if (!gui) {
 			logger.info("consolemode started");
 			GameImpl game = new GameImpl(state);
 			InputReader inputReader = new InputReader(game.getUi());
 			inputReader.start();
-			startGame(game);
-		}else {
-		Application.launch(args);
+			game.run();
+		} else {
+			Application.launch(args);
 		}
 	}
 
@@ -48,10 +53,10 @@ public class Launcher extends Application {
 		logger.info("guimode started");
 		FxUI fxUI = FxUI.createInstance(boardConfig.getSize());
         final Game game = new GameUi(state, fxUI);
-       
          
         primaryStage.setScene(fxUI);
         primaryStage.setTitle("Overweight Squirrel");
+        
         fxUI.getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent evt) {
@@ -61,7 +66,6 @@ public class Launcher extends Application {
         primaryStage.show();   
         
         startGame(game);    
-		
 	}
 
 
@@ -73,12 +77,9 @@ public class Launcher extends Application {
 			@Override
 			public void run() {
 				logger.info("game started");
-				game.run();
-				
+				game.run();	
 			}
 			
 		}, 3000);
-		
 	}
-
 }

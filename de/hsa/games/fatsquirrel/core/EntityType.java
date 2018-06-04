@@ -3,39 +3,36 @@ package de.hsa.games.fatsquirrel.core;
 
 
 public enum EntityType {
-	Wall, BadBeast, GoodBeast, BadPlant, GoodPlant, MiniSquirrel, MasterSquirrel, HandOperatedMasterSquirrel, MasterSquirrelBot, MiniSquirrelBot, Empty;
+	WALL, BAD_BEAST, GOOD_BEAST, BAD_PLANT, GOOD_PLANT, MINI_SQUIRREL, MASTER_SQUIRREL, NONE;
 
 	
      public static EntityType getEntityType(Entity e) {
 		
 		if (e == null || !e.isActive())
-			return EntityType.Empty;
+			return EntityType.NONE;
 		
 		String name = e.getClass().getSimpleName();
 		
 		switch (name) {
 		case "BadBeast":
-			return EntityType.BadBeast;
+			return EntityType.BAD_BEAST;
 		case "GoodBeast":
-			return EntityType.GoodBeast;
+			return EntityType.GOOD_BEAST;
 		case "BadPlant":
-			return EntityType.BadPlant;
+			return EntityType.BAD_PLANT;
 		case "GoodPlant":
-			return EntityType.GoodPlant;
+			return EntityType.GOOD_PLANT;
 		case "Wall":
-			return EntityType.Wall;
+			return EntityType.WALL;
 		case "MasterSquirrel":
-			return EntityType.MasterSquirrel;
 		case "HandOperatedMasterSquirrel":
-			return EntityType.HandOperatedMasterSquirrel;
-		case "MiniSquirrel":
-			return EntityType.MiniSquirrel;
 		case "MasterSquirrelBot":
-			return EntityType.MasterSquirrelBot;
+			return EntityType.MASTER_SQUIRREL;
+		case "MiniSquirrel":
 		case "MiniSquirrelBot":
-			return EntityType.MiniSquirrelBot;
+			return EntityType.MINI_SQUIRREL;
 		default:
-			return null;
+			return EntityType.NONE;
 		}
 	}
 }

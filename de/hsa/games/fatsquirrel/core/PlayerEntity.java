@@ -4,7 +4,7 @@ public abstract class PlayerEntity extends Character {
 	
 	private final static int paralyzedDuration = 3;
 	
-	protected MoveCommand nextMoveCommand;
+	protected XY nextMoveCommand;
 
 	public PlayerEntity(int id, int energy, XY position) {
 		super(id, energy, position);
@@ -18,7 +18,7 @@ public abstract class PlayerEntity extends Character {
 		nextMove = paralyzedDuration;
 	}
 	
-	public void setNextCommand(MoveCommand mc) {
+	public void setNextCommand(XY mc) {
 		nextMoveCommand = mc;
 	}
 }

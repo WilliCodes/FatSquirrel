@@ -1,6 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hsa.games.fatsquirrel.core.Board;
 
@@ -9,24 +10,19 @@ public class State {
 	private int highscore = 9001; // TODO: replace Dummy
 	private Board board;
 	private FlattenedBoard flattenedBoard;
-	private HandOperatedMasterSquirrel handOperatedMasterSquirrel;
+	
 	
 	public State(Board board) {
 		this.board = board;
 		flattenedBoard = new FlattenedBoard(board);
-		handOperatedMasterSquirrel = (board.getHandOperatedMasterSquirrel());
 	}
 	
 	public void update() {
 		
 		board.updateCharacters((EntityContext) flattenedBoard); 
 		board.respawn(flattenedBoard.getRespawnList());
+		flattenedBoard.spawnMinis();
 		
-		HandOperatedMasterSquirrel ms = handOperatedMasterSquirrel;
-			if (ms.getSpawmMini() > 0) {
-				XY pos = flattenedBoard.getNextFreeCell(ms.getPosition());
-				board.spawnMini(pos, ms);
-			}
 		
 		flattenedBoard.update();
 	}
@@ -36,8 +32,9 @@ public class State {
 	}
 	
 	
-	public HandOperatedMasterSquirrel getHandOperatedMasterSquirrels() {
-		return handOperatedMasterSquirrel;
+	/* Wird nur aufgerufen im SinglePlayer-Modus */
+	public MasterSquirrel getHandOperatedMasterSquirrels() {
+		return flattenedBoard.getHandOperatedMasterSquirrel();
 	}
 	
 
