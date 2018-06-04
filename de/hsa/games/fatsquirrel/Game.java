@@ -13,6 +13,7 @@ public abstract class Game {
 	protected UI ui;
 	public final int FPS = 5;
 	public boolean paused = false;
+
 	
 	public Game(State state) {
 		this.state = state;

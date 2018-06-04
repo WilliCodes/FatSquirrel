@@ -57,34 +57,51 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		switch (eT) {
 		case NONE:
 			move(masterSquirrel, from, to);
+			logger.finest(masterSquirrel.toString() + " moved from " + from + " to " + to);
 			break;
 		case BAD_BEAST:
 			masterSquirrel.updateEnergy(target.getEnergy());
+			logger.finer(masterSquirrel.toString() + " got bitten by " + target.toString() + " and lost Energy: " + target.getEnergy());
 			if (((BadBeast) target).nextBite()) {
 				killAndReplace(target);
+				logger.finer(target.toString() + " was deleted after nextBite() = " + ((BadBeast)target).nextBite());
 				move(masterSquirrel, from, to);
+				logger.finest(masterSquirrel.toString() + " moved from " + from + " to " + to);
 			}
 			break;
 		case BAD_PLANT:
 		case GOOD_BEAST:
 		case GOOD_PLANT:
 			masterSquirrel.updateEnergy(target.getEnergy());
+			logger.finer(masterSquirrel.toString() + " ate " + target.toString() + " and changed energy of: " + target.getEnergy());
 			killAndReplace(target);
+			logger.finer(target.toString() + " was deleted after " + masterSquirrel.toString() + " ate it");
 			move(masterSquirrel, from, to);
+			logger.finest(masterSquirrel.toString() + " moved from " + from + " to " + to);
 			break;
+
 		case MASTER_SQUIRREL:
+      logger.finer(masterSquirrel.toString() + " can't move because " + target.toString() + " is in the way");
 			break;
 		case MINI_SQUIRREL:
 			if (masterSquirrel.isMyMini((MiniSquirrel) target))
 				masterSquirrel.updateEnergy(target.getEnergy());
-			else 
+				logger.finer(masterSquirrel.toString() + " consumed its own Mini: " + target.toString());
+			}
+			else {
 				masterSquirrel.updateEnergy(150);
+				logger.finer(masterSquirrel.toString() + " consumed enemy Mini: " + target.toString() + ", and gained 150 Energy");
+			}
 			kill(target);
+			logger.finer(target.toString() + " was eaten by " + masterSquirrel.toString());
 			move(masterSquirrel, from, to);
+			logger.finest(masterSquirrel.toString() + " moved from " + from + " to " + to);
 			break;
 		case WALL:
 			masterSquirrel.updateEnergy(target.getEnergy());
+			logger.finer(masterSquirrel.toString() + " collided with " + target.toString() + " and lost Energy of: " + target.getEnergy());
 			masterSquirrel.setParalyzed();
+			logger.finer(masterSquirrel.toString() + " is paralyzed");
 			break;
 		default:
 			break;
@@ -103,38 +120,52 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		switch (eT) {
 		case NONE:
 			move(miniSquirrel, from, to);
+			logger.finest(miniSquirrel.toString() + " moved from " + from + " to " + to);
 			break;
 		case BAD_BEAST:
 			miniSquirrel.updateEnergy(target.getEnergy());
+			logger.finer(miniSquirrel.toString() + " was bitten by " + target.toString() + " and lost Energy: " + target.getEnergy());
 			if (((BadBeast) target).nextBite()) {
 				killAndReplace(target);
+				logger.finer(target.toString() + " was deleted after nextBite() = " + ((BadBeast)target).nextBite());
 				move(miniSquirrel, from, to);
+				logger.finest(miniSquirrel.toString() + " moved from " + from + " to " + to);
 			}
 			break;
 		case BAD_PLANT:
 		case GOOD_BEAST:
 		case GOOD_PLANT:
 			miniSquirrel.updateEnergy(target.getEnergy());
+			logger.finer(miniSquirrel.toString() + " ate " + target.toString() + " and changed energy of: " + target.getEnergy());
 			killAndReplace(target);
+			logger.finer(target.toString() + " was deleted after " + miniSquirrel.toString() + " ate it");
 			move(miniSquirrel, from, to);
+			logger.finest(miniSquirrel.toString() + " moved from " + from + " to " + to);
 			break;
 		case MASTER_SQUIRREL:
 			if (miniSquirrel.getMasterID() == target.getId()) {
 				target.updateEnergy(miniSquirrel.getEnergy());
+				logger.finer(miniSquirrel.toString() + " was consumed by his Master " + target.toString() + " who gained energy: " + miniSquirrel.getEnergy());
 			} else {
 				target.updateEnergy(150);
+				logger.finer(miniSquirrel.toString() + " was consumed by an other Master " + target.toString() + " who gained energy: 150");
 			}
 			kill(miniSquirrel);
+			logger.finer(miniSquirrel.toString() + " was delted after " + target.toString() + " consumed it");
 			break;
 		case MINI_SQUIRREL:
 			if (miniSquirrel.getMasterID() != ((MiniSquirrel) target).getMasterID()) {
 				kill(miniSquirrel);
+				logger.finer(miniSquirrel.toString() + " was deleted after the colission with " + target.toString());
 				kill(target);
+				logger.finer(target.toString() + " was deleted after the colission with " + miniSquirrel.toString());
 			}
 			break;
 		case WALL:
 			miniSquirrel.updateEnergy(target.getEnergy());
+			logger.finer(miniSquirrel.toString() + " collided with " + target.toString() + " and lost Energy of: " + target.getEnergy());
 			miniSquirrel.setParalyzed();
+			logger.finer(miniSquirrel.toString() + " is paralyzed");
 			break;
 		default:
 			break;
@@ -153,17 +184,21 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		switch (getEntityType(to)) {
 		case NONE:
 			move(goodBeast, from, to);
+			logger.finest(goodBeast.toString() + " moved from " + from + " to " + to);
 			break;
 		case BAD_BEAST:
 		case BAD_PLANT:
 		case GOOD_BEAST:
 		case GOOD_PLANT:
 		case WALL:
+			logger.finer(goodBeast.toString() + "couldn´t move because " + target.toString() + " was in the way");
 			break;
 		case MASTER_SQUIRREL:
 		case MINI_SQUIRREL:
 			target.updateEnergy(goodBeast.getEnergy());
+			logger.finer(goodBeast.toString() + " was eaten by " + target.toString() + " who gained energy: " + goodBeast.getEnergy());
 			killAndReplace(goodBeast);
+			logger.finer(goodBeast.toString() + " was deleted after " + target.toString() + "ate it");
 			break;
 		}
 	}
@@ -178,18 +213,22 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		switch (getEntityType(to)) {
 		case NONE:
 			move(badBeast, from, to);
+			logger.finest(badBeast.toString() + " moved from " + from + " to " + to);
 			break;
 		case BAD_BEAST:
 		case BAD_PLANT:
 		case GOOD_BEAST:
 		case GOOD_PLANT:
 		case WALL:
+			logger.finer(badBeast.toString() + " couldn´t move because " + target.toString() + " was in the way");
 			break;
 		case MASTER_SQUIRREL:
 		case MINI_SQUIRREL:
 			target.updateEnergy(badBeast.getEnergy());
+			logger.finer(badBeast.toString() + " was eaten by " + target.toString() + " who lost energy: " + badBeast.getEnergy());
 			if (badBeast.nextBite()) {
 				killAndReplace(badBeast);
+				logger.finer(badBeast.toString() + " was deleted after nextBite() = " + badBeast.nextBite());
 			}
 		}
 		

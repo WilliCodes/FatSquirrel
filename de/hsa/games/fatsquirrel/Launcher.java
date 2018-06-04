@@ -26,13 +26,14 @@ public class Launcher extends Application {
 		SINGLE_PLAYER, MULTI_PLAYER, AI_GAME;
 	}
 	public static final GameMode gameMode = boardConfig.gameMode;
+
 	
 	public static void main(String[] args) throws Exception {
 		
 		MyLogger.setup();
 		board = new Board(boardConfig);
 		state = new State(board);
-		
+    
 		boolean gui = true;
 		
 		if (!gui) {

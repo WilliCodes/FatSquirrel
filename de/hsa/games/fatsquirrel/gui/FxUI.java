@@ -101,10 +101,10 @@ public class FxUI extends Scene implements UI {
                   			command = new Command(GameCommandType.SPAWN_MINI, new Object[] {energy});
                   			logger.info("MiniSquirrel spawned with " + energy);
                   		}
+                  		logger.info("closed spawnMiniDialog");
 					}
                 }
           );
-        logger.info("closed spawnMiniDialog");
         return fxUI;
     }
 
