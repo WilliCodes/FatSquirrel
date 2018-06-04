@@ -8,10 +8,6 @@ import de.hsa.games.fatsquirrel.core.MoveCommand;
 //				this should be the invoke class for
 public class Commands {
 
-	public void Master_Energy(MasterSquirrel ms) {
-		System.out.println("Master's Energy: " + ms.getEnergy());
-		ms.setNextCommand(new MoveCommand(5));
-	}
 	
 	public void SPAWN_MINI(HandOperatedMasterSquirrel ms, Object[] params) {
 		if (ms.setSpawnMini((int) params[0]))

@@ -14,17 +14,6 @@ public class MiniSquirrelBot extends MiniSquirrel {
 	}
 	
 	
-	public void implode(EntitySet netitySet) {
-		//TODO: suchen nach entitys und schaden übergeben
-//		for(int i = getPosition().x; i < upper right; i++) {
-//			
-//		}
-		
-		int distance;
-		int impactRadius = 5;
-		double impactArea = impactRadius * impactRadius * Math.PI;
-		//double energyLoss = 200 * (getEnergy()/impactArea) * (1 - distance/impactRadius);
-	}
 	
 	@Override
 	public void nextStep(EntityContext context) {
@@ -94,6 +83,33 @@ public class MiniSquirrelBot extends MiniSquirrel {
 		@Override
 		public int getEnergy() {
 			return getEnergy();
+		}
+
+		@Override
+		public XY locate() {
+			return miniSquirrelBot.getPosition();
+		}
+
+		@Override
+		public boolean isMine(XY xy) {
+			return context.isMyMaster(xy, miniSquirrelBot.getId());
+		}
+
+		@Override
+		public void implode(int impactRadius) {
+			context.implodeMini(impactRadius, miniSquirrelBot);
+		}
+
+		@Override
+		public XY directionOfMaster() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public long getRemainingSteps() {
+			// TODO Auto-generated method stub
+			return 0;
 		}
 
 	}

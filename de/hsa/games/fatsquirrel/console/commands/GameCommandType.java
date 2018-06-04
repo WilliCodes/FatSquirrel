@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import de.hsa.games.fatsquirrel.core.HandOperatedMasterSquirrel;
 import de.hsa.games.fatsquirrel.core.MasterSquirrel;
 import de.hsa.games.fatsquirrel.core.MoveCommand;
+import de.hsa.games.fatsquirrel.core.XY;
 
 public enum GameCommandType implements CommandTypeInfo{
 	
@@ -71,26 +72,26 @@ public enum GameCommandType implements CommandTypeInfo{
 		case ALL:
 			break;
 		case DOWN:
-			ms.setNextCommand(new MoveCommand(2));
+			ms.setNextCommand(XY.DOWN);
 			break;
 		case LEFT:
-			ms.setNextCommand(new MoveCommand(4));
+			ms.setNextCommand(XY.LEFT);
 			break;
 		case MASTER_ENERGY:
 			System.out.println("Master's Energy: " + ms.getEnergy());
-			ms.setNextCommand(new MoveCommand(5));
+			ms.setNextCommand(XY.ZERO_ZERO);
 			break;
 		case RIGHT:
-			ms.setNextCommand(new MoveCommand(6));
+			ms.setNextCommand(XY.RIGHT);
 			break;
 		case SPAWN_MINI:
 			if (ms.setSpawnMini((int) params[0]))
 				break;
 			throw new notEnoughEnergyException("Shared Enregy is higher than available Energy");
 		case UP:
-			ms.setNextCommand(new MoveCommand(8));
+			ms.setNextCommand(XY.UP);
 			break;
-		case HELP: ms.setNextCommand(new MoveCommand(5));
+		case HELP: ms.setNextCommand(XY.ZERO_ZERO);
 			break;
 		case EXIT:
 			System.exit(0);

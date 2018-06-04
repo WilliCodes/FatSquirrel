@@ -3,7 +3,7 @@ package de.hsa.games.fatsquirrel.core;
 
 
 public enum EntityType {
-	Wall, BadBeast, GoodBeast, BadPlant, GoodPlant, MiniSquirrel, MasterSquirrel, HandOperatedMasterSquirrel, MasterSquirrelBot, MiniSquirrelBot, Empty;
+	Wall, BadBeast, GoodBeast, BadPlant, GoodPlant, MiniSquirrel, MasterSquirrel, HandOperatedMasterSquirrel, MasterSquirrelBot, MiniSquirrelBot, Empty, NONE;
 
 	
      public static EntityType getEntityType(Entity e) {

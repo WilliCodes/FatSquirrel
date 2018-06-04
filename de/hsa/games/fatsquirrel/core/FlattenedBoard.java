@@ -289,5 +289,101 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		return board.getHandOperatedMasterSquirrel().getEnergy();
 	}
 
+	@Override
+	public boolean isMyMaster(XY pos, int id) {
+		if (getEntityType(pos) != EntityType.MasterSquirrel)
+			return false;
+		
+		if (((MasterSquirrel) cells[pos.x][pos.y]).getId() == id)
+			return true;
+		
+		return false;
+	}
+
+	@Override
+	public boolean isMyMini(XY pos, int id) {
+		if (getEntityType(pos) != EntityType.MiniSquirrel)
+			return false;
+		
+		if (((MiniSquirrel) cells[pos.x][pos.y]).getMasterID() == id)
+			return true;
+		
+		return false;
+	}
+
+	@Override
+	public void implodeMini(int impactRadius, MiniSquirrel miniSquirrel) {
+		XY pos = miniSquirrel.getPosition();
+		
+		int impactArea = (int) (impactRadius * impactRadius * Math.PI);
+		
+		for (int x = pos.x - impactRadius; x <= pos.x + impactRadius; x++ ) {
+			if (x < 0 || x > getSize().x) 
+				continue;
+			for (int y = pos.y - impactRadius; y <= pos.y + impactRadius; y++ ) {
+				if (y < 0 || y > getSize().y) 
+					continue;
+				
+				XY targetPos = new XY(x,y);
+				EntityType entityType = getEntityType(targetPos);
+				
+				if (entityType == EntityType.NONE || entityType == EntityType.Wall)
+					continue;
+				
+				Entity target = cells[x][y];
+				int energyLoss = 200 * (miniSquirrel.getEnergy() / impactArea) * (1 - XY.distanceToEntity(pos, targetPos) / impactRadius);
+				
+				switch (entityType) {
+				case BadBeast:
+				case BadPlant:
+					if (energyLoss >= -target.getEnergy()) {
+						miniSquirrel.updateEnergy(-target.getEnergy());
+						killAndReplace(target);
+					} else {
+						miniSquirrel.updateEnergy(energyLoss);
+						target.updateEnergy(energyLoss);
+					}
+					break;
+				case GoodBeast:
+				case GoodPlant:
+					if (energyLoss >= target.getEnergy()) {
+						miniSquirrel.updateEnergy(target.getEnergy());
+						killAndReplace(target);
+					} else {
+						miniSquirrel.updateEnergy(energyLoss);
+						target.updateEnergy(-energyLoss);
+					}
+					break;
+				case MasterSquirrel:
+					if (isMyMaster(targetPos, miniSquirrel.getId()))
+						break;
+					if (energyLoss >= target.getEnergy()) {
+						miniSquirrel.updateEnergy(target.getEnergy());
+					} else {
+						miniSquirrel.updateEnergy(energyLoss);
+						target.updateEnergy(-energyLoss);
+					}
+					break;
+				case MiniSquirrel:
+					if (isMyMini(targetPos, miniSquirrel.getMasterID()))
+						break;
+					if (energyLoss >= target.getEnergy()) {
+						miniSquirrel.updateEnergy(target.getEnergy());
+					} else {
+						miniSquirrel.updateEnergy(energyLoss);
+						target.updateEnergy(-energyLoss);
+					}
+					break;
+				default:
+					break;
+				}
+				
+				
+			}
+		}
+		
+		
+	}
+
 
 }

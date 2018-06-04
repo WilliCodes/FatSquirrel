@@ -10,6 +10,11 @@ public interface EntityContext {
 	public void tryMove(GoodBeast goodBeast, XY moveDirection);
 	public void tryMove(BadBeast badBeast, XY moveDirection);
 	
+	public boolean isMyMaster(XY pos, int id);
+	public boolean isMyMini(XY pos, int id);
+	
+	public void implodeMini(int impactRadius, MiniSquirrel miniSquirrelBot);
+	
 	public PlayerEntity nearestPlayerEntity(XY pos);
 	
 	public void kill(Entity entity);
