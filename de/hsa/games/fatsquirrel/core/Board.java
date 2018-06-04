@@ -185,9 +185,20 @@ public class Board {
 	}
 
 
-	public void spawnMini(XY pos, HandOperatedMasterSquirrel ms) {
+	public void spawnMini(XY pos, MasterSquirrel ms) {
 		entitySet.placeMiniSquirrel(pos, ms.getId(), ms.getSpawmMini());
 		ms.setSpawnMini(0, null);
+	}
+
+	public List<MasterSquirrel> getMasterSquirrels() {
+		List<MasterSquirrel> masterSquirrels = new ArrayList<>();
+		
+		for (Entity e : entitySet.getEntities()) {
+			if (e instanceof HandOperatedMasterSquirrel || e instanceof MasterSquirrelBot)
+				masterSquirrels.add((MasterSquirrel) e); 
+		}
+		
+		return masterSquirrels;
 	}
 	
 	
