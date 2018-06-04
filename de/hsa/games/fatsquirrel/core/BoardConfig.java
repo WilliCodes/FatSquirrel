@@ -13,7 +13,7 @@ public class BoardConfig {
 	public final int startGoodPlants = 3;
 	public final int startBadPlants = 3;
 	public final int startWalls = 10;
-	public final int startMasterSquirrels = 1;
+	public final int startMasterSquirrels = 2;
 	public final boolean surroundWithWalls = true;
 	
 	

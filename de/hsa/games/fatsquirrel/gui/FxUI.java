@@ -56,7 +56,6 @@ public class FxUI extends Scene implements UI {
                 new EventHandler<KeyEvent>() {
                 	@Override
                    public void handle(KeyEvent keyEvent) {
-                      System.out.println("Es wurde folgende Taste gedrückt: " + keyEvent.getCode() + " bitte behandeln!");
                       if (Launcher.gameMode == GameMode.SINGLE_PLAYER)
 	                      switch (keyEvent.getCode()) {
 	                      	case W:

@@ -12,11 +12,13 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	private Entity[][] cells;
 	private ArrayList<EntityType> toRespawn = new ArrayList<>();
 	private Board board;
+	private List<MasterSquirrel> masterSquirrels = new ArrayList<>();
 	private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
 	public FlattenedBoard(Board board) {
 		this.board = board;
 		cells = this.board.flatten();
+		masterSquirrels = (board.getMasterSquirrels());
 		logger.fine("FlattenBoard created");
 	}
 	
@@ -291,7 +293,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	@Override
 	public int getMasterSquirrelEnergy() {
-		return 0;//board.getHandOperatedMasterSquirrel().getEnergy();
+		return masterSquirrels.get(0).getEnergy();
 	}
 
 	@Override
@@ -406,6 +408,21 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			
 		}
 		return null;
+	}
+
+	public void spawnMinis() {
+		for (MasterSquirrel ms : masterSquirrels)
+			if (ms.getSpawmMini() > 0) {
+				XY pos = ms.getSpawnMiniPos();
+				if (pos == null)
+					pos = getRandomFreeNeighbourCellDirection(ms.getPosition());
+				board.spawnMini(pos.plus(ms.getPosition()), ms);
+			}
+		
+	}
+
+	public MasterSquirrel getHandOperatedMasterSquirrel() {
+		return masterSquirrels.get(0);
 	}
 
 

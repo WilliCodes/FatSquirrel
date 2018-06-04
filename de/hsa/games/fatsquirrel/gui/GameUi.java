@@ -42,7 +42,6 @@ public class GameUi extends Game {
 				cmd.commandTypeInfo.execute((MasterSquirrel) ms, cmd.params);
 			}
 			
-			System.out.println(cmd == null? "null" : cmd.commandTypeInfo.toString() + " " + paused);
 				
 
 		} catch (Exception ex) {

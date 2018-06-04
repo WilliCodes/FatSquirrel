@@ -19,7 +19,6 @@ public class EntitySet {
 	public synchronized void placeWall(XY position) {
 		Wall wall = new Wall(idCounter++, position);
 		activeEntities.add(wall);
-		System.out.println("TEST");
 	}
 	
 	public synchronized void placeGoodBeast(XY position) {

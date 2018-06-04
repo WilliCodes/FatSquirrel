@@ -10,26 +10,19 @@ public class State {
 	private int highscore = 9001; // TODO: replace Dummy
 	private Board board;
 	private FlattenedBoard flattenedBoard;
-	private List<MasterSquirrel> masterSquirrels = new ArrayList<>();
+	
 	
 	public State(Board board) {
 		this.board = board;
 		flattenedBoard = new FlattenedBoard(board);
-		masterSquirrels = (board.getMasterSquirrels());
 	}
 	
 	public void update() {
 		
 		board.updateCharacters((EntityContext) flattenedBoard); 
 		board.respawn(flattenedBoard.getRespawnList());
+		flattenedBoard.spawnMinis();
 		
-		for (MasterSquirrel ms : masterSquirrels)
-			if (ms.getSpawmMini() > 0) {
-				XY pos = ms.getSpawnMiniPos();
-				if (pos == null)
-					pos = flattenedBoard.getRandomFreeNeighbourCellDirection(ms.getPosition());
-				board.spawnMini(pos.plus(ms.getPosition()), ms);
-			}
 		
 		flattenedBoard.update();
 	}
@@ -39,10 +32,9 @@ public class State {
 	}
 	
 	
-	/* Wird nur aufgerufen im SinglePlayerModus */
+	/* Wird nur aufgerufen im SinglePlayer-Modus */
 	public MasterSquirrel getHandOperatedMasterSquirrels() {
-		
-		return masterSquirrels.get(0);
+		return flattenedBoard.getHandOperatedMasterSquirrel();
 	}
 	
 

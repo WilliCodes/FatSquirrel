@@ -25,7 +25,6 @@ public class XY {
     }
 
     public XY plus(XY xy) {
-    	System.out.println(xy.toString() + " " + this.toString());
     	int x = xy.x + this.x;
     	int y = xy.y + this.y;
     	return new XY(x, y);

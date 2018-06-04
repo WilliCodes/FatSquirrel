@@ -7,7 +7,6 @@ public class BotControllerMasterImpl implements BotController{
 	@Override
 	public void nextStep(ControllerContext view) {
 		view.move(XY.DOWN);
-		System.out.println("view.locate()");
 		
 	}
 

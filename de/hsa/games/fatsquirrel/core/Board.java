@@ -124,8 +124,6 @@ public class Board {
 		
 		for (Entity e : entities) {
 			XY pos = e.getPosition();
-			//System.out.println(pos.toString());
-			//System.out.print(pos.x + " " + pos.y + " " + e.toString());
 			flatBoard[pos.x][pos.y] = e;
 		}	
 		
