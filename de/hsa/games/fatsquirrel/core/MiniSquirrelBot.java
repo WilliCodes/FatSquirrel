@@ -2,6 +2,7 @@ package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
+import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 
 public class MiniSquirrelBot extends MiniSquirrel {
 
@@ -59,14 +60,13 @@ public class MiniSquirrelBot extends MiniSquirrel {
 		}
 
 		@Override
-		public EntityType getEntityAt(XY xy) {
+		public EntityType getEntityAt(XY xy) throws OutOfViewException {
 			XY pos = getPosition();
 			XY viewLL = getViewLowerLeft();
 			XY viewUR = getViewUpperRight();
 			
 			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
-				// TODO Exception
-				return EntityType.NONE;
+				throw new OutOfViewException("The MasterSquirrel cannot see this cell!");
 			}
 				
 			return context.getEntityType(xy);
@@ -92,8 +92,15 @@ public class MiniSquirrelBot extends MiniSquirrel {
 		}
 
 		@Override
-		public boolean isMine(XY xy) {
-			return context.isMyMaster(xy, miniSquirrelBot.getId());
+		public boolean isMine(XY pos) throws OutOfViewException {
+			
+			XY viewLL = getViewLowerLeft();
+			XY viewUR = getViewUpperRight();
+			
+			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
+				throw new OutOfViewException("The MasterSquirrel cannot see this cell!");
+			}
+			return context.isMyMaster(pos, miniSquirrelBot.getId());
 		}
 
 		@Override

@@ -29,7 +29,7 @@ public interface ControllerContext {
      * @return the type of the entity at that position or none
      * @throws OutOfViewException if xy is outside the view
      */
-    EntityType getEntityAt(XY xy);
+    EntityType getEntityAt(XY xy) throws OutOfViewException;
     
     /**
      * 
@@ -37,7 +37,7 @@ public interface ControllerContext {
      * @return true, if entity at xy is my master or one of my minis resp.
      * @throws OutOfViewException if xy is outside the view
      */
-    boolean isMine(XY xy);
+    boolean isMine(XY xy) throws OutOfViewException;
 
     /**
      * 
@@ -52,7 +52,7 @@ public interface ControllerContext {
      * @param energy : start energy of the min, at least 100
      * @throws SpawnException if either direction or energy is invalid
      */
-    void spawnMiniBot(XY direction, int energy);
+    void spawnMiniBot(XY direction, int energy) throws SpawnException;
     
     /**
      * Very destructive event (see specification for details).

@@ -2,6 +2,8 @@ package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
+import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
+import de.hsa.games.fatsquirrel.botapi.SpawnException;
 import de.hsa.games.fatsquirrel.core.EntityContext;
 
 public class MasterSquirrelBot extends MasterSquirrel {
@@ -57,14 +59,13 @@ public class MasterSquirrelBot extends MasterSquirrel {
 		}
 
 		@Override
-		public EntityType getEntityAt(XY xy) {
+		public EntityType getEntityAt(XY xy) throws OutOfViewException {
 			XY pos = getPosition();
 			XY viewLL = getViewLowerLeft();
 			XY viewUR = getViewUpperRight();
 			
 			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
-				// TODO Exception
-				return EntityType.NONE;
+				throw new OutOfViewException("The MasterSquirrel cannot see this cell!");
 			}
 				
 			return context.getEntityType(xy);
@@ -77,7 +78,9 @@ public class MasterSquirrelBot extends MasterSquirrel {
 		}
 
 		@Override
-		public void spawnMiniBot(XY direction, int energy) {
+		public void spawnMiniBot(XY direction, int energy) throws SpawnException {
+			if (direction.x < -1 || direction.x > 1 || direction.y < -1 || direction.y > 1 || (direction.equals(XY.ZERO_ZERO)))
+				throw new SpawnException("Invalid spawn direction!");
 			masterSquirrelBot.setSpawnMini(energy, direction);
 		}
 
@@ -92,8 +95,15 @@ public class MasterSquirrelBot extends MasterSquirrel {
 		}
 
 		@Override
-		public boolean isMine(XY xy) {
-			return context.isMyMini(xy, masterSquirrelBot.getId());
+		public boolean isMine(XY pos) throws OutOfViewException {
+			
+			XY viewLL = getViewLowerLeft();
+			XY viewUR = getViewUpperRight();
+			
+			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
+				throw new OutOfViewException("The MasterSquirrel cannot see this cell!");
+			}
+			return context.isMyMini(pos, masterSquirrelBot.getId());
 		}
 
 		@Override
