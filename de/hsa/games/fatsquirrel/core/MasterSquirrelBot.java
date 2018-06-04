@@ -15,6 +15,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
 	
 	@Override
 	public void nextStep(EntityContext context) {
+		System.out.println("Werde ich aufgerufen?");
 		botcon.nextStep(new ControllerContextImpl(context, this));
 	}
 	
@@ -73,6 +74,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
 		@Override
 		public void move(XY direction) {
+			System.out.println("LOLOL");
 			context.tryMove(masterSquirrelBot, direction);
 		}
 

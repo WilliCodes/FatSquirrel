@@ -9,7 +9,7 @@ public abstract class Character extends Entity {
 	}
 	
 	
-	public void nextStep(EntityContext context) {};
+	public abstract void nextStep(EntityContext context);
 	
 
 }

@@ -43,11 +43,6 @@ public class EntitySet {
 		activeEntities.add(badPlant);
 	}
 	
-	public synchronized void placeMasterSquirrel(XY position) {
-		MasterSquirrel masterSquirrel = new MasterSquirrel(idCounter++, position);
-		activeEntities.add(masterSquirrel);
-	}
-	
 	public synchronized MiniSquirrel placeMiniSquirrel(XY position, int masterID, int initialEnergy) {
 		MiniSquirrel miniSquirrel = new MiniSquirrel(idCounter++, initialEnergy,  position, masterID);
 		activeEntities.add(miniSquirrel);
@@ -69,7 +64,7 @@ public class EntitySet {
 		return miniBot;
 	}
 	
-	public synchronized void placMasterSquirrelBot(XY position, BotController botcon) {
+	public synchronized void placeMasterSquirrelBot(XY position, BotController botcon) {
 		MasterSquirrelBot masterBot = new MasterSquirrelBot(idCounter++, position, botcon);
 
 		activeEntities.add(masterBot);

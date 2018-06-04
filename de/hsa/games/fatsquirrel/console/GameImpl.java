@@ -6,6 +6,7 @@ import de.hsa.games.fatsquirrel.Game;
 import de.hsa.games.fatsquirrel.UI;
 import de.hsa.games.fatsquirrel.console.commands.Command;
 import de.hsa.games.fatsquirrel.core.HandOperatedMasterSquirrel;
+import de.hsa.games.fatsquirrel.core.MasterSquirrel;
 import de.hsa.games.fatsquirrel.core.State;
 
 public class GameImpl extends Game {
@@ -27,7 +28,7 @@ public class GameImpl extends Game {
 
 	@Override
 	protected void processInput() {
-		HandOperatedMasterSquirrel masterSquirrel = state.getHandOperatedMasterSquirrels();
+		MasterSquirrel masterSquirrel = state.getHandOperatedMasterSquirrels();
 			
 			
 				Command cmd;

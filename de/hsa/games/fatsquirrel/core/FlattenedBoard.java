@@ -291,7 +291,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	@Override
 	public int getMasterSquirrelEnergy() {
-		return board.getHandOperatedMasterSquirrel().getEnergy();
+		return 0;//board.getHandOperatedMasterSquirrel().getEnergy();
 	}
 
 	@Override

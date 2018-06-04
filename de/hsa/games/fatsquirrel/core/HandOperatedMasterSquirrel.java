@@ -1,6 +1,5 @@
 package de.hsa.games.fatsquirrel.core;
 
-import de.hsa.games.fatsquirrel.Launcher;
 
 public class HandOperatedMasterSquirrel extends MasterSquirrel {
 	
@@ -18,18 +17,10 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 		
 		if (nextMove > 0) {
 			nextMove--;
-			if (Launcher.printDebugInfo) System.out.println("MasterSquirrel ist gelähmt!");
 			return;
 		}else {
-		
-			
 			if (spawnMini == 0)
 				context.tryMove(this, nextMoveCommand);
-			
-			if (Launcher.printDebugInfo) {
-				System.out.println("MasterSquirrel-Energy: " + getEnergy() + ".");
-			}
-		
 		}
 	}
 

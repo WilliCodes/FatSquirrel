@@ -1,6 +1,6 @@
 package de.hsa.games.fatsquirrel.core;
 
-public class MasterSquirrel extends PlayerEntity {
+public abstract class MasterSquirrel extends PlayerEntity {
 	
 	private static final int initEnergy = 1000;
 	
@@ -53,6 +53,9 @@ public class MasterSquirrel extends PlayerEntity {
 	public XY getSpawnMiniPos() {
 		return spawnMiniPos;
 	}
+
+	@Override
+	public abstract void nextStep(EntityContext context);
 
 
 }

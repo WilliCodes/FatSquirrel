@@ -1,6 +1,7 @@
 package de.hsa.games.fatsquirrel.console.commands;
 
 import de.hsa.games.fatsquirrel.core.HandOperatedMasterSquirrel;
+import de.hsa.games.fatsquirrel.core.MasterSquirrel;
 import de.hsa.games.fatsquirrel.core.XY;
 
 public enum GameCommandType implements CommandTypeInfo{
@@ -12,6 +13,7 @@ public enum GameCommandType implements CommandTypeInfo{
 	RIGHT("right", " * move right"),
 	UP("up", " * move up"),
 	DOWN("down", " * move down"),
+	STAY("stay", " * stay stationary"),
 	MASTER_ENERGY("master_energy", " * print Energy of MasterSquirrel"),
 	SPAWN_MINI("spawn_mini", " * spawn a MiniSquirrel with provided Energy", new Class<?>[] {int.class});
 	
@@ -48,10 +50,10 @@ public enum GameCommandType implements CommandTypeInfo{
 	@Override
 	public void execute(Object obj, Object[] params) {
 		
-		HandOperatedMasterSquirrel ms;
+		MasterSquirrel ms;
 		
-		if (obj != null && obj instanceof HandOperatedMasterSquirrel)
-			ms = (HandOperatedMasterSquirrel) obj;
+		if (obj != null && obj instanceof MasterSquirrel)
+			ms = (MasterSquirrel) obj;
 		else
 			throw new ScanException("Not operating on a MasterSquirrel");
 		
@@ -85,6 +87,9 @@ public enum GameCommandType implements CommandTypeInfo{
 			throw new notEnoughEnergyException("Shared Enregy is higher than available Energy");
 		case UP:
 			ms.setNextCommand(XY.UP);
+			break;
+		case STAY:
+			ms.setNextCommand(XY.ZERO_ZERO);
 			break;
 		case HELP: ms.setNextCommand(XY.ZERO_ZERO);
 			break;

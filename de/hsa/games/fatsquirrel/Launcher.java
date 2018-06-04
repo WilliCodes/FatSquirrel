@@ -17,14 +17,23 @@ import javafx.stage.WindowEvent;
 
 public class Launcher extends Application {
 	
+	
+	
+	private static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	public static boolean printDebugInfo = false;
 	private static BoardConfig boardConfig = new BoardConfig();
-	private static Board board = new Board(boardConfig);
-	private static State state = new State(board);
-	private static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private static Board board;
+	private static State state;
+	
+	public enum GameMode {
+		SINGLE_PLAYER, MULTI_PLAYER, AI_GAME;
+	}
+	public static final GameMode gameMode = boardConfig.gameMode;
 	
 	public static void main(String[] args) throws Exception {
 		MyLogger.setup();
+		board = new Board(boardConfig);
+		state = new State(board);
 		boolean gui = true;
 		
 		

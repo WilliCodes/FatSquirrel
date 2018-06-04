@@ -7,7 +7,7 @@ public class State {
 	private int highscore = 9001; // TODO: replace Dummy
 	private Board board;
 	private FlattenedBoard flattenedBoard;
-	private HandOperatedMasterSquirrel handOperatedMasterSquirrel;
+	private MasterSquirrel handOperatedMasterSquirrel;
 	
 	public State(Board board) {
 		this.board = board;
@@ -20,13 +20,13 @@ public class State {
 		board.updateCharacters((EntityContext) flattenedBoard); 
 		board.respawn(flattenedBoard.getRespawnList());
 		
-		HandOperatedMasterSquirrel ms = handOperatedMasterSquirrel;
-			if (ms.getSpawmMini() > 0) {
-				XY pos = ms.getSpawnMiniPos();
-				if (pos == null)
-					pos = flattenedBoard.getRandomFreeNeighbourCellDirection(ms.getPosition());
-				board.spawnMini(pos.plus(ms.getPosition()), ms);
-			}
+//		HandOperatedMasterSquirrel ms = handOperatedMasterSquirrel;
+//			if (ms.getSpawmMini() > 0) {
+//				XY pos = ms.getSpawnMiniPos();
+//				if (pos == null)
+//					pos = flattenedBoard.getRandomFreeNeighbourCellDirection(ms.getPosition());
+//				board.spawnMini(pos.plus(ms.getPosition()), ms);
+//			}
 		
 		flattenedBoard.update();
 	}
@@ -36,7 +36,7 @@ public class State {
 	}
 	
 	
-	public HandOperatedMasterSquirrel getHandOperatedMasterSquirrels() {
+	public MasterSquirrel getHandOperatedMasterSquirrels() {
 		return handOperatedMasterSquirrel;
 	}
 	
