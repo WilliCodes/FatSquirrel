@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.ListIterator;
 
 import de.hsa.games.fatsquirrel.botapi.BotController;
-import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
 
 
 

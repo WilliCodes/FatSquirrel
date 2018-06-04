@@ -62,11 +62,14 @@ public class MasterSquirrelBot extends MasterSquirrel {
 			XY viewLL = getViewLowerLeft();
 			XY viewUR = getViewUpperRight();
 			
-			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y)
-				return EntityType.Empty;
-			
+			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
+				// TODO Exception
+				return EntityType.NONE;
+			}
+				
 			return context.getEntityType(xy);
 		}
+
 
 		@Override
 		public void move(XY direction) {
@@ -80,7 +83,31 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
 		@Override
 		public int getEnergy() {
-			return getEnergy();
+			return masterSquirrelBot.getEnergy();
+		}
+
+		@Override
+		public XY locate() {
+			return masterSquirrelBot.getPosition();
+		}
+
+		@Override
+		public boolean isMine(XY xy) {
+			return context.isMyMini(xy, masterSquirrelBot.getId());
+		}
+
+		@Override
+		public void implode(int impactRadius) {
+		}
+
+		@Override
+		public XY directionOfMaster() {
+			return null;
+		}
+
+		@Override
+		public long getRemainingSteps() {
+			return 0;
 		}
 	}
 }

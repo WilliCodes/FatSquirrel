@@ -3,8 +3,6 @@ package de.hsa.games.fatsquirrel.console;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 import java.util.logging.Logger;
 
 import de.hsa.games.fatsquirrel.*;
@@ -12,7 +10,6 @@ import de.hsa.games.fatsquirrel.console.commands.Command;
 import de.hsa.games.fatsquirrel.console.commands.CommandScanner;
 import de.hsa.games.fatsquirrel.console.commands.GameCommandType;
 import de.hsa.games.fatsquirrel.core.BoardView;
-import de.hsa.games.fatsquirrel.core.MoveCommand;
 
 public class ConsoleUI implements UI {
 	

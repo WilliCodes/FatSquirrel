@@ -1,7 +1,5 @@
 package de.hsa.games.fatsquirrel.core;
 
-import java.util.ArrayList;
-
 import de.hsa.games.fatsquirrel.core.Board;
 
 public class State {
@@ -26,8 +24,8 @@ public class State {
 			if (ms.getSpawmMini() > 0) {
 				XY pos = ms.getSpawnMiniPos();
 				if (pos == null)
-					pos = flattenedBoard.getNextFreeCell(ms.getPosition());
-				board.spawnMini(pos, ms);
+					pos = flattenedBoard.getRandomFreeNeighbourCellDirection(ms.getPosition());
+				board.spawnMini(pos.plus(ms.getPosition()), ms);
 			}
 		
 		flattenedBoard.update();

@@ -21,4 +21,6 @@ public interface EntityContext {
 	public void killAndReplace(Entity entity);
 	public EntityType getEntityType(XY pos);
 
+	public XY directionOfMaster(MiniSquirrel miniSquirrel, int sight);
+
 }

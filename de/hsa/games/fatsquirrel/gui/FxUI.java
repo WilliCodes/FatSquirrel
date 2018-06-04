@@ -125,37 +125,33 @@ public class FxUI extends Scene implements UI {
        for(int a = 0; a < viewSize.x; a++) {
     	   for(int b = 0; b < viewSize.y; b++) {
     		   switch(view.getEntityType(a, b)) {
-			case BadBeast:
+			case BAD_BEAST:
 				gc.setFill(Color.RED);
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
-			case BadPlant:
+			case BAD_PLANT:
 				gc.setFill(Color.RED);
 				gc.fillRect(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
-			case Empty:
+			case NONE:
 				break;
-			case GoodBeast:
+			case GOOD_BEAST:
 				gc.setFill(Color.GREEN);
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
-			case GoodPlant:
+			case GOOD_PLANT:
 				gc.setFill(Color.GREEN);
 				gc.fillRect(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
-			case HandOperatedMasterSquirrel:
-				gc.setFill(Color.BLUE);
-				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
-				break;
-			case MasterSquirrel:
+			case MASTER_SQUIRREL:
 				gc.setFill(Color.GREY);
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
-			case MiniSquirrel:
+			case MINI_SQUIRREL:
 				gc.setFill(Color.PURPLE);
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
-			case Wall:
+			case WALL:
 				gc.setFill(Color.YELLOW);
 				gc.fillRect(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;

@@ -38,7 +38,11 @@ public class MasterSquirrel extends PlayerEntity {
 			return false;
 			
 		this.spawnMini = sharedEnergy;
-		this.spawnMiniPos = new XY(getPosition().x + spawnMiniDirection.x, getPosition().y + spawnMiniDirection.y);
+		if (spawnMiniDirection == null)
+			this.spawnMiniPos = null;
+		else
+			this.spawnMiniPos = getPosition().plus(spawnMiniDirection);
+		
 		return true;
 	}
 

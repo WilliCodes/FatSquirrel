@@ -2,7 +2,6 @@ package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
-import de.hsa.games.fatsquirrel.core.MasterSquirrelBot.ControllerContextImpl;
 
 public class MiniSquirrelBot extends MiniSquirrel {
 
@@ -65,9 +64,11 @@ public class MiniSquirrelBot extends MiniSquirrel {
 			XY viewLL = getViewLowerLeft();
 			XY viewUR = getViewUpperRight();
 			
-			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y)
-				return EntityType.Empty;
-			
+			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
+				// TODO Exception
+				return EntityType.NONE;
+			}
+				
 			return context.getEntityType(xy);
 		}
 
@@ -82,7 +83,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
 		@Override
 		public int getEnergy() {
-			return getEnergy();
+			return miniSquirrelBot.getEnergy();
 		}
 
 		@Override
@@ -102,8 +103,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
 		@Override
 		public XY directionOfMaster() {
-			// TODO Auto-generated method stub
-			return null;
+			return context.directionOfMaster(miniSquirrelBot, sight);
 		}
 
 		@Override

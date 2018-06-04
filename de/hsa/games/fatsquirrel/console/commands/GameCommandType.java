@@ -1,11 +1,6 @@
 package de.hsa.games.fatsquirrel.console.commands;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import de.hsa.games.fatsquirrel.core.HandOperatedMasterSquirrel;
-import de.hsa.games.fatsquirrel.core.MasterSquirrel;
-import de.hsa.games.fatsquirrel.core.MoveCommand;
 import de.hsa.games.fatsquirrel.core.XY;
 
 public enum GameCommandType implements CommandTypeInfo{

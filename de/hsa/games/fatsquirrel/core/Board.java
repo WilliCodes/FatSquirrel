@@ -152,16 +152,16 @@ public class Board {
 			blockedXY.add(pos);
 			
 			switch (e) {
-			case GoodBeast:
+			case GOOD_BEAST:
 				entitySet.placeGoodBeast(pos);
 				break;
-			case BadBeast:
+			case BAD_BEAST:
 				entitySet.placeBadBeast(pos);
 				break;
-			case GoodPlant:
+			case GOOD_PLANT:
 				entitySet.placeGoodPlant(pos);
 				break;
-			case BadPlant:
+			case BAD_PLANT:
 				entitySet.placeBadPlant(pos);
 				break;
 			default:
@@ -181,7 +181,7 @@ public class Board {
 
 	public void spawnMini(XY pos, HandOperatedMasterSquirrel ms) {
 		entitySet.placeMiniSquirrel(pos, ms.getId(), ms.getSpawmMini());
-		ms.setSpawnMini(0);
+		ms.setSpawnMini(0, null);
 	}
 	
 	
