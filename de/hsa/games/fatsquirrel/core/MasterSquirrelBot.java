@@ -74,12 +74,8 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
 		@Override
 		public EntityType getEntityAt(XY xy) throws OutOfViewException {
-			XY pos = getPosition();
-			XY viewLL = getViewLowerLeft();
-			XY viewUR = getViewUpperRight();
 			
-			// make private method
-			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
+			if (!isInView(xy)) {
 				throw new OutOfViewException("The MasterSquirrel cannot see this cell!");
 			}
 				
@@ -99,8 +95,9 @@ public class MasterSquirrelBot extends MasterSquirrel {
 			
 			XY loc = masterSquirrelBot.getPosition().plus(direction);
 			
-			if (loc.x < 0 || loc.y < 0 || loc.x > context.getSize().x || loc.y > context.getSize().y)
+			if (!isInView(loc))
 				throw new SpawnException("Spawning out of bounds!");
+			
 			if (context.getEntityType(loc) != EntityType.NONE)
 				throw new SpawnException("Field already in use!");
 
@@ -120,18 +117,15 @@ public class MasterSquirrelBot extends MasterSquirrel {
 		@Override
 		public boolean isMine(XY pos) throws OutOfViewException {
 			
-			XY viewLL = getViewLowerLeft();
-			XY viewUR = getViewUpperRight();
-			
-			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
+			if (isInView(pos))
+				return context.isMyMini(pos, masterSquirrelBot.getId());
+			else
 				throw new OutOfViewException("The MasterSquirrel cannot see this cell!");
-			}
-			return context.isMyMini(pos, masterSquirrelBot.getId());
 		}
 
 		@Override
 		public void implode(int impactRadius) {
-			// throw unsopp. exc
+			throw new UnsupportedOperationException("A MasterSquirrel cannot implode!");
 		}
 
 		@Override
@@ -142,6 +136,18 @@ public class MasterSquirrelBot extends MasterSquirrel {
 		@Override
 		public long getRemainingSteps() {
 			return 0;
+		}
+		
+		private boolean isInView(XY pos) {
+			
+			XY viewLL = getViewLowerLeft();
+			XY viewUR = getViewUpperRight();
+			
+			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
+				return false;
+			}
+			
+			return true;
 		}
 	}
 }

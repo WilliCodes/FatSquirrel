@@ -27,7 +27,7 @@ import javafx.scene.paint.Color;
 
 public class FxUI extends Scene implements UI {
 
-	public final static int CELL_SIZE = 40;
+	public final static int CELL_SIZE = 15;
 	private Canvas boardCanvas;
 	private Label msgLabel;
 	private static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -59,15 +59,23 @@ public class FxUI extends Scene implements UI {
                       if (Launcher.gameMode == GameMode.SINGLE_PLAYER)
 	                      switch (keyEvent.getCode()) {
 	                      	case W:
+	                      	case UP:
+	                      	case NUMPAD8:
 	                      		command = new Command(GameCommandType.UP, null);
 	                      		break;
 	                      	case A:
+	                      	case LEFT:
+	                      	case NUMPAD4:
 	                      		command = new Command(GameCommandType.LEFT, null);
 	                      		break;
 	                      	case S:
+	                      	case DOWN:
+	                      	case NUMPAD2:
 	                      		command = new Command(GameCommandType.DOWN, null);
 	                      		break;
 	                      	case D:
+	                      	case RIGHT:
+	                      	case NUMPAD6:
 	                      		command = new Command(GameCommandType.RIGHT, null);
 	                      		break;
 	                      	case H:
@@ -145,19 +153,19 @@ public class FxUI extends Scene implements UI {
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
 			case GOOD_PLANT:
-				gc.setFill(Color.GREEN);
+				gc.setFill(Color.DARKGREEN);
 				gc.fillRect(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
 			case MASTER_SQUIRREL:
-				gc.setFill(Color.GREY);
+				gc.setFill(Color.BLUE);
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
 			case MINI_SQUIRREL:
-				gc.setFill(Color.PURPLE);
+				gc.setFill(Color.ALICEBLUE);
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
 			case WALL:
-				gc.setFill(Color.YELLOW);
+				gc.setFill(Color.LIGHTGRAY);
 				gc.fillRect(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
 			default:

@@ -3,6 +3,7 @@ package de.hsa.games.fatsquirrel.core;
 public class MiniSquirrel extends MasterSquirrel{
 	
 	private int masterID;
+	protected int implodeRadius = 0;
 
 	public MiniSquirrel(int id, int energy, XY position, int masterID) {
 		super(id, energy, position);

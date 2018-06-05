@@ -183,9 +183,8 @@ public class Board {
 	}
 
 
-	public void spawnMini(XY pos, MasterSquirrel ms) {
-		entitySet.placeMiniSquirrel(pos, ms.getId(), ms.getSpawmMini());
-		ms.setSpawnMini(0, null);
+	public MiniSquirrel spawnMini(XY pos, MasterSquirrel ms) {
+		return entitySet.placeMiniSquirrel(pos, ms.getId(), ms.getSpawmMini());
 	}
 
 	public List<MasterSquirrel> getMasterSquirrels() {

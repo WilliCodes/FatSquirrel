@@ -48,6 +48,17 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	@Override
 	public void tryMove(MasterSquirrel masterSquirrel, XY moveDirection) {
+		
+		if (masterSquirrel.getSpawmMini() > 0) {
+			XY pos = masterSquirrel.getSpawnMiniPos();
+			if (pos == null) {
+				pos = getRandomFreeNeighbourCellDirection(masterSquirrel.getPosition());
+			}
+			cells[pos.x][pos.y] = board.spawnMini(pos, masterSquirrel);
+			masterSquirrel.setSpawnMini(0, null);
+			
+		}
+		
 		XY from = masterSquirrel.getPosition();
 		XY to = new XY(from.x + moveDirection.x, from.y + moveDirection.y);
 		
@@ -363,8 +374,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		
 		int impactArea = (int) (impactRadius * impactRadius * Math.PI);
 		
-		// TODO : austauschen mit mini.updateEnergy()
-		int collectedEnergy = 0;
+		int initialEnergy = miniSquirrel.getEnergy();
 		
 		for (int x = pos.x - impactRadius; x <= pos.x + impactRadius; x++ ) {
 			if (x < 0 || x > getSize().x) 
@@ -380,7 +390,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 					continue;
 				
 				Entity target = cells[x][y];
-				int energyLoss = 200 * (miniSquirrel.getEnergy() / impactArea) * (1 - XY.distanceToEntity(pos, targetPos) / impactRadius);
+				int energyLoss = 200 * (initialEnergy / impactArea) * (1 - XY.distanceToEntity(pos, targetPos) / impactRadius);
 				
 				switch (entityType) {
 				case BAD_BEAST:
@@ -426,43 +436,34 @@ public class FlattenedBoard implements BoardView, EntityContext {
 				default:
 					break;
 				}
-				
-				
 			}
 		}
 		
+		findMaster(miniSquirrel.getMasterID()).updateEnergy(miniSquirrel.getEnergy());
 		
+		kill(miniSquirrel);
 	}
-
-	@Override
-	public XY directionOfMaster(MiniSquirrel miniSquirrel, int sight) {
-		// TODO : Global sichtbar (nicht nur in sight)
-		XY pos = miniSquirrel.getPosition();
-		for (int x = pos.x - sight; x <= pos.x + sight; x++) {
-			if (x < 0 || x > getSize().x)
-				continue;
-			for (int y = pos.y - sight; y <= pos.y + sight; y++) {
-				if (y < 0 || y > getSize().y)
-					continue;
-				if (getEntityType(new XY(x,y)) == EntityType.MASTER_SQUIRREL && ((MasterSquirrel) cells[x][y]).isMyMini(miniSquirrel))
-					return XY.vectorToEntity(miniSquirrel, cells[x][y]);
+	
+	private MasterSquirrel findMaster(int id) {
+		
+		for (int x = 0; x < getSize().x; x++) {
+			for (int y = 0; y <= getSize().y; y++) {
+				if (getEntityType(new XY(x,y)) == EntityType.MASTER_SQUIRREL && cells[x][y].getId() == id)
+					return (MasterSquirrel) cells[x][y];
 			}
 			
 		}
 		return null;
 	}
 
-	public void spawnMinis() {
-		for (MasterSquirrel ms : masterSquirrels)
-			if (ms.getSpawmMini() > 0) {
-				XY pos = ms.getSpawnMiniPos();
-				if (pos == null) {
-					pos = getRandomFreeNeighbourCellDirection(ms.getPosition());
-				}
-				board.spawnMini(pos, ms);
-			}
+	@Override
+	public XY directionOfMaster(MiniSquirrel miniSquirrel) {
 		
+		MasterSquirrel ms = findMaster(miniSquirrel.getMasterID());
+		
+		return XY.vectorToEntity(miniSquirrel, ms);
 	}
+
 
 	public MasterSquirrel getHandOperatedMasterSquirrel() {
 		return masterSquirrels.get(0);
