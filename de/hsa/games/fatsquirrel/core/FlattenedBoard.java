@@ -363,6 +363,9 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		
 		int impactArea = (int) (impactRadius * impactRadius * Math.PI);
 		
+		// TODO : austauschen mit mini.updateEnergy()
+		int collectedEnergy = 0;
+		
 		for (int x = pos.x - impactRadius; x <= pos.x + impactRadius; x++ ) {
 			if (x < 0 || x > getSize().x) 
 				continue;
@@ -433,7 +436,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	@Override
 	public XY directionOfMaster(MiniSquirrel miniSquirrel, int sight) {
-		// TODO : Nur in sight oder Richtung global einsehbar?
+		// TODO : Global sichtbar (nicht nur in sight)
 		XY pos = miniSquirrel.getPosition();
 		for (int x = pos.x - sight; x <= pos.x + sight; x++) {
 			if (x < 0 || x > getSize().x)
@@ -453,9 +456,10 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		for (MasterSquirrel ms : masterSquirrels)
 			if (ms.getSpawmMini() > 0) {
 				XY pos = ms.getSpawnMiniPos();
-				if (pos == null)
+				if (pos == null) {
 					pos = getRandomFreeNeighbourCellDirection(ms.getPosition());
-				board.spawnMini(pos.plus(ms.getPosition()), ms);
+				}
+				board.spawnMini(pos, ms);
 			}
 		
 	}
