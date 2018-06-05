@@ -16,13 +16,12 @@ public class FlattenedBoardTest {
 
 
     @Mock
+    private Board boardMock;
 	private FlattenedBoard flattenedBoard;
-	private BoardConfig config;
 	
 	@Before
 	public void setUp() {
 	    MockitoAnnotations.initMocks(this);
-		config = Mockito.mock(BoardConfig.class);
 		flattenedBoard = Mockito.mock(FlattenedBoard.class);
 	}
 
@@ -38,7 +37,7 @@ public class FlattenedBoardTest {
 	    MasterSquirrel masterMock = mock(MasterSquirrel.class);
 	    when(masterMock.getPosition()).thenReturn(new XY(2, 2));
 	    flattenedBoard.tryMove(masterMock, XY.DOWN);
-	    verify(masterMock).setPosition(new XY(1,2));
+	    verify(masterMock).setPosition(new XY(2,3));
 	    }
 	
 	@Test
@@ -54,7 +53,7 @@ public class FlattenedBoardTest {
         flattenedBoard.tryMove(masterMock, XY.RIGHT_DOWN);
 
         verify(masterMock).updateEnergy(-150);
-        verify(masterMock, never()).setNextCommand(XY.RIGHT_DOWN);
+        verify(masterMock, never()).setPosition(new XY(2,2).plus(XY.RIGHT_DOWN));
         verify(flattenedBoard, never()).killAndReplace(badMock);
     }
 	
@@ -72,7 +71,7 @@ public class FlattenedBoardTest {
         flattenedBoard.tryMove(masterMock, XY.RIGHT_DOWN);
 
         verify(masterMock).updateEnergy(200);
-        verify(masterMock).setNextCommand(XY.RIGHT_DOWN);
+        verify(masterMock).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
         verify(flattenedBoard).killAndReplace(goodMock);
     }
     
@@ -86,7 +85,7 @@ public class FlattenedBoardTest {
 
         flattenedBoard.tryMove(masterOneMock, XY.RIGHT_DOWN);
 
-        verify(flattenedBoard, never()).move(masterOneMock, masterOneMock.getPosition(), XY.RIGHT_DOWN);
+        verify(masterOneMock, never()).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
         verify(masterOneMock, never()).updateEnergy(150);
         verify(masterTwoMock, never()).updateEnergy(150);
         verify(flattenedBoard, never()).kill(masterOneMock);
@@ -105,8 +104,8 @@ public class FlattenedBoardTest {
 
         flattenedBoard.tryMove(masterMock, XY.RIGHT_DOWN);
 
-        verify(masterMock).updateEnergy(miniMock.getEnergy());
-        verify(masterMock).setNextCommand(XY.RIGHT_DOWN);
+        verify(masterMock).updateEnergy(200);
+        verify(masterMock).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
         verify(flattenedBoard).kill(miniMock);
     }
     
@@ -117,13 +116,14 @@ public class FlattenedBoardTest {
         MiniSquirrel miniMock = mock(MiniSquirrel.class);
 
         when(masterMock.getId()).thenReturn(1);
+        when(masterTwoMock.getId()).thenReturn(2);
         when(miniMock.getMasterID()).thenReturn(1);
         when(flattenedBoard.getEntityType(new XY(2, 2))).thenReturn(EntityType.MINI_SQUIRREL);
         when(masterMock.getPosition()).thenReturn(new XY(1, 1));
 
         flattenedBoard.tryMove(masterMock, XY.RIGHT_DOWN);
 
-        verify(masterMock).setNextCommand(XY.RIGHT_DOWN);
+        verify(masterMock).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
         verify(flattenedBoard).kill(miniMock);
     }
     
@@ -139,7 +139,7 @@ public class FlattenedBoardTest {
         flattenedBoard.tryMove(masterMock, XY.RIGHT_DOWN);
 
         verify(masterMock).updateEnergy(-100);
-        verify(flattenedBoard).move(masterMock, masterMock.getPosition(), XY.RIGHT_DOWN);
+        verify(masterMock).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
         verify(flattenedBoard).killAndReplace(badPlantMock);
     }
     
@@ -155,7 +155,7 @@ public class FlattenedBoardTest {
         flattenedBoard.tryMove(masterMock, XY.RIGHT_DOWN);
 
         verify(masterMock).updateEnergy(100);
-        verify(masterMock).setNextCommand(XY.RIGHT_DOWN);
+        verify(masterMock).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
         verify(flattenedBoard).killAndReplace(goodPlantMock);
     }
     
@@ -172,7 +172,7 @@ public class FlattenedBoardTest {
 
         verify(masterMock).updateEnergy(-10);
         verify(masterMock).setParalyzed();
-        verify(masterMock, never()).setNextCommand(XY.RIGHT_DOWN);
+        verify(masterMock, never()).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
         verify(flattenedBoard, never()).kill(wallMock);
     }
     
@@ -192,7 +192,7 @@ public class FlattenedBoardTest {
         verify(masterMock).updateEnergy(100);
         verify(flattenedBoard).kill(miniMock);
         verify(flattenedBoard, never()).killAndReplace(miniMock);
-        verify(miniMock, never()).setNextCommand(XY.RIGHT_DOWN);
+        verify(miniMock, never()).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
     }
     
     @Test
@@ -213,7 +213,7 @@ public class FlattenedBoardTest {
         verify(enemyMock).updateEnergy(150);
         verify(flattenedBoard).kill(miniMock);
         verify(flattenedBoard, never()).killAndReplace(miniMock);
-        verify(miniMock, never()).setNextCommand(XY.RIGHT_DOWN);
+        verify(miniMock, never()).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
     }
 
     @Test
@@ -236,7 +236,7 @@ public class FlattenedBoardTest {
         verify(flattenedBoard).kill(enemyMiniMock);
         verify(flattenedBoard, never()).killAndReplace(miniMock);
         verify(flattenedBoard, never()).killAndReplace(enemyMiniMock);
-        verify(miniMock, never()).setNextCommand(XY.RIGHT_DOWN);
+        verify(miniMock, never()).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
     }
 
     @Test
@@ -252,7 +252,7 @@ public class FlattenedBoardTest {
         flattenedBoard.tryMove(miniMock, XY.RIGHT_DOWN);
 
         verify(miniMock).updateEnergy(-150);
-        verify(miniMock, never()).setNextCommand(XY.RIGHT_DOWN);
+        verify(miniMock, never()).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
         verify(flattenedBoard, never()).kill(miniMock);
     }
 
@@ -268,7 +268,7 @@ public class FlattenedBoardTest {
         flattenedBoard.tryMove(miniMock, XY.RIGHT_DOWN);
 
         verify(miniMock).updateEnergy(200);
-        verify(miniMock).setNextCommand(XY.RIGHT_DOWN);
+        verify(miniMock).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
         verify(flattenedBoard).killAndReplace(goodMock);
     }
 
@@ -287,7 +287,7 @@ public class FlattenedBoardTest {
         verify(flattenedBoard, never()).kill(miniMock);
         verify(flattenedBoard, never()).killAndReplace(miniMock);
         verify(flattenedBoard).killAndReplace(badMock);
-        verify(miniMock).setNextCommand(XY.RIGHT_DOWN);
+        verify(miniMock).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
     }
 
     @Test
@@ -302,7 +302,7 @@ public class FlattenedBoardTest {
         flattenedBoard.tryMove(miniMock, XY.RIGHT_DOWN);
 
         verify(miniMock).updateEnergy(200);
-        verify(miniMock).setNextCommand(XY.RIGHT_DOWN);
+        verify(miniMock).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
         verify(flattenedBoard).killAndReplace(goodMock);
     }
 
@@ -319,7 +319,7 @@ public class FlattenedBoardTest {
         flattenedBoard.tryMove(miniMock, XY.RIGHT_DOWN);
 
         verify(miniMock).updateEnergy(-10);
-        verify(miniMock, never()).setNextCommand(XY.RIGHT_DOWN);
+        verify(miniMock, never()).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
         verify(miniMock).setParalyzed();
         verify(flattenedBoard, never()).kill(wallMock);
     }
@@ -349,7 +349,7 @@ public class FlattenedBoardTest {
 
         flattenedBoard.tryMove(goodMock, XY.RIGHT_DOWN);
 
-        verify(flattenedBoard, never()).move(goodMock, goodMock.getPosition(), XY.RIGHT_DOWN);
+        verify(goodMock, never()).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
         verify(flattenedBoard, never()).killAndReplace(goodMock);
         verify(flattenedBoard, never()).kill(goodMock);
         verify(flattenedBoard, never()).killAndReplace(badPlantMock);
@@ -369,7 +369,7 @@ public class FlattenedBoardTest {
         flattenedBoard.tryMove(badMock, XY.RIGHT_DOWN);
 
         verify(squirrelMock).updateEnergy(-150);
-        verify(flattenedBoard, never()).move(badMock, badMock.getPosition(), XY.RIGHT_DOWN);
+        verify(badMock, never()).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
     }
 
     @Test
@@ -382,7 +382,7 @@ public class FlattenedBoardTest {
 
         flattenedBoard.tryMove(badMock, XY.RIGHT_DOWN);
 
-        verify(flattenedBoard, never()).move(badMock, badMock.getPosition(), XY.RIGHT_DOWN);
+        verify(badMock, never()).setPosition(new XY(1,1).plus(XY.RIGHT_DOWN));
         verify(flattenedBoard, never()).killAndReplace(goodMock);
         verify(flattenedBoard, never()).kill(goodMock);
         verify(flattenedBoard, never()).killAndReplace(badMock);

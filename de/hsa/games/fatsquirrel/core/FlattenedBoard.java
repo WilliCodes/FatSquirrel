@@ -40,7 +40,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		return new XY(cells.length, cells[0].length);
 	}
 	
-	public void move(Entity e, XY from, XY to) {
+	private void move(Entity e, XY from, XY to) {
 		e.setPosition(to);
 		cells[from.x][from.y] = null;
 		cells[to.x][to.y] = e;
