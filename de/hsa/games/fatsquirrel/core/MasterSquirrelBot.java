@@ -22,10 +22,17 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
 	@Override
 	public void nextStep(EntityContext context) {
-		ControllerContextImpl conConImpl = new ControllerContextImpl(context, this);
-		BotInvocationHandler botInvocationHandler = new BotInvocationHandler(conConImpl);
-		ControllerContext conCon = (ControllerContext) Proxy.newProxyInstance(ControllerContext.class.getClassLoader(), new Class[] { ControllerContext.class }, botInvocationHandler);
-		botcon.nextStep(conCon);
+		if (nextMove > 0) {
+			nextMove--;
+			return;
+		}else {
+			if (spawnMini == 0) {
+				ControllerContextImpl conConImpl = new ControllerContextImpl(context, this);
+				BotInvocationHandler botInvocationHandler = new BotInvocationHandler(conConImpl);
+				ControllerContext conCon = (ControllerContext) Proxy.newProxyInstance(ControllerContext.class.getClassLoader(), new Class[] { ControllerContext.class }, botInvocationHandler);
+				botcon.nextStep(conCon);
+			}
+		}
 	}
 	
 	public class ControllerContextImpl implements ControllerContext {
