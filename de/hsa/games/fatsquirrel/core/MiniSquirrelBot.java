@@ -138,7 +138,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
 			XY viewUR = getViewUpperRight();
 			
 			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
-				throw new OutOfViewException("The MasterSquirrel cannot see this cell!");
+				return false;
 			}
 			
 			return true;
