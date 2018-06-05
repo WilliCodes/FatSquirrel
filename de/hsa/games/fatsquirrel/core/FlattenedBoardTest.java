@@ -17,12 +17,15 @@ public class FlattenedBoardTest {
 
     @Mock
     private Board boardMock;
+    
 	private FlattenedBoard flattenedBoard;
 	
 	@Before
 	public void setUp() {
 	    MockitoAnnotations.initMocks(this);
-		flattenedBoard = Mockito.mock(FlattenedBoard.class);
+	    // TODO : Fehler behoben?
+		// flattenedBoard = Mockito.mock(FlattenedBoard.class);
+	    flattenedBoard = new FlattenedBoard(boardMock);
 	}
 
 	@Test
