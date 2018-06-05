@@ -28,14 +28,17 @@ public class MiniSquirrelBot extends MiniSquirrel {
 			BotInvocationHandler botInvocationHandler = new BotInvocationHandler(conConImpl);
 			ControllerContext conCon = (ControllerContext) Proxy.newProxyInstance(ControllerContext.class.getClassLoader(), new Class[] { ControllerContext.class }, botInvocationHandler);
 			botcon.nextStep(conCon);
-			context.tryMove(this, nextMoveCommand);
+			if (implodeRadius > 0)
+				context.implodeMini(implodeRadius, this);
+			else
+				context.tryMove(this, nextMoveCommand);
 		}
 	}
 	
 	
 	public class ControllerContextImpl implements ControllerContext {
 		
-		private final int sight = 21;
+		private final int sight = 10;
 		
 		private EntityContext context;
 		private MiniSquirrelBot miniSquirrelBot;
@@ -73,11 +76,8 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
 		@Override
 		public EntityType getEntityAt(XY xy) throws OutOfViewException {
-			XY pos = getPosition();
-			XY viewLL = getViewLowerLeft();
-			XY viewUR = getViewUpperRight();
 			
-			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
+			if (!isInView(xy)) {
 				throw new OutOfViewException("The MasterSquirrel cannot see this cell!");
 			}
 				
@@ -91,6 +91,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
 		@Override
 		public void spawnMiniBot(XY direction, int energy) {
+			throw new UnsupportedOperationException("A MasterSquirrel cannot implode!");
 		}
 
 		@Override
@@ -106,10 +107,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
 		@Override
 		public boolean isMine(XY pos) throws OutOfViewException {
 			
-			XY viewLL = getViewLowerLeft();
-			XY viewUR = getViewUpperRight();
-			
-			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
+			if (!isInView(pos)) {
 				throw new OutOfViewException("The MasterSquirrel cannot see this cell!");
 			}
 			return context.isMyMaster(pos, miniSquirrelBot.getId());
@@ -117,20 +115,33 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
 		@Override
 		public void implode(int impactRadius) {
-			// leicht ausnutzbar (LOL)
-			// check valid impactRadius
-			context.implodeMini(impactRadius, miniSquirrelBot);
+			if (impactRadius < 2 || impactRadius > 10) {
+				throw new IllegalArgumentException("Invalid impactRadius!");
+			} else
+				miniSquirrelBot.implodeRadius = impactRadius;
 		}
 
 		@Override
 		public XY directionOfMaster() {
-			return context.directionOfMaster(miniSquirrelBot, sight);
+			return context.directionOfMaster(miniSquirrelBot);
 		}
 
 		@Override
 		public long getRemainingSteps() {
 			// TODO Auto-generated method stub
 			return 0;
+		}
+		
+		private boolean isInView(XY pos) {
+			
+			XY viewLL = getViewLowerLeft();
+			XY viewUR = getViewUpperRight();
+			
+			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
+				throw new OutOfViewException("The MasterSquirrel cannot see this cell!");
+			}
+			
+			return true;
 		}
 
 	}

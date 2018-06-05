@@ -20,7 +20,6 @@ public class State {
 		
 		board.updateCharacters((EntityContext) flattenedBoard); 
 		board.respawn(flattenedBoard.getRespawnList());
-		flattenedBoard.spawnMinis();
 		
 		
 		flattenedBoard.update();

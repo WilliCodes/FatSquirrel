@@ -1,5 +1,6 @@
 package de.hsa.games.fatsquirrel.core;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -102,7 +103,8 @@ public class EntitySet {
 	
 	public synchronized void entitiesNextStep(EntityContext context) {
 		Collections.shuffle(activeEntities);
-		for (Entity entity : activeEntities)
+		
+		for (Entity entity : new ArrayList<Entity>(activeEntities))
 			if (entity instanceof Character && entity.isActive()) {
 				Character c = (Character) entity;
 				c.nextStep(context);
