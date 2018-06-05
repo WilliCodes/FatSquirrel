@@ -40,7 +40,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		return new XY(cells.length, cells[0].length);
 	}
 	
-	private void move(Entity e, XY from, XY to) {
+	public void move(Entity e, XY from, XY to) {
 		e.setPosition(to);
 		cells[from.x][from.y] = null;
 		cells[to.x][to.y] = e;
@@ -84,7 +84,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
       logger.finer(masterSquirrel.toString() + " can't move because " + target.toString() + " is in the way");
 			break;
 		case MINI_SQUIRREL:
-			if (masterSquirrel.isMyMini((MiniSquirrel) target))
+			if (masterSquirrel.isMyMini((MiniSquirrel) target)) {
 				masterSquirrel.updateEnergy(target.getEnergy());
 				logger.finer(masterSquirrel.toString() + " consumed its own Mini: " + target.toString());
 			}
