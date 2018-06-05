@@ -84,7 +84,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
       logger.finer(masterSquirrel.toString() + " can't move because " + target.toString() + " is in the way");
 			break;
 		case MINI_SQUIRREL:
-			if (masterSquirrel.isMyMini((MiniSquirrel) target))
+			if (masterSquirrel.isMyMini((MiniSquirrel) target)) {
 				masterSquirrel.updateEnergy(target.getEnergy());
 				logger.finer(masterSquirrel.toString() + " consumed its own Mini: " + target.toString());
 			}

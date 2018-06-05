@@ -1,6 +1,9 @@
 package de.hsa.games.fatsquirrel.core;
 
+import java.lang.reflect.Proxy;
+
 import de.hsa.games.fatsquirrel.botapi.BotController;
+import de.hsa.games.fatsquirrel.botapi.BotInvocationHandler;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 import de.hsa.games.fatsquirrel.botapi.SpawnException;
@@ -10,14 +13,19 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
 	private BotController botcon;
 	
+	
 	public MasterSquirrelBot(int id, XY position, BotController botcon) {
 		super(id, position);
 		this.botcon = botcon;
 	}
 	
+
 	@Override
 	public void nextStep(EntityContext context) {
-		botcon.nextStep(new ControllerContextImpl(context, this));
+		ControllerContextImpl conConImpl = new ControllerContextImpl(context, this);
+		BotInvocationHandler botInvocationHandler = new BotInvocationHandler(conConImpl);
+		ControllerContext conCon = (ControllerContext) Proxy.newProxyInstance(ControllerContext.class.getClassLoader(), new Class[] { ControllerContext.class }, botInvocationHandler);
+		botcon.nextStep(conCon);
 	}
 	
 	public class ControllerContextImpl implements ControllerContext {
