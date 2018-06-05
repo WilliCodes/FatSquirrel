@@ -1,6 +1,9 @@
 package de.hsa.games.fatsquirrel.core;
 
+import java.lang.reflect.Proxy;
+
 import de.hsa.games.fatsquirrel.botapi.BotController;
+import de.hsa.games.fatsquirrel.botapi.BotInvocationHandler;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 import de.hsa.games.fatsquirrel.botapi.SpawnException;
@@ -10,19 +13,30 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
 	private BotController botcon;
 	
+	
 	public MasterSquirrelBot(int id, XY position, BotController botcon) {
 		super(id, position);
 		this.botcon = botcon;
 	}
 	
+
 	@Override
 	public void nextStep(EntityContext context) {
-		botcon.nextStep(new ControllerContextImpl(context, this));
+		if (nextMove > 0) {
+			nextMove--;
+			return;
+		} else {
+			ControllerContextImpl conConImpl = new ControllerContextImpl(context, this);
+			BotInvocationHandler botInvocationHandler = new BotInvocationHandler(conConImpl);
+			ControllerContext conCon = (ControllerContext) Proxy.newProxyInstance(ControllerContext.class.getClassLoader(), new Class[] { ControllerContext.class }, botInvocationHandler);
+			botcon.nextStep(conCon);
+			context.tryMove(this, nextMoveCommand);
+		}
 	}
 	
 	public class ControllerContextImpl implements ControllerContext {
 		
-		private final int sight = 31;
+		private final int sight = 15;
 		
 		private EntityContext context;
 		private MasterSquirrelBot masterSquirrelBot;
@@ -64,6 +78,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
 			XY viewLL = getViewLowerLeft();
 			XY viewUR = getViewUpperRight();
 			
+			// make private method
 			if (pos.x < viewLL.x || pos.x > viewUR.x || pos.y < viewUR.y || pos.y > viewLL.y) {
 				throw new OutOfViewException("The MasterSquirrel cannot see this cell!");
 			}
@@ -74,13 +89,21 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
 		@Override
 		public void move(XY direction) {
-			context.tryMove(masterSquirrelBot, direction);
+			masterSquirrelBot.setNextCommand(direction);
 		}
 
 		@Override
 		public void spawnMiniBot(XY direction, int energy) throws SpawnException {
 			if (direction.x < -1 || direction.x > 1 || direction.y < -1 || direction.y > 1 || (direction.equals(XY.ZERO_ZERO)))
 				throw new SpawnException("Invalid spawn direction!");
+			
+			XY loc = masterSquirrelBot.getPosition().plus(direction);
+			
+			if (loc.x < 0 || loc.y < 0 || loc.x > context.getSize().x || loc.y > context.getSize().y)
+				throw new SpawnException("Spawning out of bounds!");
+			if (context.getEntityType(loc) != EntityType.NONE)
+				throw new SpawnException("Field already in use!");
+
 			masterSquirrelBot.setSpawnMini(energy, direction);
 		}
 
@@ -108,6 +131,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
 		@Override
 		public void implode(int impactRadius) {
+			// throw unsopp. exc
 		}
 
 		@Override

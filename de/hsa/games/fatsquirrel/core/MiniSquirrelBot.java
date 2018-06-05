@@ -1,6 +1,9 @@
 package de.hsa.games.fatsquirrel.core;
 
+import java.lang.reflect.Proxy;
+
 import de.hsa.games.fatsquirrel.botapi.BotController;
+import de.hsa.games.fatsquirrel.botapi.BotInvocationHandler;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 
@@ -17,7 +20,16 @@ public class MiniSquirrelBot extends MiniSquirrel {
 	
 	@Override
 	public void nextStep(EntityContext context) {
-		botcon.nextStep(new ControllerContextImpl(context, this));
+		if (nextMove > 0) {
+			nextMove--;
+			return;
+		} else {
+			ControllerContextImpl conConImpl = new ControllerContextImpl(context, this);
+			BotInvocationHandler botInvocationHandler = new BotInvocationHandler(conConImpl);
+			ControllerContext conCon = (ControllerContext) Proxy.newProxyInstance(ControllerContext.class.getClassLoader(), new Class[] { ControllerContext.class }, botInvocationHandler);
+			botcon.nextStep(conCon);
+			context.tryMove(this, nextMoveCommand);
+		}
 	}
 	
 	
@@ -74,7 +86,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
 		@Override
 		public void move(XY direction) {
-			context.tryMove(miniSquirrelBot, direction);
+			miniSquirrelBot.setNextCommand(direction);
 		}
 
 		@Override
@@ -105,6 +117,8 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
 		@Override
 		public void implode(int impactRadius) {
+			// leicht ausnutzbar (LOL)
+			// check valid impactRadius
 			context.implodeMini(impactRadius, miniSquirrelBot);
 		}
 

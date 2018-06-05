@@ -1,12 +1,11 @@
 package de.hsa.games.fatsquirrel.core;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import de.hsa.games.fatsquirrel.core.Board;
 
 public class State {
 	
+	@SuppressWarnings("unused")
 	private int highscore = 9001; // TODO: replace Dummy
 	private Board board;
 	private FlattenedBoard flattenedBoard;

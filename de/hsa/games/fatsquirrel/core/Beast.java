@@ -1,7 +1,5 @@
 package de.hsa.games.fatsquirrel.core;
 
-import de.hsa.games.fatsquirrel.Launcher;
-
 public abstract class Beast extends Character{
 	
 	protected static final int movePeriod = 4;

@@ -1,6 +1,5 @@
 package de.hsa.games.fatsquirrel.console.commands;
 
-import de.hsa.games.fatsquirrel.core.HandOperatedMasterSquirrel;
 import de.hsa.games.fatsquirrel.core.MasterSquirrel;
 import de.hsa.games.fatsquirrel.core.XY;
 

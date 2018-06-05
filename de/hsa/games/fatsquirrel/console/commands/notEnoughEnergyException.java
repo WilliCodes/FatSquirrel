@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 public class notEnoughEnergyException extends RuntimeException {
 	
+	private static final long serialVersionUID = -6732522422673721795L;
 	Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
 	public notEnoughEnergyException() {super();}
