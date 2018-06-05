@@ -9,14 +9,19 @@ import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 public class BoardTest {
 
+    @Mock
 	public Board testBoard;
 	
 	@Before
 	public void setUp() {
-		testBoard = new Board(new BoardConfig());
+	    MockitoAnnotations.initMocks(this);
+		testBoard = Mockito.mock(Board.class);
 	}
 	
 	@Test
@@ -29,17 +34,13 @@ public class BoardTest {
 
 	@Test
 	public void randomPositionTest() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		ArrayList<XY> blockedXy = new ArrayList<XY>();
+		Board testBoard = new Board(new BoardConfig());
+	    ArrayList<XY> blockedXy = new ArrayList<XY>();
 		Method testMethod = testBoard.getClass().getDeclaredMethod("randomPosition", ArrayList.class);
 		testMethod.setAccessible(true);
 		XY xy = (XY) testMethod.invoke(testBoard, blockedXy);
 		XY xy2 =(XY) testMethod.invoke(testBoard, blockedXy);
 		assertNotSame(xy, xy2);
-	}
-	
-	@Test
-	public void getHandOperatedMasterSquirrelTest() {
-		assertNotNull(testBoard.getHandOperatedMasterSquirrel());
 	}
 	
 	
