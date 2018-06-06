@@ -55,6 +55,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 				pos = getRandomFreeNeighbourCellDirection(masterSquirrel.getPosition());
 			}
 			cells[pos.x][pos.y] = board.spawnMini(pos, masterSquirrel);
+			masterSquirrel.updateEnergy(-masterSquirrel.getSpawmMini());
 			masterSquirrel.setSpawnMini(0, null);	
 		}
 		
@@ -466,6 +467,13 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	public MasterSquirrel getHandOperatedMasterSquirrel() {
 		return masterSquirrels.get(0);
+	}
+
+	@Override
+	public List<MasterSquirrel> getMasterSquirrels() {
+		List<MasterSquirrel> copy = new ArrayList<>();
+		copy.addAll(board.getMasterSquirrels());
+		return copy;
 	}
 
 

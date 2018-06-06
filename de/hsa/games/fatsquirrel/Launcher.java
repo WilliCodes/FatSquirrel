@@ -32,7 +32,7 @@ public class Launcher extends Application {
 		
 		MyLogger.setup();
 		board = new Board(boardConfig);
-		state = new State(board);
+		state = new State(board, boardConfig);
     
 		boolean gui = true;
 		
@@ -41,7 +41,7 @@ public class Launcher extends Application {
 			GameImpl game = new GameImpl(state);
 			InputReader inputReader = new InputReader(game.getUi());
 			inputReader.start();
-			game.run();
+			startGame(game);
 		} else {
 			Application.launch(args);
 		}
@@ -51,7 +51,7 @@ public class Launcher extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		
 		logger.info("guimode started");
-		FxUI fxUI = FxUI.createInstance(boardConfig.getSize());
+		FxUI fxUI = FxUI.createInstance(new XY (boardConfig.width, boardConfig.height));
         final Game game = new GameUi(state, fxUI);
          
         primaryStage.setScene(fxUI);

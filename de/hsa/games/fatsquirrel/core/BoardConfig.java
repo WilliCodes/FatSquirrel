@@ -1,10 +1,13 @@
 package de.hsa.games.fatsquirrel.core;
 
+
 import de.hsa.games.fatsquirrel.Launcher.GameMode;
 
 public class BoardConfig {
 	
 	public final GameMode gameMode = GameMode.AI_GAME;
+	public final int stepsPerRound = 20;
+	
 	public final int width = 60;
 	public final int height = 40;
 	
@@ -18,12 +21,5 @@ public class BoardConfig {
 	public final String[] masterSquirrelBotNames = {"Wilhelm", "ZickeZacke"};
 	public final String[] masterSquirrelPlayerNames = {"Player 1"};
 	
-	
-	public BoardConfig() {
-	}
-	
-	public XY getSize() {
-		return new XY(width, height);
-	}
 
 }
