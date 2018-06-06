@@ -1,4 +1,4 @@
-package de.hsa.games.fatsquirrel.core;
+package de.hsa.games.fatsquirrel.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -11,6 +11,18 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
+import de.hsa.games.fatsquirrel.core.BadBeast;
+import de.hsa.games.fatsquirrel.core.BadPlant;
+import de.hsa.games.fatsquirrel.core.Board;
+import de.hsa.games.fatsquirrel.core.EntityType;
+import de.hsa.games.fatsquirrel.core.FlattenedBoard;
+import de.hsa.games.fatsquirrel.core.GoodBeast;
+import de.hsa.games.fatsquirrel.core.GoodPlant;
+import de.hsa.games.fatsquirrel.core.MasterSquirrel;
+import de.hsa.games.fatsquirrel.core.MiniSquirrel;
+import de.hsa.games.fatsquirrel.core.Wall;
+import de.hsa.games.fatsquirrel.core.XY;
 
 public class FlattenedBoardTest {
 

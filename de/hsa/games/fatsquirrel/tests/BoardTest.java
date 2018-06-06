@@ -1,4 +1,4 @@
-package de.hsa.games.fatsquirrel.core;
+package de.hsa.games.fatsquirrel.tests;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
@@ -12,6 +12,11 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
+import de.hsa.games.fatsquirrel.core.Board;
+import de.hsa.games.fatsquirrel.core.BoardConfig;
+import de.hsa.games.fatsquirrel.core.Entity;
+import de.hsa.games.fatsquirrel.core.XY;
 
 public class BoardTest {
 

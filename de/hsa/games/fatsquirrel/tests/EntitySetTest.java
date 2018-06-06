@@ -1,8 +1,12 @@
-package de.hsa.games.fatsquirrel.core;
+package de.hsa.games.fatsquirrel.tests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import de.hsa.games.fatsquirrel.core.EntitySet;
+import de.hsa.games.fatsquirrel.core.Wall;
+import de.hsa.games.fatsquirrel.core.XY;
 
 public class EntitySetTest {
 
