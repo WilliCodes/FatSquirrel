@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import de.hsa.games.fatsquirrel.GameMode;
 import de.hsa.games.fatsquirrel.Launcher;
-import de.hsa.games.fatsquirrel.Launcher.GameMode;
 import de.hsa.games.fatsquirrel.UI;
 import de.hsa.games.fatsquirrel.console.commands.Command;
 import de.hsa.games.fatsquirrel.console.commands.GameCommandType;
@@ -53,7 +53,7 @@ public class FxUI extends Scene implements UI {
         logger.fine("FxUI: vbox created");
         top.getChildren().add(boardCanvas);
         top.getChildren().add(statusLabel);
-        statusLabel.setText("Hallo Welt");
+        statusLabel.setText("Collect deez nutz!");
         final FxUI fxUI = new FxUI(top, boardCanvas, statusLabel); 
         fxUI.setOnKeyPressed(
                 new EventHandler<KeyEvent>() {

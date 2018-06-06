@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.core.Board;
 
 public class State {
@@ -25,7 +26,7 @@ public class State {
 	
 	public State(Board board, BoardConfig boardConfig) {
 		this.boardConfig = boardConfig;
-		this.remainingSteps = this.boardConfig.stepsPerRound;
+		this.remainingSteps = this.boardConfig.getStepsPerRound();
 		this.board = board;
 		flattenedBoard = new FlattenedBoard(board);
 	}
@@ -58,10 +59,12 @@ public class State {
 			}	
 		});
 		
+		// Sort each ScoreList descending
 		scores.values().forEach(list -> {
 			Collections.sort(list);
 			Collections.reverse(list);
 		});
+		
 			
 		scores.forEach((key, value) -> {
 			System.out.print(key + "  ");
@@ -72,9 +75,9 @@ public class State {
 		System.out.println();
 		
 		
-		board = new Board(new BoardConfig());
+		board = new Board(new BoardConfig(Launcher.configFile));
 		flattenedBoard = new FlattenedBoard(board);
-		remainingSteps = boardConfig.stepsPerRound;
+		remainingSteps = boardConfig.getStepsPerRound();
 	}
 
 	public FlattenedBoard getFlattenedBoard() {

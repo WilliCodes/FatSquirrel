@@ -18,14 +18,12 @@ import javafx.stage.WindowEvent;
 public class Launcher extends Application {
 	
 	private static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	private static BoardConfig boardConfig = new BoardConfig();
+	public static String configFile = "boardConfig.properties";
+	private static BoardConfig boardConfig = new BoardConfig(configFile);
 	private static Board board;
 	private static State state;
 	
-	public enum GameMode {
-		SINGLE_PLAYER, MULTI_PLAYER, AI_GAME;
-	}
-	public static final GameMode gameMode = boardConfig.gameMode;
+	public static GameMode gameMode = boardConfig.getGameMode();
 
 	
 	public static void main(String[] args) throws Exception {
@@ -51,7 +49,7 @@ public class Launcher extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		
 		logger.info("guimode started");
-		FxUI fxUI = FxUI.createInstance(new XY (boardConfig.width, boardConfig.height));
+		FxUI fxUI = FxUI.createInstance(new XY (boardConfig.getWidth(), boardConfig.getHeight()));
         final Game game = new GameUi(state, fxUI);
          
         primaryStage.setScene(fxUI);
@@ -80,6 +78,6 @@ public class Launcher extends Application {
 				game.run();	
 			}
 			
-		}, 3000);
+		}, 1000);
 	}
 }
