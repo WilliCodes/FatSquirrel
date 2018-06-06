@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.logging.Logger;
 
 import de.hsa.games.fatsquirrel.botapi.BotController;
+import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
+import de.hsa.games.fatsquirrel.botapi.BotControllerFactoryImpl;
 
 
 
@@ -15,82 +16,74 @@ public class EntitySet {
 	
 
 	private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	private List<Entity> activeEntities = Collections.synchronizedList(new LinkedList<Entity>());
+	private List<Entity> activeEntities = new LinkedList<>(); //Collections.synchronizedList(new LinkedList<Entity>());
+	private BotControllerFactory botCF = new BotControllerFactoryImpl();
 	
 	private int idCounter = 0;
 	
-	public synchronized void placeWall(XY position) {
+	public void placeWall(XY position) {
 		Wall wall = new Wall(idCounter++, position);
 		logger.finer(wall.toString() + " was placed");
 		activeEntities.add(wall);
 	}
 	
-	public synchronized void placeGoodBeast(XY position) {
+	public void placeGoodBeast(XY position) {
 		GoodBeast goodBeast = new GoodBeast(idCounter++, position);
 		activeEntities.add(goodBeast);
 		logger.finer(goodBeast.toString() + " was placed");
 	}
 	
-	public synchronized void placeBadBeast(XY position) {
+	public void placeBadBeast(XY position) {
 		BadBeast badBeast = new BadBeast(idCounter++, position);
 		activeEntities.add(badBeast);
 		logger.finer(badBeast.toString() + " was placed");
 	}
 	
-	public synchronized void placeGoodPlant(XY position) {
+	public void placeGoodPlant(XY position) {
 		GoodPlant goodPlant = new GoodPlant(idCounter++, position);
 		activeEntities.add(goodPlant);
 		logger.finer(goodPlant.toString() + " was placed");
 	}
 	
-	public synchronized void placeBadPlant(XY position) {
+	public void placeBadPlant(XY position) {
 		BadPlant badPlant = new BadPlant(idCounter++, position);
 		activeEntities.add(badPlant);
 		logger.finer(badPlant.toString() + " was placed");
 	}
 
-	public synchronized MiniSquirrel placeMiniSquirrel(XY position, int masterID, int initialEnergy) {
+	public MiniSquirrel placeMiniSquirrel(XY position, int masterID, int initialEnergy) {
 		MiniSquirrel miniSquirrel = new MiniSquirrel(idCounter++, initialEnergy,  position, masterID);
 		activeEntities.add(miniSquirrel);
 		logger.finer(miniSquirrel.toString() + " was placed");
 		return miniSquirrel;
 	}
 	
-	public void placeHandOperatedMasterSquirrel(XY position) {
-		HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(idCounter++, position);
+	public void placeHandOperatedMasterSquirrel(XY position, String playerName) {
+		HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(idCounter++, position, playerName);
 		activeEntities.add(handOperatedMasterSquirrel);
 		logger.finer(handOperatedMasterSquirrel.toString() + " was placed");
 	}
 	
 
-	public synchronized MiniSquirrelBot placeMiniBot(XY position, int masterID, int initialEnergy, BotController botcon) {
-		MiniSquirrelBot miniBot = new MiniSquirrelBot(idCounter++, initialEnergy, position, masterID, botcon);
+	public MiniSquirrelBot placeMiniSquirrelBot(XY position, int masterID, int initialEnergy, String botName) {
+		MiniSquirrelBot miniBot = new MiniSquirrelBot(idCounter++, initialEnergy, position, masterID, botCF.createMiniBotController(botName));
 
 		activeEntities.add(miniBot);
 		logger.finer(miniBot.toString() + " was placed");
 		return miniBot;
 	}
 	
-	public synchronized void placeMasterSquirrelBot(XY position, BotController botcon) {
-		MasterSquirrelBot masterBot = new MasterSquirrelBot(idCounter++, position, botcon);
+	public void placeMasterSquirrelBot(XY position, String botName) {
+		MasterSquirrelBot masterBot = new MasterSquirrelBot(idCounter++, position, botCF.createMasterBotController(botName), botName);
 
 		activeEntities.add(masterBot);
 		logger.finer(masterBot.toString() + " was placed");
 	}
 	
 	
-	public synchronized List<Entity> getEntities() {
+	public List<Entity> getEntities() {
 		return activeEntities;
 	}
-	
-	public synchronized void removeDeaktivated() {
-		ListIterator<Entity> iterator = activeEntities.listIterator();
-		while(iterator.hasNext()) {
-			if (!iterator.next().isActive()) 
-				iterator.remove();
-		}
-	}
-	
 	
 	@Override
 	public String toString() {
@@ -101,7 +94,7 @@ public class EntitySet {
 		return toString;
 	}
 	
-	public synchronized void entitiesNextStep(EntityContext context) {
+	public void entitiesNextStep(EntityContext context) {
 		Collections.shuffle(activeEntities);
 		
 		for (Entity entity : new ArrayList<Entity>(activeEntities))
@@ -109,9 +102,7 @@ public class EntitySet {
 				Character c = (Character) entity;
 				c.nextStep(context);
 			}
-		removeDeaktivated();
-				
+
+		activeEntities.removeIf(e -> !e.isActive());			
 	}
-	
-	
 }

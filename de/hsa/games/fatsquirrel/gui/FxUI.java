@@ -161,7 +161,7 @@ public class FxUI extends Scene implements UI {
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
 			case MINI_SQUIRREL:
-				gc.setFill(Color.ALICEBLUE);
+				gc.setFill(Color.SKYBLUE);
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
 			case WALL:

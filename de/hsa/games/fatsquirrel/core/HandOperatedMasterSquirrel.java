@@ -7,8 +7,8 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 	
 	
 
-	public HandOperatedMasterSquirrel(int id, XY position) {
-		super(id, initEnergy, position);
+	public HandOperatedMasterSquirrel(int id, XY position, String playerName) {
+		super(id, initEnergy, position, playerName);
 	}
 	
 

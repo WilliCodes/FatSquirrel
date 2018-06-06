@@ -6,7 +6,7 @@ public class MiniSquirrel extends MasterSquirrel{
 	protected int implodeRadius = 0;
 
 	public MiniSquirrel(int id, int energy, XY position, int masterID) {
-		super(id, energy, position);
+		super(id, energy, position, "");
 		this.masterID = masterID;
 	}
 
