@@ -2,10 +2,8 @@ package de.hsa.games.fatsquirrel.core;
 
 
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
-import java.io.Writer;
 import java.util.Properties;
 
 import de.hsa.games.fatsquirrel.GameMode;
@@ -29,6 +27,11 @@ public class BoardConfig {
 	private String[] masterSquirrelBotNames = {"Wilhelm", "ZickeZacke"};
 	private String[] masterSquirrelPlayerNames = {"Player 1"};
 	
+	private String scoreBoardFile = "scoreBoard.txt";
+	
+	
+
+
 	Properties properties = new Properties();
 	
 	
@@ -132,6 +135,15 @@ public class BoardConfig {
 			} catch (Exception e) {}
 		}
 		return masterSquirrelPlayerNames;
+	}
+	
+	public String getScoreBoardFile() {
+		if (properties.containsKey("scoreBoardFile")) {
+			try {
+				return properties.getProperty("scoreBoardFile");
+			} catch (Exception e) {}
+		}
+		return scoreBoardFile;
 	}
 	
 	

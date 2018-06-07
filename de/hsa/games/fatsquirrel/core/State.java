@@ -1,12 +1,16 @@
 package de.hsa.games.fatsquirrel.core;
 
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.core.Board;
@@ -19,7 +23,7 @@ public class State {
 	private BoardConfig boardConfig;
 	private Board board;
 	private FlattenedBoard flattenedBoard;
-	private Map<String, List<Integer>> scores = new HashMap<>();
+	private Map<String, List<Integer>> scores;
 	
 	private int remainingSteps;
 	
@@ -29,6 +33,10 @@ public class State {
 		this.remainingSteps = this.boardConfig.getStepsPerRound();
 		this.board = board;
 		flattenedBoard = new FlattenedBoard(board);
+		
+		scores = readScoreBoard(boardConfig.getScoreBoardFile());
+		if (scores == null)
+			scores = new HashMap<>();
 	}
 	
 	public void update() {
@@ -65,14 +73,9 @@ public class State {
 			Collections.reverse(list);
 		});
 		
-			
-		scores.forEach((key, value) -> {
-			System.out.print(key + "  ");
-			value.forEach(s -> System.out.print(" " + s));
-			System.out.println();
-		});
 		
-		System.out.println();
+		
+		saveScoreBoard(boardConfig.getScoreBoardFile());
 		
 		
 		board = new Board(new BoardConfig(Launcher.configFile));
@@ -85,11 +88,57 @@ public class State {
 	}
 
 	
-	
 	/* Wird nur aufgerufen im SinglePlayer-Modus */
 	public MasterSquirrel getHandOperatedMasterSquirrels() {
 		return flattenedBoard.getHandOperatedMasterSquirrel();
 	}
 	
+	private Map<String, List<Integer>> readScoreBoard(String path) {
+		Map<String, List<Integer>> readScores = new HashMap<>();
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				String[] fields = line.split(",");
+				
+				List<Integer> tmpScores = new ArrayList<>();
+				for (String field : fields) {
+					if (field.equals(fields[0]))
+						continue;
+					tmpScores.add(Integer.parseInt(field));
+				}
+				readScores.put(fields[0], tmpScores);
+			}
+			
+		} catch (Exception e) {
+			return null;
+		}
+		
+		return readScores;
+	}
+	
+	public boolean saveScoreBoard(String path) {
+		
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
+			
+			
+			scores.forEach((key, value) -> {
+				try {
+					bw.write(key);
+					for (Integer i : value) {
+						bw.write(","+i);
+					}
+					bw.newLine();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return true;
+	}
 
 }
