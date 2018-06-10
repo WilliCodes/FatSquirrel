@@ -2,7 +2,6 @@ package de.hsa.games.fatsquirrel;
 
 import java.util.logging.Logger;
 
-import de.hsa.games.fatsquirrel.Launcher.GameMode;
 import de.hsa.games.fatsquirrel.core.State;
 
 public abstract class Game {

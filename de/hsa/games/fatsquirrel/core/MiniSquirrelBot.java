@@ -24,6 +24,13 @@ public class MiniSquirrelBot extends MiniSquirrel {
 			nextMove--;
 			return;
 		} else {
+			
+			updateEnergy(-1);
+			if (getEnergy() <= 0) {
+				deactivate();
+				return;
+			}
+			
 			ControllerContextImpl conConImpl = new ControllerContextImpl(context, this);
 			BotInvocationHandler botInvocationHandler = new BotInvocationHandler(conConImpl);
 			ControllerContext conCon = (ControllerContext) Proxy.newProxyInstance(ControllerContext.class.getClassLoader(), new Class[] { ControllerContext.class }, botInvocationHandler);
