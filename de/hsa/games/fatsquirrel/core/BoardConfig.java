@@ -47,6 +47,10 @@ public class BoardConfig {
 			try {reader.close();} catch (Exception e) {}
 		}
 	}
+	
+	public BoardConfig() {
+		
+	}
 
 
 	public GameMode getGameMode() {

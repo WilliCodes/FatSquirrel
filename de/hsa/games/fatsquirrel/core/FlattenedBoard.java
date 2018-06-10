@@ -375,6 +375,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		int impactArea = (int) (impactRadius * impactRadius * Math.PI);
 		
 		int initialEnergy = miniSquirrel.getEnergy();
+		miniSquirrel.updateEnergy(-initialEnergy);
 		
 		for (int x = pos.x - impactRadius; x <= pos.x + impactRadius; x++ ) {
 			if (x < 0 || x > getSize().x) 
