@@ -12,8 +12,8 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 	 * @param id as int
 	 * @param position as XY
 	 */
-	public HandOperatedMasterSquirrel(int id, XY position) {
-		super(id, initEnergy, position);
+	public HandOperatedMasterSquirrel(int id, XY position, String playerName) {
+		super(id, initEnergy, position, playerName);
 	}
 	
 

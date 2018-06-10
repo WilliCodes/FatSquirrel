@@ -1,14 +1,17 @@
 package de.hsa.games.fatsquirrel.gui;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import de.hsa.games.fatsquirrel.GameMode;
 import de.hsa.games.fatsquirrel.Launcher;
-import de.hsa.games.fatsquirrel.Launcher.GameMode;
 import de.hsa.games.fatsquirrel.UI;
 import de.hsa.games.fatsquirrel.console.commands.Command;
 import de.hsa.games.fatsquirrel.console.commands.GameCommandType;
 import de.hsa.games.fatsquirrel.core.BoardView;
+import de.hsa.games.fatsquirrel.core.MasterSquirrel;
 import de.hsa.games.fatsquirrel.core.XY;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -55,7 +58,7 @@ public class FxUI extends Scene implements UI {
         logger.fine("FxUI: vbox created");
         top.getChildren().add(boardCanvas);
         top.getChildren().add(statusLabel);
-        statusLabel.setText("Hallo Welt");
+        statusLabel.setText("Collect deez nutz!");
         final FxUI fxUI = new FxUI(top, boardCanvas, statusLabel); 
         fxUI.setOnKeyPressed(
                 new EventHandler<KeyEvent>() {
@@ -142,7 +145,16 @@ public class FxUI extends Scene implements UI {
         gc.clearRect(0, 0, boardCanvas.getWidth(), boardCanvas.getHeight());
         XY viewSize = view.getSize();
         
-        message(Integer.toString(view.getMasterSquirrelEnergy()));
+        List<MasterSquirrel> masterSquirrels = view.getMasterSquirrels();
+        masterSquirrels.sort((a, b) -> a.playerName.compareTo(b.playerName));
+        
+        String scores = "";
+        
+        for (MasterSquirrel ms : masterSquirrels) {
+        	scores += ms.playerName + ": " + ms.getEnergy() + "    ";
+        }
+        
+        message(scores);
 
        for(int a = 0; a < viewSize.x; a++) {
     	   for(int b = 0; b < viewSize.y; b++) {
@@ -170,7 +182,7 @@ public class FxUI extends Scene implements UI {
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
 			case MINI_SQUIRREL:
-				gc.setFill(Color.ALICEBLUE);
+				gc.setFill(Color.SKYBLUE);
 				gc.fillOval(a*CELL_SIZE, b*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 				break;
 			case WALL:

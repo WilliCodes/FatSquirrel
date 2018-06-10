@@ -26,7 +26,7 @@ public class BoardTest {
 	
 	@Test
 	public void flattenTest() {
-		Board testBoard2 = new Board(new BoardConfig());
+		Board testBoard2 = new Board(new BoardConfig(""));
 		Entity[][] flatTest = testBoard.flatten();
 		Entity[][] flatTest2 = testBoard2.flatten();
 		assertNotSame(flatTest, flatTest2);
@@ -34,7 +34,7 @@ public class BoardTest {
 
 	@Test
 	public void randomPositionTest() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		Board testBoard = new Board(new BoardConfig());
+		Board testBoard = new Board(new BoardConfig(""));
 	    ArrayList<XY> blockedXy = new ArrayList<XY>();
 		Method testMethod = testBoard.getClass().getDeclaredMethod("randomPosition", ArrayList.class);
 		testMethod.setAccessible(true);

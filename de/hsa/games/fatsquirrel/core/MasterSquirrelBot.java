@@ -13,6 +13,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
 	private BotController botcon;
 	
+
 	/**
 	 * generates an instance of a MasterSquirrelBot
 	 * 
@@ -20,8 +21,8 @@ public class MasterSquirrelBot extends MasterSquirrel {
 	 * @param position as XY
 	 * @param botcon as BotController
 	 */
-	public MasterSquirrelBot(int id, XY position, BotController botcon) {
-		super(id, position);
+	public MasterSquirrelBot(int id, XY position, BotController botcon, String botName) {
+		super(id, position, botName);
 		this.botcon = botcon;
 	}
 	
@@ -103,6 +104,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
 		public void spawnMiniBot(XY direction, int energy) throws SpawnException {
 			if (direction.x < -1 || direction.x > 1 || direction.y < -1 || direction.y > 1 || (direction.equals(XY.ZERO_ZERO)))
 				throw new SpawnException("Invalid spawn direction!");
+			
 			
 			XY loc = masterSquirrelBot.getPosition().plus(direction);
 			

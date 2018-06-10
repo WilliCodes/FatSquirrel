@@ -3,9 +3,7 @@ package de.hsa.games.fatsquirrel.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hsa.games.fatsquirrel.Launcher.GameMode;
-import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
-import de.hsa.games.fatsquirrel.botapi.BotControllerFactoryImpl;
+import de.hsa.games.fatsquirrel.GameMode;
 import de.hsa.games.fatsquirrel.core.EntityType;
 
 
@@ -15,7 +13,6 @@ public class Board {
 	private int width;
 	private int height;
 	
-	BotControllerFactory botCF;
 	
 	/**
 	 * 
@@ -28,11 +25,11 @@ public class Board {
 		XY tmpXY;
 		
 		// load board dimensions
-		width = bC.width;
-		height = bC.height;
+		width = bC.getWidth();
+		height = bC.getHeight();
 		
 		// load surrounding walls
-		if (bC.surroundWithWalls) {
+		if (bC.getSurroundWithWalls()) {
 			for (int i = 0; i < width; i++) {
 				tmpXY = new XY(i,0);
 				entitySet.placeWall(tmpXY);
@@ -54,52 +51,54 @@ public class Board {
 		}
 		
 		// load random walls
-		for (int i = 0; i < bC.startWalls; i++) {
+		for (int i = 0; i < bC.getStartWalls(); i++) {
 			tmpXY = randomPosition(blockedXY);
 			entitySet.placeWall(tmpXY);
 			blockedXY.add(tmpXY);
 		}
 		
 		// load random GoodPlants
-		for (int i = 0; i < bC.startGoodPlants; i++) {
+		for (int i = 0; i < bC.getStartGoodPlants(); i++) {
 			tmpXY = randomPosition(blockedXY);
 			entitySet.placeGoodPlant(tmpXY);
 			blockedXY.add(tmpXY);
 		}
 		
 		// load random BadPlants
-		for (int i = 0; i < bC.startBadPlants; i++) {
+		for (int i = 0; i < bC.getStartBadPlants(); i++) {
 			tmpXY = randomPosition(blockedXY);
 			entitySet.placeBadPlant(tmpXY);
 			blockedXY.add(tmpXY);
 		}
 				
 		// load random GoodBeasts
-		for (int i = 0; i < bC.startGoodBeasts; i++) {
+		for (int i = 0; i < bC.getStartGoodBeasts(); i++) {
 			tmpXY = randomPosition(blockedXY);
 			entitySet.placeGoodBeast(tmpXY);
 			blockedXY.add(tmpXY);
 		}
 		
 		// load random BadBeasts
-		for (int i = 0; i < bC.startBadBeasts; i++) {
+		for (int i = 0; i < bC.getStartBadBeasts(); i++) {
 			tmpXY = randomPosition(blockedXY);
 			entitySet.placeBadBeast(tmpXY);
 			blockedXY.add(tmpXY);
 		}
 		
-		// load random MasterSquirrels
-		if (bC.gameMode == GameMode.AI_GAME) {
-			botCF = new BotControllerFactoryImpl();
-		}
-		for (int i = 0; i < bC.startMasterSquirrels; i++) {
-			tmpXY = randomPosition(blockedXY);
-			if (bC.gameMode == GameMode.AI_GAME)
-				entitySet.placeMasterSquirrelBot(tmpXY, botCF.createMasterBotController());
-			else
-				entitySet.placeHandOperatedMasterSquirrel(tmpXY);
-			blockedXY.add(tmpXY);
-		}
+		// load MasterSquirrels
+		if (bC.getGameMode() == GameMode.AI_GAME) {
+			for (String botName : bC.getMasterSquirrelBotNames()) {
+				tmpXY = randomPosition(blockedXY);
+				entitySet.placeMasterSquirrelBot(tmpXY, botName);
+				blockedXY.add(tmpXY);
+			}
+				
+		} else
+			for (String playerName : bC.getMasterSquirrelPlayerNames()) {
+				tmpXY = randomPosition(blockedXY);
+				entitySet.placeHandOperatedMasterSquirrel(tmpXY, playerName);
+				blockedXY.add(tmpXY);
+			}
 		
 		
 	}
@@ -217,6 +216,8 @@ public class Board {
 	 * @return MiniSquirrel from the given MasterSquirrel
 	 */
 	public MiniSquirrel spawnMini(XY pos, MasterSquirrel ms) {
+		if (ms instanceof MasterSquirrelBot)
+			return entitySet.placeMiniSquirrelBot(pos, ms.getId(), ms.getSpawmMini(), ms.playerName);
 		return entitySet.placeMiniSquirrel(pos, ms.getId(), ms.getSpawmMini());
 	}
 

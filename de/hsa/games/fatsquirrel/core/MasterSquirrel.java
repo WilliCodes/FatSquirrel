@@ -7,14 +7,15 @@ public abstract class MasterSquirrel extends PlayerEntity {
 	protected int spawnMini = 0;
 	protected XY spawnMiniPos;
 	
+
 	/**
 	 * creates an instance of a MasterSquirrel
 	 * @param id as int
 	 * @param energy as int
 	 * @param position as XY
 	 */
-	public MasterSquirrel(int id, int energy, XY position) {
-		super(id, energy, position);
+	public MasterSquirrel(int id, int energy, XY position, String playerName) {
+		super(id, energy, position, playerName);
 	}
 	
 	/**
@@ -22,8 +23,8 @@ public abstract class MasterSquirrel extends PlayerEntity {
 	 * @param _id as int
 	 * @param _position  as XY
 	 */
-	public MasterSquirrel(int _id, XY _position) {
-		super(_id, initEnergy, _position);
+	public MasterSquirrel(int _id, XY _position, String playerName) {
+		super(_id, initEnergy, _position, playerName);
 	}
 	
 
