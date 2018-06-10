@@ -39,6 +39,9 @@ public class State {
 			scores = new HashMap<>();
 	}
 	
+	/**
+	 * updates the state of the game
+	 */
 	public void update() {
 		
 		if (remainingSteps <= 0) {
@@ -54,6 +57,7 @@ public class State {
 		remainingSteps--;
 	}
 	
+
 	private void reset() {
 		
 		// Add the Score of every MS to the Map, add new Set if necessary
@@ -83,12 +87,19 @@ public class State {
 		remainingSteps = boardConfig.getStepsPerRound();
 	}
 
+  	/**
+	 * 
+	 * @return FlattenBoard
+	 */
 	public FlattenedBoard getFlattenedBoard() {
 		return flattenedBoard;
 	}
 
 	
-	/* Wird nur aufgerufen im SinglePlayer-Modus */
+	/**
+	 * wird nur im SinglePlayer aufgerufen
+	 * @return HandOperatedMasterSquirrel
+	 */
 	public MasterSquirrel getHandOperatedMasterSquirrels() {
 		return flattenedBoard.getHandOperatedMasterSquirrel();
 	}

@@ -6,6 +6,11 @@ public enum EntityType {
 	WALL, BAD_BEAST, GOOD_BEAST, BAD_PLANT, GOOD_PLANT, MINI_SQUIRREL, MASTER_SQUIRREL, NONE;
 
 	
+	/**
+	 * 
+	 * @param e as Entity
+	 * @return EntityType of given Entity
+	 */
      public static EntityType getEntityType(Entity e) {
 		
 		if (e == null || !e.isActive())

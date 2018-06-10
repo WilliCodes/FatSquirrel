@@ -11,11 +11,18 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
 	private BotController botcon;
 	
+	/**
+	 * 
+	 * @param id as int
+	 * @param energy as int
+	 * @param position as XY
+	 * @param mid  as int
+	 * @param botcon as BotController
+	 */
 	public MiniSquirrelBot(int id, int energy, XY position, int mid, BotController botcon) {
 		super(id, energy, position, mid);
 		this.botcon = botcon;
 	}
-	
 	
 	
 	@Override
@@ -50,6 +57,11 @@ public class MiniSquirrelBot extends MiniSquirrel {
 		private EntityContext context;
 		private MiniSquirrelBot miniSquirrelBot;
 		
+		/**
+		 * 
+		 * @param context as EntityContext
+		 * @param miniSquirrelBot as MiniSquirrelBot
+		 */
 		public ControllerContextImpl(EntityContext context, MiniSquirrelBot miniSquirrelBot) {
 			this.context = context;
 			this.miniSquirrelBot = miniSquirrelBot;

@@ -15,6 +15,10 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	private List<MasterSquirrel> masterSquirrels = new ArrayList<>();
 	private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
+	/**
+	 * 
+	 * @param board as Board
+	 */
 	public FlattenedBoard(Board board) {
 		this.board = board;
 		cells = this.board.flatten();
@@ -22,10 +26,17 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		logger.fine("FlattenBoard created");
 	}
 	
+	/**
+	 * updates the cells of FlattenBoard from Board
+	 */
 	public void update() {
 		cells = board.flatten();
 	}
 	
+	/**
+	 * 
+	 * @return List of Entities which should be respawned
+	 */
 	public ArrayList<EntityType> getRespawnList() {
 		return toRespawn;
 	}
@@ -40,6 +51,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		return new XY(cells.length, cells[0].length);
 	}
 	
+	/**
+	 * moves Entity from one location to an other
+	 * @param e as Entity
+	 * @param from as XY
+	 * @param to as XY
+	 */
 	private void move(Entity e, XY from, XY to) {
 		e.setPosition(to);
 		cells[from.x][from.y] = null;
@@ -326,6 +343,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		
 	}
 
+	/**
+	 * 
+	 * @param pos as XY
+	 * @return random free cell as XY
+	 */
 	public XY getRandomFreeNeighbourCellDirection(XY pos) {
 		XY[] directionsTmp = new XY[] { new XY(-1,-1), new XY(-1,0), new XY(-1,1), new XY(0,-1), new XY(0,1), new XY(1,-1), new XY(1,0), new XY(1,1) };
 		List<XY> directions = Arrays.asList(directionsTmp);
@@ -445,6 +467,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		kill(miniSquirrel);
 	}
 	
+	/**
+	 * 
+	 * @param id as int
+	 * @return MasterSquirrel which has given ID
+	 */
 	private MasterSquirrel findMaster(int id) {
 		
 		for (int x = 0; x < getSize().x; x++) {
