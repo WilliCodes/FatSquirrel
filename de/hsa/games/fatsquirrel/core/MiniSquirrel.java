@@ -10,6 +10,10 @@ public class MiniSquirrel extends MasterSquirrel{
 		this.masterID = masterID;
 	}
 
+	/**
+	 * 
+	 * @return ID of its MasterSquirrel
+	 */
 	public int getMasterID() {
 		return masterID;
 	}

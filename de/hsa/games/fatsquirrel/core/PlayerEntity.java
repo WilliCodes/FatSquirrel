@@ -10,14 +10,25 @@ public abstract class PlayerEntity extends Character {
 		super(id, energy, position);
 	}
 
+	/**
+	 * 
+	 * @return if PlayerEntity is paralyzed
+	 */
 	public boolean isParalyzed() {
 		return nextMove > 0;
 	}
 	
+	/**
+	 * sets PlayerEntity paralyzed
+	 */
 	public void setParalyzed() {
 		nextMove = paralyzedDuration;
 	}
 	
+	/**
+	 * sets nextMoveCommand to given location
+	 * @param mc as XY
+	 */
 	public void setNextCommand(XY mc) {
 		nextMoveCommand = mc;
 	}

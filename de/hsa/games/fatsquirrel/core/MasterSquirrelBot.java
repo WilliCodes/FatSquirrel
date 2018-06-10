@@ -13,7 +13,13 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
 	private BotController botcon;
 	
-	
+	/**
+	 * generates an instance of a MasterSquirrelBot
+	 * 
+	 * @param id as int
+	 * @param position as XY
+	 * @param botcon as BotController
+	 */
 	public MasterSquirrelBot(int id, XY position, BotController botcon) {
 		super(id, position);
 		this.botcon = botcon;
@@ -41,6 +47,11 @@ public class MasterSquirrelBot extends MasterSquirrel {
 		private EntityContext context;
 		private MasterSquirrelBot masterSquirrelBot;
 		
+		/**
+		 * 
+		 * @param context as EntityContext
+		 * @param masterSquirrelBot as MasterSquirrelBot
+		 */
 		public ControllerContextImpl(EntityContext context, MasterSquirrelBot masterSquirrelBot) {
 			this.context = context;
 			this.masterSquirrelBot = masterSquirrelBot;
@@ -138,6 +149,11 @@ public class MasterSquirrelBot extends MasterSquirrel {
 			return 0;
 		}
 		
+		/**
+		 * 
+		 * @param pos as XY
+		 * @return checks if XY is visible for MasterSquirrel
+		 */
 		private boolean isInView(XY pos) {
 			
 			XY viewLL = getViewLowerLeft();

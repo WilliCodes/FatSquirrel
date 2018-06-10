@@ -16,6 +16,9 @@ public class State {
 		flattenedBoard = new FlattenedBoard(board);
 	}
 	
+	/**
+	 * updates the state of the game
+	 */
 	public void update() {
 		
 		board.updateCharacters((EntityContext) flattenedBoard); 
@@ -25,12 +28,19 @@ public class State {
 		flattenedBoard.update();
 	}
 	
+	/**
+	 * 
+	 * @return FlattenBoard
+	 */
 	public FlattenedBoard getFlattenedBoard() {
 		return flattenedBoard;
 	}
 	
 	
-	/* Wird nur aufgerufen im SinglePlayer-Modus */
+	/**
+	 * wird nur im SinglePlayer aufgerufen
+	 * @return HandOperatedMasterSquirrel
+	 */
 	public MasterSquirrel getHandOperatedMasterSquirrels() {
 		return flattenedBoard.getHandOperatedMasterSquirrel();
 	}

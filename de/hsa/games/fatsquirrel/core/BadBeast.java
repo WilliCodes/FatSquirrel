@@ -6,7 +6,11 @@ public class BadBeast extends Beast{
 	
 	private int bitCounter = 0;
 	
-	
+	/**
+	 * 
+	 * @param id as int
+	 * @param position as XY
+	 */
 	public BadBeast(int id, XY position) {
 		super(id, initEnergy, position);
 	}
@@ -22,7 +26,10 @@ public class BadBeast extends Beast{
 		context.tryMove(this, moveVector);
 	}
 
-	
+	/**
+	 * 
+	 * @return check if Beast has already used all of its bites
+	 */
 	public boolean nextBite() {
 		if (++bitCounter >= 7) {
 			return true;

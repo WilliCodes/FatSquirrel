@@ -7,12 +7,17 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 	
 	
 
+	/**
+	 * 
+	 * @param id as int
+	 * @param position as XY
+	 */
 	public HandOperatedMasterSquirrel(int id, XY position) {
 		super(id, initEnergy, position);
 	}
 	
 
-	
+
 	public void nextStep(EntityContext context) {
 		
 		if (nextMove > 0) {

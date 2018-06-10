@@ -41,6 +41,11 @@ public class FxUI extends Scene implements UI {
         logger.fine("FxUI created");
     }
     
+	/**
+	 * 
+	 * @param boardSize as XY, the size of the board
+	 * @return FxUI
+	 */
     public static FxUI createInstance(XY boardSize) {
         Canvas boardCanvas = new Canvas(boardSize.x * CELL_SIZE, boardSize.y * CELL_SIZE);
         logger.fine("FxUI: canvas created");
@@ -128,6 +133,10 @@ public class FxUI extends Scene implements UI {
         });  
     }
     
+    /**
+     * repaints the whole board with updated textures
+     * @param view as BoardView
+     */
     private void repaintBoardCanvas(BoardView view) {
         GraphicsContext gc = boardCanvas.getGraphicsContext2D();
         gc.clearRect(0, 0, boardCanvas.getWidth(), boardCanvas.getHeight());
@@ -177,6 +186,9 @@ public class FxUI extends Scene implements UI {
         
     }
     
+    /**
+     * displays helptext in new popup-window
+     */
     public static void displayHelp() {
     	logger.info("opened help");
     	Alert alert = new Alert(AlertType.INFORMATION);
@@ -189,6 +201,10 @@ public class FxUI extends Scene implements UI {
     }
     
 
+    /**
+     * displays a given String
+     * @param msg as String
+     */
     public void message(final String msg) {
         Platform.runLater(new Runnable() {
             @Override

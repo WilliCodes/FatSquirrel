@@ -24,22 +24,41 @@ public class XY {
 		this.y = y;
     }
 
+    /**
+     * adds two postion
+     * @param xy as XY
+     * @return old XY with new XY added
+     */
     public XY plus(XY xy) {
     	int x = xy.x + this.x;
     	int y = xy.y + this.y;
     	return new XY(x, y);
     }
 
+    /**
+     * 
+     * @param xy as XY
+     * @return old XY minus new XY
+     */
     public XY minus(XY xy) {
     	int x = xy.x - this.x;
     	int y = xy.y - this.y;
     	return new XY(x, y);
     }
 
+    /**
+     * multiplies XY with a given factor
+     * @param factor as int
+     * @return XY multiplied with factor
+     */
     public XY times(int factor) {
     	return new XY(this.x * factor, this.y * factor);
     }
 
+    /**
+     * 
+     * @return length of coordinates vector in double
+     */
     public double length() {
     	return Math.sqrt(this.x * this.x + this.y *this.y);
     }
@@ -56,6 +75,9 @@ public class XY {
 		return Math.sqrt(xDist * xDist + yDist * yDist);
     }
 
+    /**
+     * @return hashCode
+     */
     public int hashCode() {
     	return this.hashCode();
     }
@@ -72,6 +94,10 @@ public class XY {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @return a XY with a random vector
+	 */
 	public static XY randomVector() {
 		Random random = new Random();
 		int x = random.nextInt(3) - 1;
@@ -80,6 +106,14 @@ public class XY {
 		return new XY(x,y);
 	}
 	
+	/**
+	 * 
+	 * @param minX as int, start of x-range
+	 * @param maxX as int, end of x-range
+	 * @param minY as int, start of y-range
+	 * @param maxY as int, end of y-range
+	 * @return random XY in range
+	 */
 	public static XY randomXY(int minX, int maxX, int minY, int maxY) {
 		Random random = new Random();
 		int x = random.nextInt(maxX) + minX;
@@ -88,6 +122,12 @@ public class XY {
 		return new XY(x,y);
 	}
 	
+	/**
+	 * 
+	 * @param from as XY
+	 * @param to as XY
+	 * @return distance from XY to XY as int
+	 */
 	public static int distanceToEntity(XY from, XY to) {
 		
 		int xDist = to.x - from.x;
@@ -103,6 +143,12 @@ public class XY {
 		return diagMoves + horizMoves;
 	}
 	
+	/**
+	 * 
+	 * @param fromEntity as Entity
+	 * @param toEntity as Entity
+	 * @return a XY vector which points from one Entity to another Entity
+	 */
 	public static XY vectorToEntity(Entity fromEntity, Entity toEntity) {
 		XY fromPos = fromEntity.getPosition();
 		XY toPos = toEntity.getPosition();

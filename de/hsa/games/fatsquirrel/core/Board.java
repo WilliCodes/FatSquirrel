@@ -17,6 +17,10 @@ public class Board {
 	
 	BotControllerFactory botCF;
 	
+	/**
+	 * 
+	 * @param bC as BoardConfig
+	 */
 	public Board(BoardConfig bC) {
 		
 		// Position of created Entities is stored to prevent collisions
@@ -100,10 +104,19 @@ public class Board {
 		
 	}
 	
+	/**
+	 * 
+	 * @return set of Entitys
+	 */
 	public EntitySet getEntitySet() {
 		return entitySet;
 	}
 	
+	/**
+	 * 
+	 * @param blockedXY as XY
+	 * @return a random XY position
+	 */
 	private XY randomPosition(ArrayList<XY> blockedXY) {	
 		XY pos;
 		
@@ -116,7 +129,10 @@ public class Board {
 	
 	
 	
-	
+	/**
+	 * 
+	 * @return array of entitys from Boards entityset
+	 */
 	public Entity[][] flatten() {
 		Entity[][] flatBoard = new Entity[width][height];
 		
@@ -131,6 +147,10 @@ public class Board {
 	}
 	
 	
+	/**
+	 * 
+	 * @return MasterSquirrel from the entityset
+	 */
 	public MasterSquirrel getHandOperatedMasterSquirrel() {
 		
 		
@@ -143,7 +163,10 @@ public class Board {
 		return null;
 	}
 	
-	
+	/**
+	 * respawnes dead entities from a given ArrayList
+	 * @param toRespawn as ArrayList
+	 */
 	public void respawn(ArrayList<EntityType> toRespawn) {
 		ArrayList<XY> blockedXY = new ArrayList<>();
 		
@@ -178,15 +201,29 @@ public class Board {
 	
 	
 
+	/**
+	 * calls the nextStep() for all Entities in Board
+	 * @param context as EntityContext
+	 */
 	public void updateCharacters(EntityContext context) {
 		entitySet.entitiesNextStep(context);
 	}
 
 
+	/**
+	 * 
+	 * @param pos as XY
+	 * @param ms as MasterSquirrel
+	 * @return MiniSquirrel from the given MasterSquirrel
+	 */
 	public MiniSquirrel spawnMini(XY pos, MasterSquirrel ms) {
 		return entitySet.placeMiniSquirrel(pos, ms.getId(), ms.getSpawmMini());
 	}
 
+	/**
+	 * 
+	 * @return an ArrayList with all MasterSquirrels of Board
+	 */
 	public List<MasterSquirrel> getMasterSquirrels() {
 		List<MasterSquirrel> masterSquirrels = new ArrayList<>();
 		
