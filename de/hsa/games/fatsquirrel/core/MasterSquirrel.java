@@ -13,6 +13,7 @@ public abstract class MasterSquirrel extends PlayerEntity {
 	 * @param id as int
 	 * @param energy as int
 	 * @param position as XY
+	 * @param playerName as Name of the Player
 	 */
 	public MasterSquirrel(int id, int energy, XY position, String playerName) {
 		super(id, energy, position, playerName);
@@ -22,6 +23,7 @@ public abstract class MasterSquirrel extends PlayerEntity {
 	 * creates an instance of a MasterSquirrel
 	 * @param _id as int
 	 * @param _position  as XY
+	 * @param playerName as Name of the Player
 	 */
 	public MasterSquirrel(int _id, XY _position, String playerName) {
 		super(_id, initEnergy, _position, playerName);
@@ -42,8 +44,8 @@ public abstract class MasterSquirrel extends PlayerEntity {
 	
 	/**
 	 * 
-	 * @param sharedEnergy
-	 * @return if Mini should be spawned next move
+	 * @param sharedEnergy Energy to share with the MiniSquirrel
+	 * @return if Mini will spawn next round
 	 */
 	public boolean setSpawnMini(int sharedEnergy) {
 		if (this.getEnergy() < sharedEnergy) 

@@ -4,7 +4,7 @@ public interface BotController {
 
 	/**
 	 * 
-	 * @param ControllerContext view
+	 * @param view ControllerContext
 	 */
 	public void nextStep(ControllerContext view);
 }

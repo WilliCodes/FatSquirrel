@@ -94,6 +94,7 @@ public class EntitySet {
 	/**
 	 * places a HandOperatedMasterSquirrel at location XY
 	 * @param position as XY
+	 * @param playerName as Name of the  Player
 	 */
 	public void placeHandOperatedMasterSquirrel(XY position, String playerName) {
 		HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(idCounter++, position, playerName);
@@ -108,8 +109,8 @@ public class EntitySet {
 	 * @param position as XY
 	 * @param masterID as int
 	 * @param initialEnergy as int 
-	 * @param botcon as BotController
 	 * @return placed MiniSquirrelBot
+	 * @param botName as Name of the Bot
 	 */
 	public MiniSquirrelBot placeMiniSquirrelBot(XY position, int masterID, int initialEnergy, String botName) {
 		MiniSquirrelBot miniBot = new MiniSquirrelBot(idCounter++, initialEnergy, position, masterID, botCF.createMiniBotController(botName));
@@ -122,7 +123,7 @@ public class EntitySet {
 	/**
 	 * places a MasterSquirrelBot at location XY
 	 * @param position as XY
-	 * @param botcon as BotController
+	 * @param botName as Name of the Bot
 	 */
 	public void placeMasterSquirrelBot(XY position, String botName) {
 		MasterSquirrelBot masterBot = new MasterSquirrelBot(idCounter++, position, botCF.createMasterBotController(botName), botName);

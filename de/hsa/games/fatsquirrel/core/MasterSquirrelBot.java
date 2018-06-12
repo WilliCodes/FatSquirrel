@@ -20,6 +20,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
 	 * @param id as int
 	 * @param position as XY
 	 * @param botcon as BotController
+	 * @param botName as Name of the Bot
 	 */
 	public MasterSquirrelBot(int id, XY position, BotController botcon, String botName) {
 		super(id, position, botName);

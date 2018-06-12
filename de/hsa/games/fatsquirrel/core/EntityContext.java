@@ -24,14 +24,14 @@ public interface EntityContext {
 	
 	/**
 	 * tries to move GoodBeast to given direction
-	 * @param miniSquirrel as MiniSquirrel
+	 * @param goodBeast as GoodBeast
 	 * @param moveDirection as XY
 	 */
 	public void tryMove(GoodBeast goodBeast, XY moveDirection);
 	
 	/**
 	 * tries to move BadBeast to given direction
-	 * @param miniSquirrel as MiniSquirrel
+	 * @param badBeast as BadBeast
 	 * @param moveDirection as XY
 	 */
 	public void tryMove(BadBeast badBeast, XY moveDirection);

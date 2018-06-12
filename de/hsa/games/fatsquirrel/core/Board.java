@@ -105,7 +105,7 @@ public class Board {
 	
 	/**
 	 * 
-	 * @return set of Entitys
+	 * @return set of Entities
 	 */
 	public EntitySet getEntitySet() {
 		return entitySet;
