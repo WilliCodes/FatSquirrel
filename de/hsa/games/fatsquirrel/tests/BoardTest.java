@@ -1,8 +1,11 @@
 package de.hsa.games.fatsquirrel.tests;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -22,8 +25,8 @@ import de.hsa.games.fatsquirrel.core.XY;
 
 public class BoardTest {
 
-    @Mock
-	public Board testBoard;
+   
+	public Board testBoard = new Board(new BoardConfig());
 	
 	@Before
 	public void setUp() {
@@ -35,7 +38,12 @@ public class BoardTest {
 		Board testBoard2 = new Board(new BoardConfig());
 		Entity[][] flatTest = testBoard.flatten();
 		Entity[][] flatTest2 = testBoard2.flatten();
-		assertNotSame(flatTest, flatTest2);
+		if(flatTest.equals(flatTest2)) {
+		    fail();
+		}else {
+		    assertTrue(true);
+		}
+		
 	}
 
 	@Test
