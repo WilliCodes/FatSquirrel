@@ -130,6 +130,7 @@ public class State {
 	
 	public boolean saveScoreBoard(String path) {
 		
+		// TODO:  close?
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
 			
 			

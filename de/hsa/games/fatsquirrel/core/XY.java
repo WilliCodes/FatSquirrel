@@ -79,7 +79,7 @@ public class XY {
      * @return hashCode
      */
     public int hashCode() {
-    	return this.hashCode();
+    	return super.hashCode();
     }
 
 	

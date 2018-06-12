@@ -125,6 +125,8 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
 		@Override
 		public XY locate() {
+			System.out.println(masterSquirrelBot);
+			System.out.println(masterSquirrelBot.getPosition());
 			return masterSquirrelBot.getPosition();
 		}
 

@@ -35,7 +35,7 @@ public class FlattenedBoardTest {
 	@Before
 	public void setUp() {
 	    MockitoAnnotations.initMocks(this);
-	    // TODO : Fehler behoben?
+	    // TODO : Verläufe klarmachen, was mocken, was nicht? (Mock mal selber schreiben)
 		// flattenedBoard = Mockito.mock(FlattenedBoard.class);
 	    flattenedBoard = new FlattenedBoard(boardMock);
 	}
