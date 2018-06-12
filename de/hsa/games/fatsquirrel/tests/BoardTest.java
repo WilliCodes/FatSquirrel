@@ -55,11 +55,11 @@ public class BoardTest {
 	    Board testBoard = new Board(bC);
 	    EntitySet eSet = new EntitySet();
 	    
-	    for(int a = 0; a < (bC.height + bC.width); a++) {
+	    for(int a = 0; a < (bC.getHeight()+ bC.getWidth()); a++) {
 	        eSet.placeWall(new XY(1,2).randomXY(0, 100, 0, 100));
 	    }
 	    
-	    for(int a = 0; a < (bC.height + bC.width); a++) {
+	    for(int a = 0; a < (bC.getHeight() + bC.getWidth()); a++) {
 	        
 	    assertEquals(testBoard.getEntitySet().getEntities().get(a), eSet.getEntities().get(a));
 	    
